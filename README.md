@@ -1,16 +1,16 @@
 # Projektmunka I-II
 
 ![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/sze-plusplusplus/projektmunka?style=for-the-badge)
-![Issue Tracking](https://img.shields.io/badge/YouTrack-Issues-blue?style=for-the-badge)
+[![Issue Tracking](https://img.shields.io/badge/YouTrack-Board-blue?style=for-the-badge)](https://plusplusplus.myjetbrains.com/youtrack/agiles/120-2/current)
 
 ## Csapat:
 
-| #   | Nev                     | Github         |
-| --- | ----------------------- | -------------- |
-| 1   | Karcag Tamás            | @karcagtamas   |
-| 2   | Baranyai Bence Bendegúz | @bencebaranyai |
-| 3   | Balogh Máté             | @Cerberuuus    |
-| 4   | Tóth Róbert             |                |
+| #   | Nev                     | Github                                             |
+| --- | ----------------------- | -------------------------------------------------- |
+| 1   | Karcag Tamás            | [@karcagtamas](https://github.com/karcagtamas)     |
+| 2   | Baranyai Bence Bendegúz | [@bencebaranyai](https://github.com/bencebaranyai) |
+| 3   | Balogh Máté             | [@Cerberuuus](https://github.com/Cerberuuus)       |
+| 4   | Tóth Róbert             |                                                    |
 
 ## Konzulens: _Tüű-Szabó Boldizsár_
 
@@ -114,21 +114,21 @@ Egy gyors és gördülékeny webalkalmazás, amely támogatja az előadók és h
 
 ### Projektszervezet:
 
-| #   | Feladat, Funkcionalitás                   | Mérföldkő | Előfeltétel | Megbízott(ak)       |
-| --- | ----------------------------------------- | --------- | ----------- | ------------------- |
-| T0  | Projekt inicializáció, alapok lefektetése | M0        | -           | Csapat              |
-| T1  | GUI tervek elkészítése (wireframe)        | M1        | -           | T. Róbert, B. Máté  |
-| T2  | Szobák kezelése                           | M2        | T3, T1      | B. Bence, T. Róbert |
-| T3  | Felhasználók kezelése                     | M2        | T0, T1      | K. Tamás, B. Máté   |
-| T4  | Belépés / Regisztráció / Felügyelet       | M2        | T3, T1      | K. Tamás, T. Róbert |
-| T5  | Órarend                                   | M3        | T2          | K. Tamás, T. Róbert |
-| T6  | Szoba szóbeli mód                         | M3        | T2, T5      | K. Tamás, B. Máté   |
-| T7  | Konferencia hang/videó                    | M2        | T0          | K. Tamás, B. Bence  |
-| T8  | Konferencia felület                       | M3        | T2, T7      | T. Róbert, B. Máté  |
-| T9  | Konferencia - képernyő megosztás          | M4        | T8          | K. Tamás, B. Bence  |
-| T10 | Konferencia - chat                        | M3        | T2, T8      | T. Róbert, B. Bence |
-| T11 | Konferencia beállítások - (mások) némítás | M4        | T8          | B. Máté, B. Bence   |
-| T12 | Konferencia eszköz beállítások            | M4        | T8          | B. Máté, B. Bence   |
+| #   | Feladat, Funkcionalitás                   | Mérföldkő | Előfeltétel | Megbízott(ak)       | Issue                                                            |
+| --- | ----------------------------------------- | --------- | ----------- | ------------------- | ---------------------------------------------------------------- |
+| T0  | Projekt inicializáció, alapok lefektetése | M0        | -           | Csapat              | [PM-1](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-1) |
+| T1  | GUI tervek elkészítése (wireframe)        | M1        | -           | T. Róbert, B. Máté  |                                                                  |
+| T2  | Szobák kezelése                           | M2        | T3, T1      | B. Bence, T. Róbert |                                                                  |
+| T3  | Felhasználók kezelése                     | M2        | T0, T1      | K. Tamás, B. Máté   |                                                                  |
+| T4  | Belépés / Regisztráció / Felügyelet       | M2        | T3, T1      | K. Tamás, T. Róbert |                                                                  |
+| T5  | Órarend                                   | M3        | T2          | K. Tamás, T. Róbert |                                                                  |
+| T6  | Szoba szóbeli mód                         | M3        | T2, T5      | K. Tamás, B. Máté   |                                                                  |
+| T7  | Konferencia hang/videó                    | M2        | T0          | K. Tamás, B. Bence  |                                                                  |
+| T8  | Konferencia felület                       | M3        | T2, T7      | T. Róbert, B. Máté  |                                                                  |
+| T9  | Konferencia - képernyő megosztás          | M4        | T8          | K. Tamás, B. Bence  |                                                                  |
+| T10 | Konferencia - chat                        | M3        | T2, T8      | T. Róbert, B. Bence |                                                                  |
+| T11 | Konferencia beállítások - (mások) némítás | M4        | T8          | B. Máté, B. Bence   |                                                                  |
+| T12 | Konferencia eszköz beállítások            | M4        | T8          | B. Máté, B. Bence   |                                                                  |
 
 ### Munkafolyamat:
 
