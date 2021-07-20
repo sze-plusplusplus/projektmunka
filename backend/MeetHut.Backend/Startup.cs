@@ -1,6 +1,8 @@
+using AutoMapper;
 using MeetHut.Backend.Middlewares;
 using MeetHut.DataAccess;
 using MeetHut.Services.Application;
+using MeetHut.Services.Application.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -24,13 +26,13 @@ namespace MeetHut.Backend
         {
             Configuration = configuration;
         }
-        
+
         /// <summary>
         /// Application configuration
         /// </summary>
         private IConfiguration Configuration { get; }
 
-        
+
         /// <summary>
         /// Configure services
         /// </summary>
@@ -42,20 +44,26 @@ namespace MeetHut.Backend
             services.AddDbContextPool<DatabaseContext>(options =>
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
                     builder => builder.MigrationsAssembly("MeetHut.Backend")));
-            
+
             // Add services
             services.AddScoped<IUserService, UserService>();
-            
+
+            // Add mappers
+            var mapperConfig = new MapperConfiguration(conf => { conf.AddProfile<UserMapper>(); });
+
+            var mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
             // Add controllers
             services.AddControllers();
-            
+
             // Register swagger display
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "MeetHut.Backend", Version = "v1"});
             });
         }
-        
+
         /// <summary>
         /// Configure application builder during startup
         /// </summary>

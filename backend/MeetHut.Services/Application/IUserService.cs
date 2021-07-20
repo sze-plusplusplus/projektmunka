@@ -1,12 +1,13 @@
 using MeetHut.DataAccess.Entities;
-using MeetHut.DataAccess.Repositories;
+using MeetHut.Services.Application.DTOs;
+using MeetHut.Services.Application.Models;
 
 namespace MeetHut.Services.Application
 {
     /// <summary>
     /// User Service
     /// </summary>
-    public interface IUserService : IRepository<User>
+    public interface IUserService : IMapperRepository<User, UserDto, UserModel>
     {
         
     }

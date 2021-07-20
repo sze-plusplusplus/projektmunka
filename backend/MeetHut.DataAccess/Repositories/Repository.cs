@@ -9,7 +9,10 @@ namespace MeetHut.DataAccess.Repositories
     /// <inheritdoc />
     public class Repository<T> : IRepository<T> where T : Entity
     {
-        private readonly DatabaseContext _databaseContext;
+        /// <summary>
+        /// Database Context
+        /// </summary>
+        protected readonly DatabaseContext DatabaseContext;
         
         /// <summary>
         /// Init default repository
@@ -17,45 +20,45 @@ namespace MeetHut.DataAccess.Repositories
         /// <param name="databaseContext">Database Context</param>
         public Repository(DatabaseContext databaseContext)
         {
-            _databaseContext = databaseContext;
+            DatabaseContext = databaseContext;
         }
         
         /// <inheritdoc />
         public IEnumerable<T> GetAll()
         {
-            return _databaseContext.Set<T>().ToList();
+            return DatabaseContext.Set<T>().ToList();
         }
 
         /// <inheritdoc />
         public IEnumerable<T> GetList(Expression<Func<T, bool>> expression)
         {
-            return _databaseContext.Set<T>().Where(expression).ToList();
+            return DatabaseContext.Set<T>().Where(expression).ToList();
         }
 
         /// <inheritdoc />
         public T Get(int id)
         {
-            return _databaseContext.Set<T>().Find(id);
+            return DatabaseContext.Set<T>().Find(id);
         }
 
         /// <inheritdoc />
-        public int Create(T entity)
+        public T Create(T entity)
         {
-            return _databaseContext.Set<T>().Add(entity).Entity.Id;
+            return DatabaseContext.Set<T>().Add(entity).Entity;
         }
 
         /// <inheritdoc />
         public int CreateAndSave(T entity)
         {
-            var id = Create(entity);
+            var newEntity = Create(entity);
             Complete();
-            return id;
+            return newEntity.Id;
         }
 
         /// <inheritdoc />
         public void Update(T entity)
         {
-            _databaseContext.Set<T>().Update(entity);
+            DatabaseContext.Set<T>().Update(entity);
         }
 
         /// <inheritdoc />
@@ -68,7 +71,7 @@ namespace MeetHut.DataAccess.Repositories
         /// <inheritdoc />
         public void Delete(T entity)
         {
-            _databaseContext.Set<T>().Remove(entity);
+            DatabaseContext.Set<T>().Remove(entity);
         }
 
         /// <inheritdoc />
@@ -94,7 +97,7 @@ namespace MeetHut.DataAccess.Repositories
         /// <inheritdoc />
         public void Complete()
         {
-            _databaseContext.SaveChanges();
+            DatabaseContext.SaveChanges();
         }
     }
 }
