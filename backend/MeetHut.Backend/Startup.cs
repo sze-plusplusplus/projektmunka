@@ -1,3 +1,4 @@
+using MeetHut.Backend.Middlewares;
 using MeetHut.DataAccess;
 using MeetHut.Services.Application;
 using Microsoft.AspNetCore.Builder;
@@ -64,10 +65,11 @@ namespace MeetHut.Backend
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MeetHut.Backend v1"));
             }
+
+            app.UseServerExceptionHandler();
 
             app.UseHttpsRedirection();
 
