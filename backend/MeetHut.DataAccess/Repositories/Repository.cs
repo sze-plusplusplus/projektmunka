@@ -38,7 +38,14 @@ namespace MeetHut.DataAccess.Repositories
         /// <inheritdoc />
         public T Get(int id)
         {
-            return DatabaseContext.Set<T>().Find(id);
+            var el = DatabaseContext.Set<T>().Find(id);
+
+            if (el == null)
+            {
+                throw new ArgumentException($"Element not found with id: {id}");
+            }
+            
+            return el;
         }
 
         /// <inheritdoc />

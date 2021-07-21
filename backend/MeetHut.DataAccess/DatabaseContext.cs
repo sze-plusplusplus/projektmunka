@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using MeetHut.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +30,26 @@ namespace MeetHut.DataAccess
                 .IsUnique();
             
             base.OnModelCreating(modelBuilder);
+        }
+
+        /// <inheritdoc />
+        public override int SaveChanges()
+        {
+            var entries = ChangeTracker
+                .Entries()
+                .Where(e => e.Entity is Entity && (e.State == EntityState.Added || e.State == EntityState.Modified));
+
+            foreach (var entityEntry in entries)
+            {
+                ((Entity)entityEntry.Entity).LastUpdate = DateTime.Now;
+
+                if (entityEntry.State == EntityState.Added)
+                {
+                    ((Entity)entityEntry.Entity).Creation = DateTime.Now;
+                }
+            }
+            
+            return base.SaveChanges();
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using AutoMapper;
 using MeetHut.DataAccess.Entities;
 using MeetHut.Services.Application.DTOs;
@@ -18,9 +17,7 @@ namespace MeetHut.Services.Application.Mappers
         {
             CreateMap<User, UserDto>();
             CreateMap<UserModel, User>()
-                .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => "Password hash"))
-                .ForMember(dest => dest.LastUpdate, opt => opt.MapFrom(src => DateTime.Now))
-                .ForMember(dest => dest.Creation, opt => opt.MapFrom(src => DateTime.Now));
+                .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => "Password hash"));
         }
     }
 }
