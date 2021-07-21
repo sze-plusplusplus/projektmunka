@@ -1,14 +1,17 @@
+using System.Text;
 using AutoMapper;
 using MeetHut.Backend.Middlewares;
 using MeetHut.DataAccess;
 using MeetHut.Services.Application;
 using MeetHut.Services.Application.Mappers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace MeetHut.Backend
@@ -47,6 +50,7 @@ namespace MeetHut.Backend
 
             // Add services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
 
             // Add mappers
             var mapperConfig = new MapperConfiguration(conf => { conf.AddProfile<UserMapper>(); });
@@ -56,6 +60,24 @@ namespace MeetHut.Backend
 
             // Add controllers
             services.AddControllers();
+
+            // Add session
+            // services.AddSession();
+            
+            // Register auth
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    };
+                });
 
             // Register swagger display
             services.AddSwaggerGen(c =>
@@ -77,11 +99,26 @@ namespace MeetHut.Backend
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MeetHut.Backend v1"));
             }
 
+            // app.UseSession();
+
+            /* app.Use(async (context, next) =>
+            {
+                var token = context.Session.GetString("Token");
+                if (!string.IsNullOrEmpty(token))
+                {
+                    context.Request.Headers.Add("Authorization", "Bearer " + token);
+                }
+
+                await next();
+            });*/
+
             app.UseServerExceptionHandler();
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

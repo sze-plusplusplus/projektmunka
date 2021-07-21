@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using MeetHut.Services.Application;
 using MeetHut.Services.Application.DTOs;
 using MeetHut.Services.Application.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MeetHut.Backend.Controllers
@@ -11,6 +12,7 @@ namespace MeetHut.Backend.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class UserController
     {
         private readonly IUserService _userService;
