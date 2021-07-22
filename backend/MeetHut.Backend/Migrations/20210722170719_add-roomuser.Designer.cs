@@ -3,14 +3,16 @@ using System;
 using MeetHut.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MeetHut.Backend.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20210722170719_add-roomuser")]
+    partial class addroomuser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,26 +67,11 @@ namespace MeetHut.Backend.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Added")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("NOW()");
-
-                    b.Property<int>("AdderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Role")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(4);
-
                     b.HasKey("RoomId", "UserId");
-
-                    b.HasIndex("AdderId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RoomUsers");
+                    b.ToTable("RoomUser");
                 });
 
             modelBuilder.Entity("MeetHut.DataAccess.Entities.User", b =>
@@ -114,9 +101,7 @@ namespace MeetHut.Backend.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<int>("Role")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(3);
+                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -144,12 +129,6 @@ namespace MeetHut.Backend.Migrations
 
             modelBuilder.Entity("MeetHut.DataAccess.Entities.Meet.RoomUser", b =>
                 {
-                    b.HasOne("MeetHut.DataAccess.Entities.User", "Adder")
-                        .WithMany()
-                        .HasForeignKey("AdderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MeetHut.DataAccess.Entities.Meet.Room", "Room")
                         .WithMany("RoomUsers")
                         .HasForeignKey("RoomId")
@@ -157,12 +136,10 @@ namespace MeetHut.Backend.Migrations
                         .IsRequired();
 
                     b.HasOne("MeetHut.DataAccess.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("RoomUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Adder");
 
                     b.Navigation("Room");
 
@@ -170,6 +147,11 @@ namespace MeetHut.Backend.Migrations
                 });
 
             modelBuilder.Entity("MeetHut.DataAccess.Entities.Meet.Room", b =>
+                {
+                    b.Navigation("RoomUsers");
+                });
+
+            modelBuilder.Entity("MeetHut.DataAccess.Entities.User", b =>
                 {
                     b.Navigation("RoomUsers");
                 });

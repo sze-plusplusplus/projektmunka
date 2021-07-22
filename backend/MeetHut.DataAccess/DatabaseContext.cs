@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using MeetHut.DataAccess.Entities;
 using MeetHut.DataAccess.Entities.Meet;
+using MeetHut.DataAccess.Enums;
+using MeetHut.DataAccess.Enums.Meet;
 using Microsoft.EntityFrameworkCore;
 
 namespace MeetHut.DataAccess
@@ -13,8 +15,10 @@ namespace MeetHut.DataAccess
         /// Application users
         /// </summary>
         public DbSet<User> Users { get; set; }
-        
+
         public DbSet<Room> Rooms { get; set; }
+
+        public DbSet<RoomUser> RoomUsers { get; set; }
 
         /// <summary>
         /// Init Database context
@@ -22,7 +26,7 @@ namespace MeetHut.DataAccess
         /// <param name="options">Context options</param>
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
-            
+
         }
 
         /// <inheritdoc />
@@ -35,7 +39,14 @@ namespace MeetHut.DataAccess
             modelBuilder.Entity<Room>()
                 .HasIndex(room => room.PublicId)
                 .IsUnique();
-            
+
+            modelBuilder.Entity<RoomUser>().HasKey(ru => new { ru.RoomId, ru.UserId });
+
+            modelBuilder.Entity<User>().Property(u => u.Role).HasDefaultValue(UserRole.STUDENT);
+            modelBuilder.Entity<RoomUser>().Property(u => u.Role).HasDefaultValue(MeetRole.GUEST);
+
+            modelBuilder.Entity<RoomUser>().Property(ru => ru.Added).HasDefaultValueSql("NOW()");
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -55,7 +66,7 @@ namespace MeetHut.DataAccess
                     ((Entity)entityEntry.Entity).Creation = DateTime.Now;
                 }
             }
-            
+
             return base.SaveChanges();
         }
     }

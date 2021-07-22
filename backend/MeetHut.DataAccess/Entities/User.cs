@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
+using MeetHut.DataAccess.Entities.Meet;
+using MeetHut.DataAccess.Enums;
 
 namespace MeetHut.DataAccess.Entities
 {
@@ -16,32 +19,35 @@ namespace MeetHut.DataAccess.Entities
         [Required]
         [MaxLength(120)]
         public string UserName { get; set; }
-        
+
         /// <summary>
         /// Email address
         /// </summary>
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-        
+
         /// <summary>
         /// Full name
         /// </summary>
         public string? FullName { get; set; }
-        
+
         /// <summary>
         /// Login password
         /// </summary>
         [Required]
         public string PasswordHash { get; set; }
-        
+
         /// <summary>
         /// Last login date
         /// </summary>
         [Required]
         public DateTime LastLogin { get; set; }
 
-        [Required] public bool CanCreateRoom { get; set; } = true;
+        [Required]
+        public UserRole Role { get; set; }
+
+        //public IList<RoomUser> RoomUsers { get; set; }
 
         /// <inheritdoc />
         protected override Dictionary<string, string> GetKeyValuePairs()
@@ -49,22 +55,28 @@ namespace MeetHut.DataAccess.Entities
             return new()
             {
                 {
-                    "Id", Id.ToString()
+                    "Id",
+                    Id.ToString()
                 },
                 {
-                    "Creation", Creation.ToString(CultureInfo.CurrentCulture)
+                    "Creation",
+                    Creation.ToString(CultureInfo.CurrentCulture)
                 },
                 {
-                    "Creation", Creation.ToString(CultureInfo.CurrentCulture)
+                    "Creation",
+                    Creation.ToString(CultureInfo.CurrentCulture)
                 },
                 {
-                    "UserName", UserName
+                    "UserName",
+                    UserName
                 },
                 {
-                    "UserName", Email
+                    "UserName",
+                    Email
                 },
                 {
-                    "UserName", LastLogin.ToString(CultureInfo.CurrentCulture)
+                    "UserName",
+                    LastLogin.ToString(CultureInfo.CurrentCulture)
                 }
             };
         }
