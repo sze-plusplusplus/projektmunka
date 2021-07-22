@@ -11,7 +11,7 @@ namespace MeetHut.Backend.Controllers
     /// User Controller
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [Authorize]
     public class UserController
     {

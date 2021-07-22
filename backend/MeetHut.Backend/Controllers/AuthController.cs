@@ -9,7 +9,7 @@ namespace MeetHut.Backend.Controllers
     /// Auth Controller
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [AllowAnonymous]
     public class AuthController
     {

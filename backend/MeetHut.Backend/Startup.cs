@@ -98,6 +98,8 @@ namespace MeetHut.Backend
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MeetHut.Backend v1"));
             }
+            
+            app.UseWebSockets();
 
             // app.UseSession();
 

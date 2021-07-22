@@ -17,7 +17,7 @@ namespace MeetHut.Backend.Controllers
         [HttpGet]
         public string GetIndex()
         {
-            return "Hello, World";
+            return "<h1>MeetHut</h1>";
         }
     }
 }
