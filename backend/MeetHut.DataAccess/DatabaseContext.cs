@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using MeetHut.DataAccess.Entities;
+using MeetHut.DataAccess.Entities.Meet;
 using Microsoft.EntityFrameworkCore;
 
 namespace MeetHut.DataAccess
@@ -13,6 +14,8 @@ namespace MeetHut.DataAccess
         /// </summary>
         public DbSet<User> Users { get; set; }
         
+        public DbSet<Room> Rooms { get; set; }
+
         /// <summary>
         /// Init Database context
         /// </summary>
@@ -27,6 +30,10 @@ namespace MeetHut.DataAccess
         {
             modelBuilder.Entity<User>()
                 .HasIndex(user => user.UserName)
+                .IsUnique();
+
+            modelBuilder.Entity<Room>()
+                .HasIndex(room => room.PublicId)
                 .IsUnique();
             
             base.OnModelCreating(modelBuilder);

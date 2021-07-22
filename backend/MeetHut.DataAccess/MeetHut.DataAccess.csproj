@@ -32,4 +32,8 @@
       <ProjectReference Include="..\MeetHut.CommonTools\MeetHut.CommonTools.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Enums" />
+    </ItemGroup>
+
 </Project>

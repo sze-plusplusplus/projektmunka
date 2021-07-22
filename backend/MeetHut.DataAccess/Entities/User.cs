@@ -41,6 +41,8 @@ namespace MeetHut.DataAccess.Entities
         [Required]
         public DateTime LastLogin { get; set; }
 
+        [Required] public bool CanCreateRoom { get; set; } = true;
+
         /// <inheritdoc />
         protected override Dictionary<string, string> GetKeyValuePairs()
         {
