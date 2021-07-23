@@ -1,10 +1,28 @@
 namespace MeetHut.DataAccess.Enums
 {
+    /// <summary>
+    /// User role
+    /// </summary>
     public enum UserRole
     {
-        ADMIN,
-        MODERATOR,
-        LECTURER,
-        STUDENT,
+        /// <summary>
+        /// Admin
+        /// </summary>
+        Admin,
+        
+        /// <summary>
+        /// Moderator
+        /// </summary>
+        Moderator,
+        
+        /// <summary>
+        /// Lecturer
+        /// </summary>
+        Lecturer,
+        
+        /// <summary>
+        /// Student
+        /// </summary>
+        Student,
     }
 }

@@ -15,9 +15,15 @@ namespace MeetHut.DataAccess
         /// Application users
         /// </summary>
         public DbSet<User> Users { get; set; }
-
+        
+        /// <summary>
+        /// Rooms
+        /// </summary>
         public DbSet<Room> Rooms { get; set; }
 
+        /// <summary>
+        /// Room users (mapper connection)
+        /// </summary>
         public DbSet<RoomUser> RoomUsers { get; set; }
 
         /// <summary>
@@ -42,8 +48,8 @@ namespace MeetHut.DataAccess
 
             modelBuilder.Entity<RoomUser>().HasKey(ru => new { ru.RoomId, ru.UserId });
 
-            modelBuilder.Entity<User>().Property(u => u.Role).HasDefaultValue(UserRole.STUDENT);
-            modelBuilder.Entity<RoomUser>().Property(u => u.Role).HasDefaultValue(MeetRole.GUEST);
+            modelBuilder.Entity<User>().Property(u => u.Role).HasDefaultValue(UserRole.Student);
+            modelBuilder.Entity<RoomUser>().Property(u => u.Role).HasDefaultValue(MeetRole.Guest);
 
             modelBuilder.Entity<RoomUser>().Property(ru => ru.Added).HasDefaultValueSql("NOW()");
 

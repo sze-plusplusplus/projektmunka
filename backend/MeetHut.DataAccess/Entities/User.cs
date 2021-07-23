@@ -44,6 +44,9 @@ namespace MeetHut.DataAccess.Entities
         [Required]
         public DateTime LastLogin { get; set; }
 
+        /// <summary>
+        /// Role
+        /// </summary>
         [Required]
         public UserRole Role { get; set; }
 

@@ -4,6 +4,7 @@ using MeetHut.Backend.Middlewares;
 using MeetHut.DataAccess;
 using MeetHut.Services.Application;
 using MeetHut.Services.Application.Mappers;
+using MeetHut.Services.Meet;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,6 +52,7 @@ namespace MeetHut.Backend
             // Add services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IRoomService, RoomService>();
 
             // Add mappers
             var mapperConfig = new MapperConfiguration(conf => { conf.AddProfile<UserMapper>(); });
@@ -63,7 +65,7 @@ namespace MeetHut.Backend
 
             // Add session
             // services.AddSession();
-            
+
             // Register auth
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -82,7 +84,7 @@ namespace MeetHut.Backend
             // Register swagger display
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "MeetHut.Backend", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MeetHut.Backend", Version = "v1" });
             });
         }
 
@@ -98,7 +100,7 @@ namespace MeetHut.Backend
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MeetHut.Backend v1"));
             }
-            
+
             app.UseWebSockets();
 
             // app.UseSession();
