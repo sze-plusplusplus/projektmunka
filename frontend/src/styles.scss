@@ -1,2 +1,14 @@
-// Use custom theme
-@import './theme.scss';
+/* Import theme */
+@import "./theme.scss";
+
+/* Import stylesheet of shared module  */
+@import "./app/shared/shared-styles.scss";
+
+/* Import stylesheet of auth module */
+@import "./app/auth/auth-styles.scss";
+
+/* Import stylesheet of media module */
+@import "./app/media/media-styles.scss";
+
+/* Import stylesheet of web module */
+@import "./app/web/web-styles.scss";
