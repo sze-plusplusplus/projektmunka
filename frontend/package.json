@@ -1,13 +1,15 @@
 {
   "name": "frontend",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build:ci": "ng build --prod --source-map=false",
+    "test:ci": "ng test --no-watch --no-progress --code-coverage --source-map=false --browsers=ChromeHeadlessCustom"
   },
   "private": true,
   "dependencies": {
