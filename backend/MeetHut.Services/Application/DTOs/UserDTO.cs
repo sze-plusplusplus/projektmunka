@@ -5,7 +5,7 @@ namespace MeetHut.Services.Application.DTOs
     /// <summary>
     /// User DTO object
     /// </summary>
-    public class UserDto
+    public class UserDTO
     {
         /// <summary>
         /// Id

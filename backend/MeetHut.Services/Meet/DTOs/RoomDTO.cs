@@ -6,7 +6,7 @@ namespace MeetHut.Services.Meet.DTOs
     /// <summary>
     /// Room DTO
     /// </summary>
-    public class RoomDto
+    public class RoomDTO
     {
         /// <summary>
         /// Id
@@ -41,7 +41,7 @@ namespace MeetHut.Services.Meet.DTOs
         /// <summary>
         /// Owner
         /// </summary>
-        public UserDto Owner { get; set; }
+        public UserDTO Owner { get; set; }
 
         /// <summary>
         /// Start time

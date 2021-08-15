@@ -7,7 +7,7 @@ using MeetHut.Services.Application.Models;
 namespace MeetHut.Services.Application
 {
     /// <inheritdoc cref="MeetHut.Services.Application.IUserService" />
-    public class UserService : MapperRepository<User, UserDto, UserModel>, IUserService
+    public class UserService : MapperRepository<User, UserDTO, UserModel>, IUserService
     {
         /// <summary>
         /// Init User Service

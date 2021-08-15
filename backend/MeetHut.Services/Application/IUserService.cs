@@ -7,7 +7,7 @@ namespace MeetHut.Services.Application
     /// <summary>
     /// User Service
     /// </summary>
-    public interface IUserService : IMapperRepository<User, UserDto, UserModel>
+    public interface IUserService : IMapperRepository<User, UserDTO, UserModel>
     {
         
     }

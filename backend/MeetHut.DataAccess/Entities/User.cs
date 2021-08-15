@@ -62,7 +62,7 @@ namespace MeetHut.DataAccess.Entities
                     Id.ToString()
                 },
                 {
-                    "Creation",
+                    "LastUpdate",
                     Creation.ToString(CultureInfo.CurrentCulture)
                 },
                 {
@@ -74,11 +74,11 @@ namespace MeetHut.DataAccess.Entities
                     UserName
                 },
                 {
-                    "UserName",
+                    "Email",
                     Email
                 },
                 {
-                    "UserName",
+                    "LastLogin",
                     LastLogin.ToString(CultureInfo.CurrentCulture)
                 }
             };

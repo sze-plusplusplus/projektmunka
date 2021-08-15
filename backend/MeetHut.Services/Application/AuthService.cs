@@ -47,7 +47,7 @@ namespace MeetHut.Services.Application
         }
 
         /// <inheritdoc />
-        public string BuildToken(string key, string issuer, UserDto user)
+        public string BuildToken(string key, string issuer, UserDTO user)
         {
             var claims = new[]
             {

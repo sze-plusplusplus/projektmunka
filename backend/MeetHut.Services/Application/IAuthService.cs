@@ -28,7 +28,7 @@ namespace MeetHut.Services.Application
         /// <param name="issuer">Issuer</param>
         /// <param name="user">Logged in user</param>
         /// <returns>Built token</returns>
-        string BuildToken(string key, string issuer, UserDto user);
+        string BuildToken(string key, string issuer, UserDTO user);
         
         /// <summary>
         /// Validate input token

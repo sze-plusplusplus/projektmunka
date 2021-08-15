@@ -7,7 +7,7 @@ namespace MeetHut.Services.Meet
     /// <summary>
     /// Room service
     /// </summary>
-    public interface IRoomService : IMapperRepository<Room, RoomDto, RoomModel>
+    public interface IRoomService : IMapperRepository<Room, RoomDTO, RoomModel>
     {
         
     }

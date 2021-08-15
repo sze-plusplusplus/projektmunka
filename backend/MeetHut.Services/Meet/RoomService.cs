@@ -6,8 +6,8 @@ using MeetHut.Services.Meet.Models;
 
 namespace MeetHut.Services.Meet
 {
-    /// <inheritdoc />
-    public class RoomService : MapperRepository<Room, RoomDto, RoomModel>, IRoomService
+    /// <inheritdoc cref="MeetHut.Services.Meet.IRoomService" />
+    public class RoomService : MapperRepository<Room, RoomDTO, RoomModel>, IRoomService
     {
         /// <summary>
         /// Init Room Service

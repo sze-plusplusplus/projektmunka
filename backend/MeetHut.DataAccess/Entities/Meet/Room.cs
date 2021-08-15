@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -18,6 +17,7 @@ namespace MeetHut.DataAccess.Entities.Meet
         /// <summary>
         /// Public Id
         /// </summary>
+        [Required]
         public string PublicId { get; set; }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace MeetHut.DataAccess.Entities.Meet
         /// <summary>
         /// Room is locked
         /// </summary>
-        public bool Locked { get; set; } = false;
+        public bool Locked { get; set; }
 
         // public IList<RoomUser> RoomUsers { get; set; }
     }

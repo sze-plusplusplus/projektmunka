@@ -61,7 +61,7 @@ namespace MeetHut.DataAccess
         {
             var entries = ChangeTracker
                 .Entries()
-                .Where(e => e.Entity is Entity && (e.State == EntityState.Added || e.State == EntityState.Modified));
+                .Where(e => e.Entity is Entity && e.State is EntityState.Added or EntityState.Modified);
 
             foreach (var entityEntry in entries)
             {

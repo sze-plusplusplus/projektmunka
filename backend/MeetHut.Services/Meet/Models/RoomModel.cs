@@ -11,6 +11,7 @@ namespace MeetHut.Services.Meet.Models
         /// <summary>
         /// Id
         /// </summary>
+        [Required]
         public int Id { get; set; }
 
         /// <summary>
@@ -21,6 +22,7 @@ namespace MeetHut.Services.Meet.Models
         /// <summary>
         /// Public Id
         /// </summary>
+        [Required]
         public string PublicId { get; set; }
 
         /// <summary>

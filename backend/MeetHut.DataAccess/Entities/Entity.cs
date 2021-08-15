@@ -48,7 +48,7 @@ namespace MeetHut.DataAccess.Entities
                     "Id", Id.ToString()
                 },
                 {
-                    "Creation", Creation.ToString(CultureInfo.CurrentCulture)
+                    "LastUpdate", LastUpdate.ToString(CultureInfo.CurrentCulture)
                 },
                 {
                     "Creation", Creation.ToString(CultureInfo.CurrentCulture)

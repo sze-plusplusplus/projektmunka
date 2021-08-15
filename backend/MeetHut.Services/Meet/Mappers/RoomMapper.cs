@@ -15,7 +15,7 @@ namespace MeetHut.Services.Meet.Mappers
         /// </summary>
         public RoomMapper()
         {
-            CreateMap<Room, RoomDto>();
+            CreateMap<Room, RoomDTO>();
             CreateMap<RoomModel, Room>();
         }
     }
