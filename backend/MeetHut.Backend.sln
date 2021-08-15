@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetHut.Backend", "MeetHut.Backend\MeetHut.Backend.csproj", "{B10C0E66-737C-48CF-8643-211C2852A7F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetHut.DataAccess", "MeetHut.DataAccess\MeetHut.DataAccess.csproj", "{382BEEAE-F8DC-4105-B874-9A534CE5AD94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetHut.CommonTools", "MeetHut.CommonTools\MeetHut.CommonTools.csproj", "{631E99B3-5298-45B3-809F-82DDD86749CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeetHut.Services", "MeetHut.Services\MeetHut.Services.csproj", "{0BB678F2-B58E-48FC-B57F-84E5E70CB31E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B10C0E66-737C-48CF-8643-211C2852A7F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B10C0E66-737C-48CF-8643-211C2852A7F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B10C0E66-737C-48CF-8643-211C2852A7F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B10C0E66-737C-48CF-8643-211C2852A7F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{382BEEAE-F8DC-4105-B874-9A534CE5AD94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{382BEEAE-F8DC-4105-B874-9A534CE5AD94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{382BEEAE-F8DC-4105-B874-9A534CE5AD94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{382BEEAE-F8DC-4105-B874-9A534CE5AD94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{631E99B3-5298-45B3-809F-82DDD86749CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{631E99B3-5298-45B3-809F-82DDD86749CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{631E99B3-5298-45B3-809F-82DDD86749CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{631E99B3-5298-45B3-809F-82DDD86749CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BB678F2-B58E-48FC-B57F-84E5E70CB31E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BB678F2-B58E-48FC-B57F-84E5E70CB31E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BB678F2-B58E-48FC-B57F-84E5E70CB31E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BB678F2-B58E-48FC-B57F-84E5E70CB31E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,17 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultConnection": "server=<address>;port=<port>;database=MeetHutDb;user=<user>;password=<password>"
+  },
+  "Jwt": {
+    "Key": "<secret>",
+    "Issuer": "TeamPlusPlusPlus"
+  }
+}
