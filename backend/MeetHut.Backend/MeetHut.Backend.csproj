@@ -27,11 +27,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="Example\appsettings.Development.json" />
-      <_ContentIncludedByDefault Remove="Example\appsettings.json" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\MeetHut.DataAccess\MeetHut.DataAccess.csproj" />
       <ProjectReference Include="..\MeetHut.Services\MeetHut.Services.csproj" />
     </ItemGroup>

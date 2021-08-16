@@ -3,8 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MeetHut.Backend.Migrations
 {
+    /// <inheritdoc />
     public partial class addnowdefault : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<DateTime>(
@@ -17,6 +19,7 @@ namespace MeetHut.Backend.Migrations
                 oldType: "datetime(6)");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<DateTime>(

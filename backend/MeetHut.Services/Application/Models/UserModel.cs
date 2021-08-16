@@ -13,17 +13,17 @@ namespace MeetHut.Services.Application.Models
         /// </summary>
         [Required]
         public string UserName { get; set; }
-        
+
         /// <summary>
         /// Email address
         /// </summary>
         [Required]
         public string Email { get; set; }
-        
+
         /// <summary>
         /// Full name
         /// </summary>
-        public string? FullName { get; set; }
+        public string FullName { get; set; }
 
         /// <summary>
         /// Last login date

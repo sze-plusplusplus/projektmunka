@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MeetHut.Backend.Migrations
 {
+    /// <inheritdoc />
     [DbContext(typeof(DatabaseContext))]
     [Migration("20210719173035_Init")]
     partial class Init
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

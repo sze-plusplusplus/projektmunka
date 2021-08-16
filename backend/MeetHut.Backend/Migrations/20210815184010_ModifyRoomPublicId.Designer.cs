@@ -12,6 +12,7 @@ namespace MeetHut.Backend.Migrations
     [Migration("20210815184010_ModifyRoomPublicId")]
     partial class ModifyRoomPublicId
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

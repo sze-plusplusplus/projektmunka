@@ -12,6 +12,7 @@ namespace MeetHut.Backend.Migrations
     [Migration("20210722173451_add-roomuser-properties")]
     partial class addroomuserproperties
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

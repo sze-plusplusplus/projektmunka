@@ -2,8 +2,10 @@
 
 namespace MeetHut.Backend.Migrations
 {
+    /// <inheritdoc />
     public partial class addroomuser : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
@@ -44,6 +46,7 @@ namespace MeetHut.Backend.Migrations
                 column: "UserId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

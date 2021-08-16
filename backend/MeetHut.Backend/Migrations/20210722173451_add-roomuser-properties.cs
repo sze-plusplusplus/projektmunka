@@ -3,8 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MeetHut.Backend.Migrations
 {
+    /// <inheritdoc />
     public partial class addroomuserproperties : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
@@ -93,6 +95,7 @@ namespace MeetHut.Backend.Migrations
                 onDelete: ReferentialAction.Cascade);
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(

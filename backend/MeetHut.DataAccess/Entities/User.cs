@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
-using MeetHut.DataAccess.Entities.Meet;
 using MeetHut.DataAccess.Enums;
 
 namespace MeetHut.DataAccess.Entities
@@ -30,7 +28,7 @@ namespace MeetHut.DataAccess.Entities
         /// <summary>
         /// Full name
         /// </summary>
-        public string? FullName { get; set; }
+        public string FullName { get; set; }
 
         /// <summary>
         /// Login password

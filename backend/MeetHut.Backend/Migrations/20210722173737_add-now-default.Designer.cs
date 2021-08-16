@@ -12,6 +12,7 @@ namespace MeetHut.Backend.Migrations
     [Migration("20210722173737_add-now-default")]
     partial class addnowdefault
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
