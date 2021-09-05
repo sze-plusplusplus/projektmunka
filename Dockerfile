@@ -1,9 +1,19 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+
+RUN apt-get update
+RUN apt-get install nodejs npm -y
+RUN npm i -g npm
+
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+
+RUN apt-get update
+RUN apt-get install nodejs npm -y
+RUN npm i -g npm
+
 WORKDIR /src
 COPY *.sln .
 COPY MeetHut.Backend/*.csproj ./MeetHut.Backend/

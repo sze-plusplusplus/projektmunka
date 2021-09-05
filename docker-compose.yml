@@ -36,6 +36,6 @@ services:
     restart: always
     environment:
       - DBHOST=database
-      - ASPNETCORE_ENVIRONMENT=Development
+#      - ASPNETCORE_ENVIRONMENT=Development
     networks:
       - dbnet
