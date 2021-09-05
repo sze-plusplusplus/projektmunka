@@ -5,9 +5,19 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["MeetHut.Backend/MeetHut.Backend.csproj", "MeetHut.Backend/"]
-RUN dotnet restore "MeetHut.Backend/MeetHut.Backend.csproj"
-COPY . .
+COPY *.sln .
+COPY MeetHut.Backend/*.csproj ./MeetHut.Backend/
+COPY MeetHut.CommonTools/*.csproj ./MeetHut.CommonTools/
+COPY MeetHut.DataAccess/*.csproj ./MeetHut.DataAccess/
+COPY MeetHut.Services/*.csproj ./MeetHut.Services/
+
+RUN dotnet restore
+
+COPY MeetHut.Backend/. ./MeetHut.Backend/
+COPY MeetHut.CommonTools/. ./MeetHut.CommonTools/
+COPY MeetHut.DataAccess/. ./MeetHut.DataAccess/
+COPY MeetHut.Services/. ./MeetHut.Services/
+
 WORKDIR "/src/MeetHut.Backend"
 RUN dotnet build "MeetHut.Backend.csproj" -c Release -o /app/build
 

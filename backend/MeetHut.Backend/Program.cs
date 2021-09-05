@@ -1,12 +1,14 @@
+using MeetHut.Backend.Middlewares;
+using MeetHut.DataAccess;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 
 namespace MeetHut.Backend
 {
     /// <summary>
     /// Program
     /// </summary>
-    public static class Program
+    public class Program
     {
         /// <summary>
         /// Main function of the Backend app
@@ -14,16 +16,17 @@ namespace MeetHut.Backend
         /// <param name="args">Program arguments</param>
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateWebHost(args)
+                .MigrateDatabase<DatabaseContext>()
+                .Run();
         }
 
-        /// <summary>
-        /// Create builder
-        /// </summary>
-        /// <param name="args">Program arguments</param>
-        /// <returns>Host builder instance</returns>
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+        private static IWebHost CreateWebHost(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+                .UseKestrel()
+                .UseStartup<Startup>()
+                .Build();
+        }
     }
 }

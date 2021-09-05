@@ -1,0 +1,41 @@
+version: '3.4'
+
+volumes:
+  datafiles:
+
+networks:
+  dbnet:
+    driver: "bridge"
+
+services: 
+  database:
+    image: mariadb
+    ports: 
+      - "3306:3306"
+    volumes:
+      - datafiles:/var/lib/mysql
+      - "~/sql-scripts/setup.sql:/docker-entrypoint-initdb.d/1.sql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Abc123456
+      MYSQL_USER: meethut
+      MYSQL_PASSWORD: Abc123456
+      MYSQL_DATABASE: MeetHutDb
+    networks:
+      - dbnet
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: meethut-backend
+    depends_on:
+      - database
+    ports:
+      - "80:80"
+    restart: always
+    environment:
+      - DBHOST=database
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - dbnet
