@@ -8,6 +8,7 @@ using MeetHut.Services.Meet;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -86,6 +87,11 @@ namespace MeetHut.Backend
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MeetHut.Backend", Version = "v1" });
             });
+            
+            services.AddSpaStaticFiles(conf =>
+            {
+                conf.RootPath = "./ClientApp/dist/frontend/";
+            });
         }
 
         /// <summary>
@@ -120,6 +126,13 @@ namespace MeetHut.Backend
 
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles();
+
+            if (!env.IsDevelopment())
+            {
+                app.UseSpaStaticFiles();
+            }
+
             app.UseRouting();
 
             app.UseAuthentication();
@@ -127,6 +140,16 @@ namespace MeetHut.Backend
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "./ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer("start");
+                }
+            });
         }
     }
 }

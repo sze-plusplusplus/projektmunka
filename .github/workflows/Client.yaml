@@ -7,7 +7,7 @@ jobs:
     name: Build and Test
     runs-on: ubuntu-latest
     env:
-      working-directory: ./frontend
+      working-directory: ./MeetHut.Backend/ClientApp
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -31,10 +31,10 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: deploy_dist
-          path: frontend/dist
+          path: MeetHut.Backend/ClientApp/dist
       - name: Archive code coverage
         if: success()
         uses: actions/upload-artifact@v1
         with:
           name: deploy_coverage
-          path: frontend/coverage
+          path: MeetHut.Backend/ClientApp/coverage
