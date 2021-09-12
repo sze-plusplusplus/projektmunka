@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MeetHut.DataAccess.Entities.Meet
 {
@@ -27,12 +27,6 @@ namespace MeetHut.DataAccess.Entities.Meet
         public int OwnerId { get; set; }
 
         /// <summary>
-        /// Owner
-        /// </summary>
-        [ForeignKey("OwnerId")]
-        public User Owner { get; set; }
-
-        /// <summary>
         /// Start time
         /// </summary>
         public DateTime? StartTime { get; set; }
@@ -47,6 +41,14 @@ namespace MeetHut.DataAccess.Entities.Meet
         /// </summary>
         public bool Locked { get; set; }
 
-        // public IList<RoomUser> RoomUsers { get; set; }
+        /// <summary>
+        /// Room Users
+        /// </summary>
+        public virtual ICollection<RoomUser> RoomUsers { get; set; }
+        
+        /// <summary>
+        /// Owner
+        /// </summary>
+        public virtual User Owner { get; set; }
     }
 }

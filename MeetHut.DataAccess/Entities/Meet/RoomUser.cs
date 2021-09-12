@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using MeetHut.DataAccess.Enums.Meet;
 
 namespace MeetHut.DataAccess.Entities.Meet
@@ -15,20 +14,9 @@ namespace MeetHut.DataAccess.Entities.Meet
         public int UserId { get; set; }
 
         /// <summary>
-        /// User
-        /// </summary>
-        [ForeignKey("UserId")]
-        public virtual User User { get; set; }
-
-        /// <summary>
         /// Room Id
         /// </summary>
         public int RoomId { get; set; }
-
-        /// <summary>
-        /// Room
-        /// </summary>
-        public Room Room { get; set; }
 
         /// <summary>
         /// Meet Role
@@ -48,7 +36,16 @@ namespace MeetHut.DataAccess.Entities.Meet
         /// <summary>
         /// Adder
         /// </summary>
-        [ForeignKey("AdderId")]
         public virtual User Adder { get; set; }
+        
+        /// <summary>
+        /// User
+        /// </summary>
+        public virtual User User { get; set; }
+        
+        /// <summary>
+        /// Room
+        /// </summary>
+        public virtual Room Room { get; set; }
     }
 }

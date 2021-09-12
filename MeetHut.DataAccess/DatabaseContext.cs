@@ -41,17 +41,35 @@ namespace MeetHut.DataAccess
             modelBuilder.Entity<User>()
                 .HasIndex(user => user.UserName)
                 .IsUnique();
+            modelBuilder.Entity<User>().Property(u => u.Role).HasDefaultValue(UserRole.Student);
 
             modelBuilder.Entity<Room>()
                 .HasIndex(room => room.PublicId)
                 .IsUnique();
+            modelBuilder.Entity<Room>()
+                .HasOne(x => x.Owner)
+                .WithMany(x => x.OwnedRooms)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<RoomUser>().HasKey(ru => new { ru.RoomId, ru.UserId });
-
-            modelBuilder.Entity<User>().Property(u => u.Role).HasDefaultValue(UserRole.Student);
             modelBuilder.Entity<RoomUser>().Property(u => u.Role).HasDefaultValue(MeetRole.Guest);
-
             modelBuilder.Entity<RoomUser>().Property(ru => ru.Added).HasDefaultValueSql("NOW()");
+            modelBuilder.Entity<RoomUser>()
+                .HasOne(x => x.Room)
+                .WithMany(x => x.RoomUsers)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.ClientCascade);
+            modelBuilder.Entity<RoomUser>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.RoomUsers)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.ClientCascade);
+            modelBuilder.Entity<RoomUser>()
+                .HasOne(x => x.Adder)
+                .WithMany(x => x.AddedRoomUsers)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
         }

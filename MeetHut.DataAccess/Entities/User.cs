@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using MeetHut.DataAccess.Entities.Meet;
 using MeetHut.DataAccess.Enums;
 
 namespace MeetHut.DataAccess.Entities
@@ -47,8 +48,21 @@ namespace MeetHut.DataAccess.Entities
         /// </summary>
         [Required]
         public UserRole Role { get; set; }
-
-        //public IList<RoomUser> RoomUsers { get; set; }
+        
+        /// <summary>
+        /// Room Users
+        /// </summary>
+        public virtual ICollection<RoomUser> RoomUsers { get; set; }
+        
+        /// <summary>
+        /// Owned Rooms
+        /// </summary>
+        public virtual ICollection<Room> OwnedRooms { get; set; }
+        
+        /// <summary>
+        /// Added room users
+        /// </summary>
+        public virtual ICollection<RoomUser> AddedRoomUsers { get; set; }
 
         /// <inheritdoc />
         protected override Dictionary<string, string> GetKeyValuePairs()

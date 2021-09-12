@@ -5,6 +5,7 @@ using MeetHut.DataAccess;
 using MeetHut.Services.Application;
 using MeetHut.Services.Application.Mappers;
 using MeetHut.Services.Meet;
+using MeetHut.Services.Meet.Mappers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -48,7 +49,7 @@ namespace MeetHut.Backend
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContextPool<DatabaseContext>(options =>
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
-                    builder => builder.MigrationsAssembly("MeetHut.Backend")));
+                    builder => builder.MigrationsAssembly("MeetHut.DataAccess")));
 
             // Add services
             services.AddScoped<IUserService, UserService>();
@@ -56,7 +57,7 @@ namespace MeetHut.Backend
             services.AddScoped<IRoomService, RoomService>();
 
             // Add mappers
-            var mapperConfig = new MapperConfiguration(conf => { conf.AddProfile<UserMapper>(); });
+            var mapperConfig = new MapperConfiguration(conf => { conf.AddProfile<UserMapper>(); conf.AddProfile<RoomMapper>(); });
 
             var mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
