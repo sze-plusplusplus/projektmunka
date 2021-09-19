@@ -1,40 +1,15 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+﻿FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine
 
-RUN apt-get update
-RUN apt-get install nodejs npm -y
-RUN npm i -g npm
+EXPOSE 5000
+EXPOSE 5001
 
-WORKDIR /app
-EXPOSE 80
-EXPOSE 443
-
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
-
-RUN apt-get update
-RUN apt-get install nodejs npm -y
-RUN npm i -g npm
-
+VOLUME [ "/src" ]
 WORKDIR /src
-COPY *.sln .
-COPY MeetHut.Backend/*.csproj ./MeetHut.Backend/
-COPY MeetHut.CommonTools/*.csproj ./MeetHut.CommonTools/
-COPY MeetHut.DataAccess/*.csproj ./MeetHut.DataAccess/
-COPY MeetHut.Services/*.csproj ./MeetHut.Services/
 
-RUN dotnet restore
+ENV DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER 1
+ENV DOTNET_USE_POLLING_FILE_WATCHER 1
+ENV ASPNETCORE_ENVIRONMENT Development
 
-COPY MeetHut.Backend/. ./MeetHut.Backend/
-COPY MeetHut.CommonTools/. ./MeetHut.CommonTools/
-COPY MeetHut.DataAccess/. ./MeetHut.DataAccess/
-COPY MeetHut.Services/. ./MeetHut.Services/
+RUN dotnet dev-certs https --clean && dotnet dev-certs https -t
 
-WORKDIR "/src/MeetHut.Backend"
-RUN dotnet build "MeetHut.Backend.csproj" -c Release -o /app/build
-
-FROM build AS publish
-RUN dotnet publish "MeetHut.Backend.csproj" -c Release -o /app/publish
-
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "MeetHut.Backend.dll"]
+ENTRYPOINT ["dotnet", "watch", "run", "--project", "MeetHut.Backend/MeetHut.Backend.csproj", "--urls", "http://0.0.0.0:5000;https://0.0.0.0:5001"]

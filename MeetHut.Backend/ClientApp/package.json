@@ -3,12 +3,12 @@
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --disable-host-check --host 0.0.0.0",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:ci": "ng build --configuration production --source-map=false",
+    "build:ci": "ng build --configuration production --source-map=false --no-progress",
     "test:ci": "ng test --no-watch --no-progress --code-coverage --source-map=false --browsers=ChromeHeadlessCustom"
   },
   "private": true,

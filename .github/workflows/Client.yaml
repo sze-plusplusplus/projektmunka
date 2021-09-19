@@ -14,15 +14,15 @@ jobs:
       - name: Use Node
         uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: "14"
       - name: Install deps
-        run: npm i
+        run: yarn install --frozen-lockfile
         working-directory: ${{env.working-directory}}
       - name: Build
-        run: npm run build:ci
+        run: yarn build:ci
         working-directory: ${{env.working-directory}}
       - name: Test
-        run: npm run test:ci
+        run: yarn test:ci
         working-directory: ${{env.working-directory}}
         env:
           CI: true

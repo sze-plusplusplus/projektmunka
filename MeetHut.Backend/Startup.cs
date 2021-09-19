@@ -88,7 +88,7 @@ namespace MeetHut.Backend
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MeetHut.Backend", Version = "v1" });
             });
-            
+
             services.AddSpaStaticFiles(conf =>
             {
                 conf.RootPath = "./ClientApp/dist/frontend/";
@@ -148,7 +148,7 @@ namespace MeetHut.Backend
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer("start");
+                    spa.UseProxyToSpaDevelopmentServer("http://frontend:4200");
                 }
             });
         }

@@ -1,63 +1,63 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-    <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
-        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <Title>MeetHut.Backend</Title>
-        <Description>MeetHut.Backend application</Description>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <Title>MeetHut.Backend</Title>
+    <Description>MeetHut.Backend application</Description>
+  </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <DocumentationFile>bin\Debug\net5.0\MeetHut.Backend.xml</DocumentationFile>
-    </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DocumentationFile>bin\Debug\net5.0\MeetHut.Backend.xml</DocumentationFile>
+  </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <DocumentationFile>bin\Release\net5.0\MeetHut.Backend.xml</DocumentationFile>
-    </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DocumentationFile>bin\Release\net5.0\MeetHut.Backend.xml</DocumentationFile>
+  </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="5.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.9" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MeetHut.DataAccess\MeetHut.DataAccess.csproj" />
+    <ProjectReference Include="..\MeetHut.Services\MeetHut.Services.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <SpaRoot>ClientApp\</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Content Remove="$(SpaRoot)**" />
+    <None Remove="$(SpaRoot)**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="yarn install --frozen-lockfile" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="yarn build:ci" />
+
+    <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.9" />
-        <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="5.0.9" />
-        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.9" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.9">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.9" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
+      <DistFiles Include="$(SpaRoot)dist\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </ResolvedFileToPublish>
     </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\MeetHut.DataAccess\MeetHut.DataAccess.csproj" />
-      <ProjectReference Include="..\MeetHut.Services\MeetHut.Services.csproj" />
-    </ItemGroup>
-
-    <PropertyGroup>
-        <SpaRoot>ClientApp\</SpaRoot>
-        <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-    </PropertyGroup>
-    <ItemGroup>
-        <!-- Don't publish the SPA source files, but do show them in the project files list -->
-        <Content Remove="$(SpaRoot)**" />
-        <None Remove="$(SpaRoot)**" />
-        <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-    </ItemGroup>
-
-    <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-        <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
-
-        <!-- Include the newly-built files in the publish output -->
-        <ItemGroup>
-            <DistFiles Include="$(SpaRoot)dist\**" />
-            <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
-                <RelativePath>%(DistFiles.Identity)</RelativePath>
-                <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-                <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-            </ResolvedFileToPublish>
-        </ItemGroup>
-    </Target>
+  </Target>
 
 </Project>
