@@ -18,15 +18,29 @@ Online videoconferencing tool for supporting online education designed to be use
 
 ### Running locally in development mode w/ docker-compose (watch)
 
-- `docker-compose up` - Creates a container with `dotnet watch ...` command, a frontend container, a mariadb database container and adminer for database access
+- Create / edit the required config files, the default docker-compose file
+  - Backend: `./MeetHut.Backend/appsettings.json`
+  - Livekit: `./.livekit_config.yml`
+  - default db credentials: meethut:Abc123456
+  - with the given `docker-compose.yml` all service ports are exposed to `127.0.0.1` (app 5000[http], 5001[https], adminer 81, mysql 3306, livekit 7880[web],7881,7882)
+- `make up` - Creates a container with `dotnet watch ...` command, a frontend container, a mariadb database container and adminer for database access
 - App access: http://localhost:5000/ (ASP app proxies the angular app)
 - Adminer: http://localhost:81/
-- with the given `docker-compose.yml` all service ports are exposed to `127.0.0.1` (app 5000[http], 5001[https], adminer 81, mysql 3306)
-- default db credentials: meethut:Abc123456
 
 ### Build release image
 
-- `docker-compose -f docker-compose.publish.yml build` will build a new image (release mode, image name: "meethut-backend")
+- `make publish` will build a new image (release mode, image name: "meethut", exported file: "./publish/meethut.tar")
+
+### Running release version
+
+- Use strong JWT / access keys, passwords!
+- `make image` starts the released image
+
+### Other commands
+
+- `make build` - Build FE and BE - `make build-fe; make build-be`
+- `make test` - Run tests for BE and FE
+- `make gettoken room=a user=ben` - Create a room joining token for the livekit server (for test purposes)
 
 ## Project structure
 
@@ -45,11 +59,31 @@ Online videoconferencing tool for supporting online education designed to be use
 
 ## Team:
 
-| #   | Nev                     | Main responsibility | Github                                             |
+| #   | Name                    | Main responsibility | Github                                             |
 | --- | ----------------------- | ------------------- | -------------------------------------------------- |
 | 1   | Karcag Tamás            | Web backend         | [@karcagtamas](https://github.com/karcagtamas)     |
-| 2   | Baranyai Bence Bendegúz | Media backend       | [@bencebaranyai](https://github.com/bencebaranyai) |
+| 2   | Baranyai Bence Bendegúz | Media service       | [@bencebaranyai](https://github.com/bencebaranyai) |
 | 3   | Balogh Máté             | Web frontend        | [@Cerberuuus](https://github.com/Cerberuuus)       |
 | 4   | Tóth Róbert             | Media frontend      | [@tothrobi](https://github.com/tothrobi)           |
 
 ### Details of the university exercise (in Hungarian): [README.HU.md](README.HU.md)
+
+## Main Tasks:
+
+> https://plusplusplus.myjetbrains.com/youtrack/agiles/120-2/current
+
+| #                                                                  | Task, Functionality      | Milestone | Depends on  | Assignee            |
+| ------------------------------------------------------------------ | ------------------------ | --------- | ----------- | ------------------- |
+| [PM-1](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-1)   | Project init             | M0        | -           | Team                |
+| [PM-3](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-3)   | Dev tooling              | M1        | PM-1        | B. Bence, K. Tamás  |
+| [PM-4](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-4)   | Livekit SDK and int.     | M1        | PM-1        | B. Bence            |
+| [PM-2](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-2)   | GUI planning (wireframe) | M1        | -           | T. Róbert, B. Máté  |
+| [PM-6](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-6)   | Room management          | M2        | PM-2, PM-3  | B. Bence, T. Róbert |
+| [PM-8](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-8)   | Login / Register / Audit | M2        | PM-2, PM-3  | K. Tamás, T. Róbert |
+| [PM-7](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-7)   | User management          | M2        | PM-1, PM-8  | K. Tamás, B. Máté   |
+| [PM-9](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-9)   | Conference Base GUI      | M2        | PM-1, PM-4  | K. Tamás, B. Bence  |
+| [PM-10](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-10) | Timetable                | M3        | PM-8, PM-7  | K. Tamás, T. Róbert |
+| [PM-11](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-11) | Exam mode                | M3        | PM-9        | K. Tamás, B. Máté   |
+| [PM-12](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-12) | Conference UI            | M3        | PM-9        | T. Róbert, B. Máté  |
+| [PM-13](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-13) | Conference Chat          | M3        | PM-9, PM-12 | T. Róbert, B. Bence |
+| [PM-14](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-14) | Conference Settings      | M4        | PM-12       | B. Máté, B. Bence   |

@@ -62,7 +62,7 @@ A szoba beállítási között funkcióként megjelenik egy szóbeli mód, amine
 
 #### Konferencia hang/videó:
 
-Hang, videó kapcsolat lebonyolítása webrtc segítségével, megfelelő autentikációs és jogosultságkezelési folyamatokkal ellátva. Több kliens közötti kapcsolat megvalósítása MCU topológia szerint, központi szerveren történő átjátszással (média szerveren)
+Hang, videó kapcsolat lebonyolítása webrtc segítségével, megfelelő autentikációs és jogosultságkezelési folyamatokkal ellátva. Több kliens közötti kapcsolat megvalósítása SFU topológia szerint, központi szerveren történő átjátszással (média szerveren)
 
 #### Konferencia felület:
 
