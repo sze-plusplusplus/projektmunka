@@ -8,7 +8,8 @@
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "DefaultConnection": "server=<address>;port=<port>;database=MeetHutDb;user=<user>;password=<password>"
+    "DefaultConnection": "server=<address>;port=<port>;database=MeetHutDb;user=<user>;password=<password>",
+    "DesignTimeConnection": "server=<address>;port=<port>;database=MeetHutDb;user=<user>;password=<password>"
   },
   "Jwt": {
     "Key": "<secret>",
@@ -22,5 +23,9 @@
       "key": "test",
       "secret": "EXAMPLElgnfIrYsA8C8vZ0n53rqKCWsm"
     }
-  }
+  },
+  "Migration": {
+    "OnStart": true
+  },
+  "ClientUrl": "<path>"
 }
