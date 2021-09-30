@@ -42,6 +42,19 @@ Online videoconferencing tool for supporting online education designed to be use
 - `make test` - Run tests for BE and FE
 - `make gettoken room=a user=ben` - Create a room joining token for the livekit server (for test purposes)
 
+### Windows commands
+
+> starting, developing without docker, on Windows
+
+- FE
+    - `.\fe.bat install` - install deps with frozen lock file
+    - `.\fe.bat start` - start in development mode
+    - `.\fe.bat install build` - install, then build in prod mode
+- BE
+    - `.\be.bat restore` - dotnet restore
+    - `.\be.bat watch` - runs the Meethut.Backend project in watch mode
+    - `.\be.bat publish` - installs npm deps, builds NETCore and Angular app
+
 ## Project structure
 
 - .

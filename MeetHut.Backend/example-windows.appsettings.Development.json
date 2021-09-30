@@ -7,15 +7,15 @@
     }
   },
   "ConnectionStrings": {
-    "DefaultConnection": "server=database;port=3306;database=meethut;user=meethut;password=Abc123456",
-    "DesignTimeConnection": "server=database;port=3306;database=meethut;user=meethut;password=Abc123456"
+    "DefaultConnection": "server=localhost;port=3306;database=MeetHutDb;user=meethut;password=Abc123456",
+    "DesignTimeConnection": "server=localhost;port=3306;database=MeetHutDb;user=meethut;password=Abc123456"
   },
   "Jwt": {
     "Key": "<secret>",
     "Issuer": "TeamPlusPlusPlus"
   },
   "Livekit": {
-    "host": "http://livekit:7886",
+    "host": "http://localhost:7886",
     "key": "test",
     "secret": "EXAMPLElgnfIrYsA8C8vZ0n53rqKCWsm",
     "webhook": {
@@ -26,5 +26,5 @@
   "Migration": {
     "OnStart": true
   },
-  "ClientUrl": "http://frontend:4200"
+  "ClientUrl": "http://localhost:4200"
 }
