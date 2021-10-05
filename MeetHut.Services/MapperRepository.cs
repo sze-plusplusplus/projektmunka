@@ -32,43 +32,43 @@ namespace MeetHut.Services
         }
 
         /// <inheritdoc />
-        public IEnumerable<TDto> GetAllMapped()
+        public virtual IEnumerable<TDto> GetAllMapped()
         {
             return Mapper.Map<List<TDto>>(GetAll());
         }
 
         /// <inheritdoc />
-        public IEnumerable<TDto> GetMappedList(Expression<Func<TEntity, bool>> expression)
+        public virtual IEnumerable<TDto> GetMappedList(Expression<Func<TEntity, bool>> expression)
         {
             return Mapper.Map<List<TDto>>(GetList(expression));
         }
 
         /// <inheritdoc />
-        public TDto GetMapped(int id)
+        public virtual TDto GetMapped(int id)
         {
             return Mapper.Map<TDto>(Get(id));
         }
 
         /// <inheritdoc />
-        public TEntity Create(TModel entity)
+        public virtual TEntity Create(TModel entity)
         {
             return Create(Mapper.Map<TEntity>(entity));
         }
 
         /// <inheritdoc />
-        public int CreateAndSave(TModel entity)
+        public virtual int CreateAndSave(TModel entity)
         {
             return CreateAndSave(Mapper.Map<TEntity>(entity));
         }
 
         /// <inheritdoc />
-        public void Update(int id, TModel model)
+        public virtual void Update(int id, TModel model)
         {
             Update(Mapper.Map(model, Get(id)));
         }
 
         /// <inheritdoc />
-        public void UpdateAndSave(int id, TModel model)
+        public virtual void UpdateAndSave(int id, TModel model)
         {
             UpdateAndSave(Mapper.Map(model, Get(id)));
         }

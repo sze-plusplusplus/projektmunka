@@ -41,6 +41,9 @@ namespace MeetHut.DataAccess
             modelBuilder.Entity<User>()
                 .HasIndex(user => user.UserName)
                 .IsUnique();
+            modelBuilder.Entity<User>()
+                .HasIndex(user => user.Email)
+                .IsUnique();
             modelBuilder.Entity<User>().Property(u => u.Role).HasDefaultValue(UserRole.Student);
 
             modelBuilder.Entity<Room>()
