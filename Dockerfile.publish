@@ -1,5 +1,9 @@
-﻿FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
+﻿FROM --platform=${BUILDPLATFORM:-linux/amd64} mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
 
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+ARG TARGETOS
+ARG TARGETARCH
 
 WORKDIR /src
 COPY *.sln .
@@ -18,9 +22,15 @@ COPY MeetHut.Services/. ./MeetHut.Services/
 WORKDIR "/src/MeetHut.Backend"
 
 RUN apk add --update nodejs yarn
-RUN dotnet publish -c Release -o /app/publish
 
-FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine
+RUN if [ "${TARGETARCH}" = "amd64" ]; then \
+    export RID=linux-musl-x64; \
+    else \
+    export RID=linux-arm64; \
+    fi && \
+    dotnet publish -r $RID -c Release -o /app/publish
+
+FROM --platform=${TARGETPLATFORM:-linux/amd64} mcr.microsoft.com/dotnet/aspnet:5.0-alpine
 
 WORKDIR /app
 EXPOSE 80

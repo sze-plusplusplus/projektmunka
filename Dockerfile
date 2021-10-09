@@ -6,11 +6,14 @@ EXPOSE 5001
 ARG USER=dev
 ARG DUID=1000
 ARG DGID=1000
+ARG ISMAC=0
 
 VOLUME [ "/src" ]
 WORKDIR /src
 
-RUN addgroup -g ${DGID} -S ${USER}
+RUN if [ ${ISMAC} -eq 0 ]; then \
+    addgroup -g ${DGID} -S ${USER}; \
+    fi
 RUN adduser -S -G ${USER} -u ${DUID} -s /bin/bash ${USER}
 USER ${USER}
 

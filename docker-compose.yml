@@ -8,6 +8,7 @@ networks:
 
 services:
   database:
+    platform: ${PLATFORM}
     image: mariadb
     ports:
       - "127.0.0.1:3306:3306"
@@ -22,6 +23,7 @@ services:
       - app
 
   frontend:
+    platform: ${PLATFORM}
     build:
       context: ./MeetHut.Backend/ClientApp
       dockerfile: Dockerfile
@@ -31,6 +33,7 @@ services:
       - ./MeetHut.Backend/ClientApp:/app
 
   backend:
+    platform: ${PLATFORM}
     build:
       context: .
       dockerfile: Dockerfile
@@ -38,6 +41,7 @@ services:
         - USER=${USER}
         - DUID=${DUID}
         - DGID=${DGID}
+        - ISMAC=${ISMAC}
     container_name: meethut-backend
     depends_on:
       - database
@@ -54,6 +58,7 @@ services:
       - ./:/src
 
   livekit:
+    platform: ${PLATFORM}
     image: ghcr.io/bencebaranyai/livekit-server
     command: --dev --config /config.yml
     ports:
@@ -66,6 +71,7 @@ services:
       - ./.livekit_config.yml:/config.yml
 
   adminer:
+    platform: ${PLATFORM}
     image: adminer
     ports:
       - "127.0.0.1:81:8080"

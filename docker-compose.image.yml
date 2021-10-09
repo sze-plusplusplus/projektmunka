@@ -2,6 +2,7 @@ version: "3.4"
 
 services:
   backend:
+    platform: ${PLATFORM}
     image: meethut
     ports:
       - "127.0.0.1:5000:5000"
