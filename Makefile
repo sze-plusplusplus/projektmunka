@@ -42,3 +42,6 @@ build: build-fe build-be
 test:			## Run BE and FE tests
 	@pushd MeetHut.Backend/ && dotnet test; popd
 	@pushd MeetHut.Backend/ClientApp && yarn test; popd
+
+add-migration:	## Add backend EF migration -> make add-migration name=Init
+	@pushd MeetHut.Backend/ && DOTNET_USEDESIGNTIMECONNECTION=True dotnet ef migrations add $(name) --project ../MeetHut.DataAccess/ --no-build; popd

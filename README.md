@@ -2,6 +2,7 @@
 
 > University Project work - Projektmunka I-II (2021.)
 
+[![Website](https://img.shields.io/badge/Website-informational?style=for-the-badge)](https://meethut.one)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/sze-plusplusplus/projektmunka?style=for-the-badge)](https://github.com/sze-plusplusplus/projektmunka/pulls)
 [![Issue Tracking](https://img.shields.io/badge/YouTrack-Board-blue?style=for-the-badge)](https://plusplusplus.myjetbrains.com/youtrack/agiles/120-2/current)
 
@@ -29,7 +30,7 @@ Online videoconferencing tool for supporting online education designed to be use
 
 ### Build release image
 
-- `make publish` will build a new image (release mode, image name: "meethut", exported file: "./publish/meethut.tar")
+- `make publish` will build a new multiarch image (linux/(amd|arm)64) and push to ghcr.io
 
 ### Running release version
 
@@ -40,6 +41,7 @@ Online videoconferencing tool for supporting online education designed to be use
 
 - `make build` - Build FE and BE - `make build-fe; make build-be`
 - `make test` - Run tests for BE and FE
+- `make add-migration name=Init` - Add backend EF migration
 - `make gettoken room=a user=ben` - Create a room joining token for the livekit server (for test purposes)
 
 ### Windows commands
@@ -47,13 +49,14 @@ Online videoconferencing tool for supporting online education designed to be use
 > starting, developing without docker, on Windows
 
 - FE
-    - `.\fe.bat install` - install deps with frozen lock file
-    - `.\fe.bat start` - start in development mode
-    - `.\fe.bat install build` - install, then build in prod mode
+  - `.\fe.bat install` - install deps with frozen lock file
+  - `.\fe.bat start` - start in development mode
+  - `.\fe.bat install build` - install, then build in prod mode
 - BE
-    - `.\be.bat restore` - dotnet restore
-    - `.\be.bat watch` - runs the Meethut.Backend project in watch mode
-    - `.\be.bat publish` - installs npm deps, builds NETCore and Angular app
+  - `.\be.bat restore` - dotnet restore
+  - `.\be.bat watch` - runs the Meethut.Backend project in watch mode
+  - `.\be.bat migration Init` - add backend EF migration
+  - `.\be.bat publish` - installs npm deps, builds NETCore and Angular app
 
 ## Project structure
 
@@ -100,3 +103,10 @@ Online videoconferencing tool for supporting online education designed to be use
 | [PM-12](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-12) | Conference UI            | M3        | PM-9        | T. Róbert, B. Máté  |
 | [PM-13](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-13) | Conference Chat          | M3        | PM-9, PM-12 | T. Róbert, B. Bence |
 | [PM-14](https://plusplusplus.myjetbrains.com/youtrack/issue/PM-14) | Conference Settings      | M4        | PM-12       | B. Máté, B. Bence   |
+
+## Web documentation (todo)
+
+[![Website](https://img.shields.io/badge/Website-informational?style=for-the-badge)](https://meethut.one)
+
+- Livekit instance: https://live.meethut.one
+- Application instance: https://app.meethut.one
