@@ -3,7 +3,6 @@ using AutoMapper;
 using MeetHut.Backend.Configuration;
 using MeetHut.Backend.Middlewares;
 using MeetHut.DataAccess;
-using MeetHut.DataAccess.Configuration;
 using MeetHut.Services.Application;
 using MeetHut.Services.Application.Mappers;
 using MeetHut.Services.Meet;
@@ -46,15 +45,12 @@ namespace MeetHut.Backend
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add design time conf
-            DatabaseConfiguration.DesignTimeConnection = Configuration.GetConnectionString("DesignTimeConnection");
-
             services.Configure<ApplicationConfiguration>(Configuration);
             services.Configure<MigrationConfiguration>(Configuration.GetSection("Migration"));
 
 
             // Add Database context
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            string connectionString = Configuration.GetConnectionString(Configuration.GetValue<bool>("UseDesignTimeConnection") ? "DesignTimeConnection" : "DefaultConnection");
             services.AddDbContextPool<DatabaseContext>(options =>
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
                     builder => builder.MigrationsAssembly("MeetHut.DataAccess")));

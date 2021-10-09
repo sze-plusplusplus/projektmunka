@@ -6,6 +6,10 @@
         <Description>Database access for the Backend project</Description>
     </PropertyGroup>
 
+    <PropertyGroup>
+      <CodeAnalysisRuleSet>migrations.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
       <DocumentationFile>bin\Debug\net5.0\MeetHut.DataAccess.xml</DocumentationFile>
     </PropertyGroup>

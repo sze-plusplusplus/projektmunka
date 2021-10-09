@@ -8,7 +8,7 @@
   },
   "ConnectionStrings": {
     "DefaultConnection": "server=database;port=3306;database=meethut;user=meethut;password=Abc123456",
-    "DesignTimeConnection": "server=database;port=3306;database=meethut;user=meethut;password=Abc123456"
+    "DesignTimeConnection": "server=127.0.0.1;port=3306;database=meethut;user=meethut;password=Abc123456"
   },
   "Jwt": {
     "Key": "<secret>",

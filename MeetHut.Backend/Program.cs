@@ -1,7 +1,7 @@
-using MeetHut.Backend.Middlewares;
 using MeetHut.DataAccess;
-using Microsoft.AspNetCore;
+using MeetHut.Backend.Middlewares;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace MeetHut.Backend
 {
@@ -16,17 +16,16 @@ namespace MeetHut.Backend
         /// <param name="args">Program arguments</param>
         public static void Main(string[] args)
         {
-            CreateWebHost(args)
-                .MigrateDatabase<DatabaseContext>()
-                .Run();
+            CreateHostBuilder(args).Build().MigrateDatabase<DatabaseContext>().Run();
         }
 
-        private static IWebHost CreateWebHost(string[] args)
-        {
-            return WebHost.CreateDefaultBuilder(args)
-                .UseKestrel()
-                .UseStartup<Startup>()
-                .Build();
-        }
+        /// <summary>
+        /// CreateHostBuilder
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
     }
 }
