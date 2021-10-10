@@ -48,6 +48,19 @@ namespace MeetHut.Backend
             services.Configure<ApplicationConfiguration>(Configuration);
             services.Configure<MigrationConfiguration>(Configuration.GetSection("Migration"));
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials()
+                            .WithOrigins(Configuration.GetValue("ClientUrl", "http://localhost:4200"), "http://localhost:5000", "https://localhost:5001");
+                    });
+            });
+
 
             // Add Database context
             string connectionString = Configuration.GetConnectionString(Configuration.GetValue<bool>("UseDesignTimeConnection") ? "DesignTimeConnection" : "DefaultConnection");
@@ -140,6 +153,11 @@ namespace MeetHut.Backend
             }
 
             app.UseRouting();
+
+            if (env.IsDevelopment())
+            {
+                app.UseCors("CorsPolicy");
+            }
 
             app.UseAuthentication();
 

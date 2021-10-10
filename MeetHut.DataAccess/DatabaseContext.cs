@@ -84,13 +84,15 @@ namespace MeetHut.DataAccess
                 .Entries()
                 .Where(e => e.Entity is Entity && e.State is EntityState.Added or EntityState.Modified);
 
+            var now = DateTime.Now;
+
             foreach (var entityEntry in entries)
             {
-                ((Entity)entityEntry.Entity).LastUpdate = DateTime.Now;
+                ((Entity)entityEntry.Entity).LastUpdate = now;
 
                 if (entityEntry.State == EntityState.Added)
                 {
-                    ((Entity)entityEntry.Entity).Creation = DateTime.Now;
+                    ((Entity)entityEntry.Entity).Creation = now;
                 }
             }
 

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { LoginDTO } from '../dto';
 import { ForgotPasswordModel, LoginModel, RegistrationModel } from '../models';
 
 @Injectable({
@@ -20,15 +21,16 @@ export class AuthService {
     return this.$token.getValue();
   }
 
-  login(model: LoginModel): Promise<string> {
+  login(model: LoginModel): Promise<LoginDTO> {
     return new Promise((resolve) =>
       this.http
-        .post<string>(this.getAuthUrl('login'), model)
+        .post<LoginDTO>(this.getAuthUrl('login'), model)
         .toPromise()
         .then((res) => {
-          this.$token.next(res);
+          this.$token.next(res.token);
           resolve(res);
         })
+        .catch((err) => console.error(err))
     );
   }
 

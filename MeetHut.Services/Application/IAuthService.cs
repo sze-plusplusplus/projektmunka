@@ -13,7 +13,7 @@ namespace MeetHut.Services.Application
         /// </summary>
         /// <param name="model">Model</param>
         /// <returns>Token</returns>
-        string Login(LoginModel model);
+        LoginDTO Login(LoginModel model);
         
         /// <summary>
         /// Registration

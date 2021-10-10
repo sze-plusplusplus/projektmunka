@@ -33,7 +33,7 @@ namespace MeetHut.Services.Application
         }
 
         /// <inheritdoc />
-        public string Login(LoginModel model)
+        public LoginDTO Login(LoginModel model)
         {
             var user = _userService.GetByName(model.UserName);
 
@@ -44,7 +44,7 @@ namespace MeetHut.Services.Application
 
             if (VerifyPassword(user.PasswordHash, model.Password))
             {
-                return BuildToken(_configuration["Jwt:Key"], _configuration["Jwt:Issuer"], _userService.GetMapped(user.Id));
+                return new LoginDTO { Token = BuildToken(_configuration["Jwt:Key"], _configuration["Jwt:Issuer"], _userService.GetMapped(user.Id)) };
             }
             else
             {

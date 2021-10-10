@@ -1,4 +1,5 @@
 ﻿using MeetHut.Services.Application;
+using MeetHut.Services.Application.DTOs;
 using MeetHut.Services.Application.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ namespace MeetHut.Backend.Controllers
         /// <param name="model">Model</param>
         /// <returns>Token</returns>
         [HttpPost("login")]
-        public string Login([FromBody] LoginModel model)
+        public LoginDTO Login([FromBody] LoginModel model)
         {
             return _authService.Login(model);
         }
