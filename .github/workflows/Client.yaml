@@ -1,0 +1,46 @@
+name: Client
+
+on: [push]
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./MeetHut.Backend/ClientApp
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Use Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+      - name: Install deps
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile
+        working-directory: ${{env.working-directory}}
+      - name: Build
+        run: yarn build:ci
+        working-directory: ${{env.working-directory}}
+      - name: Test
+        run: yarn test:ci
+        working-directory: ${{env.working-directory}}
+        env:
+          CI: true
+      - name: Archive build
+        if: github.ref == 'refs/heads/main' && success()
+        uses: actions/upload-artifact@v1
+        with:
+          name: deploy_dist
+          path: MeetHut.Backend/ClientApp/dist
+      - name: Archive code coverage
+        if: github.ref == 'refs/heads/main' && success()
+        uses: actions/upload-artifact@v1
+        with:
+          name: deploy_coverage
+          path: MeetHut.Backend/ClientApp/coverage

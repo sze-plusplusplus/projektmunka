@@ -1,0 +1,81 @@
+version: "3.4"
+
+volumes:
+  db:
+
+networks:
+  app:
+
+services:
+  database:
+    platform: ${PLATFORM}
+    image: mariadb
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Abc123456
+      MYSQL_USER: meethut
+      MYSQL_PASSWORD: Abc123456
+      MYSQL_DATABASE: meethut
+    networks:
+      - app
+
+  frontend:
+    platform: ${PLATFORM}
+    build:
+      context: ./MeetHut.Backend/ClientApp
+      dockerfile: Dockerfile
+    networks:
+      - app
+    volumes:
+      - ./MeetHut.Backend/ClientApp:/app
+
+  backend:
+    platform: ${PLATFORM}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - USER=${USER}
+        - DUID=${DUID}
+        - DGID=${DGID}
+        - ISMAC=${ISMAC}
+    container_name: meethut-backend
+    depends_on:
+      - database
+      - frontend
+      - livekit
+    ports:
+      - "127.0.0.1:5000:5000"
+      - "127.0.0.1:5001:5001"
+    environment:
+      - DBHOST=database
+    networks:
+      - app
+    volumes:
+      - ./:/src
+
+  livekit:
+    platform: ${PLATFORM}
+    image: ghcr.io/bencebaranyai/livekit-server
+    command: --dev --config /config.yml
+    ports:
+      - "127.0.0.1:7880:7880"
+      - "127.0.0.1:7881:7881"
+      - "127.0.0.1:7882:7882/udp"
+    networks:
+      - app
+    volumes:
+      - ./.livekit_config.yml:/config.yml
+
+  adminer:
+    platform: ${PLATFORM}
+    image: adminer
+    ports:
+      - "127.0.0.1:81:8080"
+    networks:
+      - app
+    depends_on:
+      - database

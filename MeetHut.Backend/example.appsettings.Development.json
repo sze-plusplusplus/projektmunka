@@ -1,0 +1,30 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "server=database;port=3306;database=meethut;user=meethut;password=Abc123456",
+    "DesignTimeConnection": "server=127.0.0.1;port=3306;database=meethut;user=meethut;password=Abc123456"
+  },
+  "Jwt": {
+    "Key": "<secret>",
+    "Issuer": "TeamPlusPlusPlus"
+  },
+  "Livekit": {
+    "host": "http://livekit:7886",
+    "key": "test",
+    "secret": "EXAMPLElgnfIrYsA8C8vZ0n53rqKCWsm",
+    "webhook": {
+      "key": "test",
+      "secret": "EXAMPLElgnfIrYsA8C8vZ0n53rqKCWsm"
+    }
+  },
+  "Migration": {
+    "OnStart": true
+  },
+  "ClientUrl": "http://frontend:4200"
+}

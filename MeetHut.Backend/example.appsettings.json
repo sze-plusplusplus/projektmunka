@@ -1,0 +1,31 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultConnection": "server=<address>;port=<port>;database=MeetHutDb;user=<user>;password=<password>",
+    "DesignTimeConnection": "server=<address>;port=<port>;database=MeetHutDb;user=<user>;password=<password>"
+  },
+  "Jwt": {
+    "Key": "<secret>",
+    "Issuer": "TeamPlusPlusPlus"
+  },
+  "Livekit": {
+    "host": "http://livekit:7886",
+    "key": "test",
+    "secret": "EXAMPLElgnfIrYsA8C8vZ0n53rqKCWsm",
+    "webhook": {
+      "key": "test",
+      "secret": "EXAMPLElgnfIrYsA8C8vZ0n53rqKCWsm"
+    }
+  },
+  "Migration": {
+    "OnStart": true
+  },
+  "ClientUrl": "<path>"
+}

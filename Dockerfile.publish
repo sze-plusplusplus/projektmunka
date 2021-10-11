@@ -1,0 +1,42 @@
+﻿FROM --platform=${BUILDPLATFORM:-linux/amd64} mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
+
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+ARG TARGETOS
+ARG TARGETARCH
+
+ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
+
+WORKDIR /src
+COPY *.sln .
+COPY MeetHut.Backend/*.csproj ./MeetHut.Backend/
+COPY MeetHut.CommonTools/*.csproj ./MeetHut.CommonTools/
+COPY MeetHut.DataAccess/*.csproj ./MeetHut.DataAccess/
+COPY MeetHut.Services/*.csproj ./MeetHut.Services/
+
+RUN dotnet restore
+
+COPY MeetHut.Backend/. ./MeetHut.Backend/
+COPY MeetHut.CommonTools/. ./MeetHut.CommonTools/
+COPY MeetHut.DataAccess/. ./MeetHut.DataAccess/
+COPY MeetHut.Services/. ./MeetHut.Services/
+
+WORKDIR "/src/MeetHut.Backend"
+
+RUN apk add --update nodejs yarn
+
+RUN if [ "${TARGETARCH}" = "amd64" ]; then \
+    export RID=linux-musl-x64; \
+    else \
+    export RID=linux-arm64; \
+    fi && \
+    dotnet publish -r $RID -c Release -o /app/publish
+
+FROM --platform=${TARGETPLATFORM:-linux/amd64} mcr.microsoft.com/dotnet/aspnet:5.0-alpine
+
+WORKDIR /app
+EXPOSE 80
+
+COPY --from=build /app/publish .
+
+ENTRYPOINT ["dotnet", "MeetHut.Backend.dll"]

@@ -1,0 +1,5 @@
+bin/
+obj/
+publish/
+.livekit_config.yml
+.vs

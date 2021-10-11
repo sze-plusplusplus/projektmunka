@@ -1,0 +1,5 @@
+<RuleSet Name="Migrations" ToolsVersion="15.0">
+    <Rules AnalyzerId="Roslynator.CSharp.Analyzers" RuleNamespace="Roslynator.CSharp.Analyzers">
+        <Rule Id="CS1591" Action="None" />
+    </Rules>
+</RuleSet>
