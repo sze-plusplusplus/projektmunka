@@ -11,15 +11,17 @@ ARG ISMAC=0
 VOLUME [ "/src" ]
 WORKDIR /src
 
-RUN if [ ${ISMAC} -eq 0 ]; then \
-    addgroup -g ${DGID} -S ${USER}; \
-    fi
-RUN adduser -S -G ${USER} -u ${DUID} -s /bin/bash ${USER}
+# Group with that id can exists (for example mac default user is in group 20)
+# M: DUID=501 DGID=20 / 20 is dialout
+RUN addgroup -g ${DGID} -S ${USER} || echo Not adding group
+# Because the group can be pre existing, but we want to use that id, we get the name of it and use it for the user creation
+RUN adduser -S -G $(getent group ${DGID} | cut -d ":" -f1) -u ${DUID} -s /bin/bash ${USER}
 USER ${USER}
 
 ENV DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER 1
 ENV DOTNET_USE_POLLING_FILE_WATCHER 1
 ENV ASPNETCORE_ENVIRONMENT Development
+ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 
 RUN dotnet dev-certs https --clean && dotnet dev-certs https -t
 
