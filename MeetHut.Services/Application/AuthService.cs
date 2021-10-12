@@ -1,17 +1,10 @@
 ﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text;
-using AutoMapper;
-using MeetHut.DataAccess;
 using MeetHut.DataAccess.Entities;
 using MeetHut.Services.Application.DTOs;
+using MeetHut.Services.Application.Interfaces;
 using MeetHut.Services.Application.Models;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 
 namespace MeetHut.Services.Application
 {
@@ -19,21 +12,21 @@ namespace MeetHut.Services.Application
     public class AuthService : IAuthService
     {
         private readonly IUserService _userService;
-        private readonly IConfiguration _configuration;
+        private readonly ITokenService _tokenService;
 
         /// <summary>
         /// Init Auth Service
         /// </summary>
         /// <param name="userService">User Service</param>
-        /// <param name="configuration">Configuration</param>
-        public AuthService(IUserService userService, IConfiguration configuration)
+        /// <param name="tokenService">Token Service</param>
+        public AuthService(IUserService userService, ITokenService tokenService)
         {
             _userService = userService;
-            _configuration = configuration;
+            _tokenService = tokenService;
         }
 
         /// <inheritdoc />
-        public LoginDTO Login(LoginModel model)
+        public TokenDTO Login(LoginModel model)
         {
             var user = _userService.GetByName(model.UserName);
 
@@ -44,7 +37,13 @@ namespace MeetHut.Services.Application
 
             if (VerifyPassword(user.PasswordHash, model.Password))
             {
-                return new LoginDTO { Token = BuildToken(_configuration["Jwt:Key"], _configuration["Jwt:Issuer"], _userService.GetMapped(user.Id)) };
+                var refreshToken = _tokenService.BuildRefreshToken();
+
+                user.LastLogin = DateTime.Now;
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenExpiryTime = DateTime.Now.AddDays(1);
+
+                return new TokenDTO { AccessToken = _tokenService.BuildAccessToken(_userService.GetMapped(user.Id)), RefreshToken = refreshToken };
             }
             else
             {
@@ -73,44 +72,16 @@ namespace MeetHut.Services.Application
         }
 
         /// <inheritdoc />
-        public string BuildToken(string key, string issuer, UserDTO user)
+        public void Logout(string userName)
         {
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())
-            };
+            var user = _userService.GetMappedByName(userName);
 
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-            var tokenDescriptor = new JwtSecurityToken(issuer, issuer, claims, expires: DateTime.Now.AddMinutes(120), signingCredentials: credentials);
-            return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
-        }
-
-        /// <inheritdoc />
-        public bool ValidateToken(string key, string issuer, string token)
-        {
-            var mySecret = Encoding.UTF8.GetBytes(key);
-            var mySecurityKey = new SymmetricSecurityKey(mySecret);
-            var tokenHandler = new JwtSecurityTokenHandler();
-            try
+            if (user == null)
             {
-                tokenHandler.ValidateToken(token, new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    ValidateIssuer = true,
-                    ValidateAudience = false,
-                    ValidIssuer = issuer,
-                    IssuerSigningKey = mySecurityKey
-                }, out _);
-            }
-            catch
-            {
-                return false;
+                throw new ArgumentException("User does not exist");
             }
 
-            return true;
+            _userService.UpdateAndSave(user.Id, new UserTokenRefreshModel { RefreshToken = null });
         }
 
         private static string HashPassword(string password, byte[] salt = null, bool needsOnlyHash = false)
@@ -130,9 +101,14 @@ namespace MeetHut.Services.Application
                 salt: salt,
                 prf: KeyDerivationPrf.HMACSHA256,
                 iterationCount: 10000,
-                numBytesRequested: 256 / 8));
+                numBytesRequested: 256 / 8)
+            );
 
-            if (needsOnlyHash) return hashed;
+            if (needsOnlyHash)
+            {
+                return hashed;
+            }
+
             // password will be concatenated with salt using ':'
             return $"{hashed}:{Convert.ToBase64String(salt)}";
         }
@@ -142,10 +118,16 @@ namespace MeetHut.Services.Application
             // retrieve both salt and password from 'hashedPasswordWithSalt'
             var passwordAndHash = hashedPasswordWithSalt.Split(':');
             if (passwordAndHash == null || passwordAndHash.Length != 2)
+            {
                 return false;
+            }
+
             var salt = Convert.FromBase64String(passwordAndHash[1]);
             if (salt == null)
+            {
                 return false;
+            }
+
             // hash the given password
             var hashOfpasswordToCheck = HashPassword(passwordToCheck, salt, true);
             // compare both hashes
@@ -153,6 +135,7 @@ namespace MeetHut.Services.Application
             {
                 return true;
             }
+
             return false;
         }
     }

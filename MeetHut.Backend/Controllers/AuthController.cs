@@ -1,5 +1,5 @@
-﻿using MeetHut.Services.Application;
-using MeetHut.Services.Application.DTOs;
+﻿using MeetHut.Services.Application.DTOs;
+using MeetHut.Services.Application.Interfaces;
 using MeetHut.Services.Application.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +12,7 @@ namespace MeetHut.Backend.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [AllowAnonymous]
-    public class AuthController
+    public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
 
@@ -31,7 +31,7 @@ namespace MeetHut.Backend.Controllers
         /// <param name="model">Model</param>
         /// <returns>Token</returns>
         [HttpPost("login")]
-        public LoginDTO Login([FromBody] LoginModel model)
+        public TokenDTO Login([FromBody] LoginModel model)
         {
             return _authService.Login(model);
         }
@@ -44,6 +44,17 @@ namespace MeetHut.Backend.Controllers
         public void Registration([FromBody] RegistrationModel model)
         {
             _authService.Registration(model);
+        }
+
+        /// <summary>
+        /// Logout
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("logout")]
+        [Authorize]
+        public void Logout()
+        {
+            _authService.Logout(User.Identity.Name);
         }
     }
 }

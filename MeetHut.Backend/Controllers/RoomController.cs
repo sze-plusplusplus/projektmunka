@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MeetHut.Services.Meet;
 using MeetHut.Services.Meet.DTOs;
+using MeetHut.Services.Meet.Interfaces;
 using MeetHut.Services.Meet.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ namespace MeetHut.Backend.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class RoomController
+    public class RoomController : ControllerBase
     {
         private readonly IRoomService _roomService;
 

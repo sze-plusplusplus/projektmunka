@@ -2,13 +2,14 @@ using AutoMapper;
 using MeetHut.DataAccess;
 using MeetHut.DataAccess.Entities;
 using MeetHut.Services.Application.DTOs;
+using MeetHut.Services.Application.Interfaces;
 using MeetHut.Services.Application.Models;
 using System.Linq;
 
 namespace MeetHut.Services.Application
 {
-    /// <inheritdoc cref="MeetHut.Services.Application.IUserService" />
-    public class UserService : MapperRepository<User, UserDTO, UserModel>, IUserService
+    /// <inheritdoc cref="MeetHut.Services.Application.Interfaces.IUserService" />
+    public class UserService : MapperRepository<User, UserDTO>, IUserService
     {
         /// <summary>
         /// Init User Service
@@ -30,6 +31,12 @@ namespace MeetHut.Services.Application
         public User GetByName(string userName)
         {
             return GetList(user => user.UserName == userName).FirstOrDefault();
+        }
+
+        /// <inheritdoc />
+        public UserDTO GetMappedByName(string userName)
+        {
+            return Mapper.Map<UserDTO>(GetByName(userName));
         }
 
         /// <inheritdoc />

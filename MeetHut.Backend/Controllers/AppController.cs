@@ -9,7 +9,7 @@ namespace MeetHut.Backend.Controllers
     [Controller]
     [Route("test")]
     [AllowAnonymous]
-    public class AppController
+    public class AppController : ControllerBase
     {
         /// <summary>
         /// Index route

@@ -1,11 +1,14 @@
 using System.Text;
 using AutoMapper;
-using MeetHut.Backend.Configuration;
+using MeetHut.Backend.Configurations;
 using MeetHut.Backend.Middlewares;
 using MeetHut.DataAccess;
 using MeetHut.Services.Application;
+using MeetHut.Services.Application.Interfaces;
 using MeetHut.Services.Application.Mappers;
+using MeetHut.Services.Configurations;
 using MeetHut.Services.Meet;
+using MeetHut.Services.Meet.Interfaces;
 using MeetHut.Services.Meet.Mappers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -46,6 +49,7 @@ namespace MeetHut.Backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ApplicationConfiguration>(Configuration);
+            services.Configure<JWTConfiguration>(Configuration.GetSection("Jwt"));
             services.Configure<MigrationConfiguration>(Configuration.GetSection("Migration"));
 
             services.AddCors(options =>
@@ -70,6 +74,7 @@ namespace MeetHut.Backend
 
 
             // Add services
+            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IRoomService, RoomService>();

@@ -48,6 +48,16 @@ namespace MeetHut.DataAccess.Entities
         /// </summary>
         [Required]
         public UserRole Role { get; set; }
+
+        /// <summary>
+        /// Access token refresh token
+        /// </summary>
+        public string RefreshToken { get; set; }
+
+        /// <summary>
+        /// Expiry time of the Refresh token
+        /// </summary>
+        public DateTime? RefreshTokenExpiryTime { get; set; }
         
         /// <summary>
         /// Room Users

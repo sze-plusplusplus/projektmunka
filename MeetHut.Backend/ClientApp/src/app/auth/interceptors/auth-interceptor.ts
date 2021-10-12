@@ -1,31 +1,60 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
+  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { AuthService } from '../services';
+import { Observable, throwError } from 'rxjs';
+import { mergeMap, catchError } from 'rxjs/operators';
+import { AuthService, TokenService } from '../services';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private tokenService: TokenService
+  ) {}
 
   public intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (this.authService.tokenExists) {
-      return next.handle(
-        request.clone({
-          setHeaders: {
-            Authorization: `Bearer ${this.authService.token}`
-          }
-        })
-      );
+    let req = request;
+
+    // If the token exists, then we add it to the HTTP request
+    if (this.authService.accessTokenExists) {
+      req = this.cloneRequest(request);
     }
-    return next.handle(request);
+
+    // Send request and catch Auth errors
+    return next.handle(req).pipe(
+      catchError((err: HttpErrorResponse) => {
+        if (err.status === 401) {
+          // Try to refresh the token
+          return this.tokenService.refreshObservable().pipe(
+            catchError(() => throwError(err)),
+            mergeMap(() =>
+              next
+                .handle(this.cloneRequest(request))
+                .pipe(catchError((newError) => throwError(newError)))
+            )
+          );
+        } else {
+          // Throw error
+          return throwError(err);
+        }
+      })
+    );
+  }
+
+  private cloneRequest(request: HttpRequest<any>): HttpRequest<any> {
+    return request.clone({
+      setHeaders: {
+        Authorization: `Bearer ${this.authService.accessToken}`
+      }
+    });
   }
 }

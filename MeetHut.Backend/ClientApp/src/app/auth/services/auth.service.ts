@@ -1,33 +1,55 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { LoginDTO } from '../dto';
+import { TokenDTO } from '../dto';
 import { ForgotPasswordModel, LoginModel, RegistrationModel } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private $token: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  private ACCESS_TOKEN_KEY = 'access-token';
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  private REFRESH_TOKEN_KEY = 'refresh-token';
 
   constructor(private http: HttpClient) {}
 
-  get tokenExists(): boolean {
-    return this.$token.getValue() !== '';
+  get accessTokenExists(): boolean {
+    return ![null, ''].includes(localStorage.getItem(this.ACCESS_TOKEN_KEY));
   }
 
-  get token(): string {
-    return this.$token.getValue();
+  get accessToken(): string {
+    return localStorage.getItem(this.ACCESS_TOKEN_KEY) ?? '';
   }
 
-  login(model: LoginModel): Promise<LoginDTO> {
+  private set accessToken(value: string) {
+    if (value === '') {
+      localStorage.removeItem(this.ACCESS_TOKEN_KEY);
+    }
+
+    localStorage.setItem(this.ACCESS_TOKEN_KEY, value);
+  }
+
+  get refreshToken(): string {
+    return localStorage.getItem(this.REFRESH_TOKEN_KEY) ?? '';
+  }
+
+  private set refreshToken(value: string) {
+    if (value === '') {
+      localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+    }
+
+    localStorage.setItem(this.REFRESH_TOKEN_KEY, value);
+  }
+
+  login(model: LoginModel): Promise<TokenDTO> {
     return new Promise((resolve) =>
       this.http
-        .post<LoginDTO>(this.getAuthUrl('login'), model)
+        .post<TokenDTO>(this.getAuthUrl('login'), model)
         .toPromise()
         .then((res) => {
-          this.$token.next(res.token);
+          this.saveTokens(res);
           resolve(res);
         })
         .catch((err) => console.error(err))
@@ -46,7 +68,29 @@ export class AuthService {
       .toPromise();
   }
 
+  logout(): Promise<void> {
+    return new Promise<void>((resolve) =>
+      this.http
+        .post<void>(this.getAuthUrl('logout'), {})
+        .toPromise()
+        .then(() => {
+          this.clearTokens();
+          resolve();
+        })
+    );
+  }
+
   private getAuthUrl(endpoint: string): string {
     return `${environment.apiUrl}/Auth/${endpoint}`;
+  }
+
+  private saveTokens(tokens: TokenDTO): void {
+    this.accessToken = tokens.accessToken;
+    this.refreshToken = tokens.refreshToken;
+  }
+
+  private clearTokens(): void {
+    this.accessToken = '';
+    this.refreshToken = '';
   }
 }

@@ -5,11 +5,12 @@ using MeetHut.Services.Meet.DTOs;
 using MeetHut.Services.Meet.Models;
 using Microsoft.Extensions.Configuration;
 using Livekit.Client;
+using MeetHut.Services.Meet.Interfaces;
 
 namespace MeetHut.Services.Meet
 {
-    /// <inheritdoc cref="MeetHut.Services.Meet.IRoomService" />
-    public class RoomService : MapperRepository<Room, RoomDTO, RoomModel>, IRoomService
+    /// <inheritdoc cref="MeetHut.Services.Meet.Interfaces.IRoomService" />
+    public class RoomService : MapperRepository<Room, RoomDTO>, IRoomService
     {
         /// <summary>
         /// Init Room Service

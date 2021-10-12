@@ -13,8 +13,7 @@ namespace MeetHut.Services
     /// </summary>
     /// <typeparam name="TEntity">Type of database entity</typeparam>
     /// <typeparam name="TDto">Type of Dto object</typeparam>
-    /// <typeparam name="TModel">Type of Model object</typeparam>
-    public class MapperRepository<TEntity, TDto, TModel> : Repository<TEntity>, IMapperRepository<TEntity, TDto, TModel> where TEntity : Entity
+    public class MapperRepository<TEntity, TDto> : Repository<TEntity>, IMapperRepository<TEntity, TDto> where TEntity : Entity
     {
         /// <summary>
         /// Mapper
@@ -50,25 +49,25 @@ namespace MeetHut.Services
         }
 
         /// <inheritdoc />
-        public virtual TEntity Create(TModel entity)
+        public virtual TEntity Create<TModel>(TModel entity)
         {
             return Create(Mapper.Map<TEntity>(entity));
         }
 
         /// <inheritdoc />
-        public virtual int CreateAndSave(TModel entity)
+        public virtual int CreateAndSave<TModel>(TModel entity)
         {
             return CreateAndSave(Mapper.Map<TEntity>(entity));
         }
 
         /// <inheritdoc />
-        public virtual void Update(int id, TModel model)
+        public virtual void Update<TModel>(int id, TModel model)
         {
             Update(Mapper.Map(model, Get(id)));
         }
 
         /// <inheritdoc />
-        public virtual void UpdateAndSave(int id, TModel model)
+        public virtual void UpdateAndSave<TModel>(int id, TModel model)
         {
             UpdateAndSave(Mapper.Map(model, Get(id)));
         }

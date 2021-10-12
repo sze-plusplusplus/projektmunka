@@ -31,5 +31,15 @@ namespace MeetHut.Services.Application.DTOs
         /// Last login date
         /// </summary>
         public DateTime LastLogin { get; set; }
+
+        /// <summary>
+        /// Access token refresh token
+        /// </summary>
+        public string RefreshToken { get; set; }
+
+        /// <summary>
+        /// Expiry time of the Refresh token
+        /// </summary>
+        public DateTime? RefreshTokenExpiryTime { get; set; }
     }
 }

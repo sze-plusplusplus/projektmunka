@@ -24,11 +24,5 @@ namespace MeetHut.Services.Application.Models
         /// Full name
         /// </summary>
         public string FullName { get; set; }
-
-        /// <summary>
-        /// Last login date
-        /// </summary>
-        [Required]
-        public DateTime LastLogin { get; set; }
     }
 }

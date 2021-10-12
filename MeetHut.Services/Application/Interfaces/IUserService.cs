@@ -2,12 +2,12 @@ using MeetHut.DataAccess.Entities;
 using MeetHut.Services.Application.DTOs;
 using MeetHut.Services.Application.Models;
 
-namespace MeetHut.Services.Application
+namespace MeetHut.Services.Application.Interfaces
 {
     /// <summary>
     /// User Service
     /// </summary>
-    public interface IUserService : IMapperRepository<User, UserDTO, UserModel>
+    public interface IUserService : IMapperRepository<User, UserDTO>
     {
         /// <summary>
         /// Get User by name
@@ -15,6 +15,13 @@ namespace MeetHut.Services.Application
         /// <param name="userName">User name</param>
         /// <returns>User</returns>
         User GetByName(string userName);
+
+        /// <summary>
+        /// Get mapped User by name
+        /// </summary>
+        /// <param name="userName">User name</param>
+        /// <returns>User DTO</returns>
+        UserDTO GetMappedByName(string userName);
 
         /// <summary>
         /// Get User by email address
