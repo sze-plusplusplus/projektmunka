@@ -118,7 +118,7 @@ namespace MeetHut.Services.Application
             var accessToken = BuildAccessToken(user);
             var refreshToken = BuildRefreshToken();
 
-            _userService.UpdateAndSave(user.Id, new UserTokenRefreshModel { RefreshToken = refreshToken });
+            _userService.UpdateAndSaveByModel(user.Id, new UserTokenRefreshModel { RefreshToken = refreshToken });
 
             return new TokenDTO { AccessToken = accessToken, RefreshToken = refreshToken };
         }

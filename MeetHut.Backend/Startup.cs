@@ -65,14 +65,6 @@ namespace MeetHut.Backend
                     });
             });
 
-
-            // Add Database context
-            string connectionString = Configuration.GetConnectionString(Configuration.GetValue<bool>("UseDesignTimeConnection") ? "DesignTimeConnection" : "DefaultConnection");
-            services.AddDbContextPool<DatabaseContext>(options =>
-                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
-                    builder => builder.MigrationsAssembly("MeetHut.DataAccess")));
-
-
             // Add services
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
@@ -84,6 +76,12 @@ namespace MeetHut.Backend
 
             var mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
+
+            // Add Database context
+            string connectionString = Configuration.GetConnectionString(Configuration.GetValue<bool>("UseDesignTimeConnection") ? "DesignTimeConnection" : "DefaultConnection");
+            services.AddDbContextPool<DatabaseContext>(options =>
+                options.UseLazyLoadingProxies().UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
+                    builder => builder.MigrationsAssembly("MeetHut.DataAccess")));
 
             // Add controllers
             services.AddControllers();

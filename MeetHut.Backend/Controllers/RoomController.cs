@@ -53,7 +53,7 @@ namespace MeetHut.Backend.Controllers
         [HttpPost]
         public int Create([FromBody] RoomModel model)
         {
-            return _roomService.CreateAndSave(model);
+            return _roomService.CreateAndSaveByModel(model);
         }
         
         /// <summary>
@@ -64,7 +64,7 @@ namespace MeetHut.Backend.Controllers
         [HttpPut("{id:int}")]
         public void Update(int id, [FromBody] RoomModel model)
         {
-            _roomService.UpdateAndSave(id, model);
+            _roomService.UpdateAndSaveByModel(id, model);
         }
         
         /// <summary>

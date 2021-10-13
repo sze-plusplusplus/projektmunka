@@ -81,7 +81,7 @@ namespace MeetHut.Services.Application
                 throw new ArgumentException("User does not exist");
             }
 
-            _userService.UpdateAndSave(user.Id, new UserTokenRefreshModel { RefreshToken = null });
+            _userService.UpdateAndSaveByModel(user.Id, new UserTokenRefreshModel { RefreshToken = null });
         }
 
         private static string HashPassword(string password, byte[] salt = null, bool needsOnlyHash = false)

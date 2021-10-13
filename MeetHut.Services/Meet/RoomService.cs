@@ -20,7 +20,7 @@ namespace MeetHut.Services.Meet
         /// <param name="configuration">Configuration</param>
         public RoomService(DatabaseContext databaseContext, IMapper mapper, IConfiguration configuration) : base(databaseContext, mapper)
         {
-            System.Console.WriteLine("Just testing Livekit connection...");
+            /*System.Console.WriteLine("Just testing Livekit connection...");
             var rs = new RoomClient(configuration["Livekit:host"], configuration["Livekit:key"], configuration["Livekit:secret"]);
             rs.CreateRoom("test1");
             rs.CreateRoom("test2");
@@ -30,7 +30,7 @@ namespace MeetHut.Services.Meet
             {
                 var p = rs.ListParticipants(current.Name);
                 System.Console.WriteLine("\t" + current.Name + ": " + p.Count);
-            }
+            }*/
         }
     }
 }

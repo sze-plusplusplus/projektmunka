@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { TokenDTO } from '../dto';
+import { TokenDTO } from '../dtos';
 import { ForgotPasswordModel, LoginModel, RegistrationModel } from '../models';
 
 @Injectable({

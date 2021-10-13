@@ -5,6 +5,7 @@ using AutoMapper;
 using MeetHut.DataAccess;
 using MeetHut.DataAccess.Entities;
 using MeetHut.DataAccess.Repositories;
+using MeetHut.Services.Application.Models;
 
 namespace MeetHut.Services
 {
@@ -12,8 +13,8 @@ namespace MeetHut.Services
     /// Mapper Repository
     /// </summary>
     /// <typeparam name="TEntity">Type of database entity</typeparam>
-    /// <typeparam name="TDto">Type of Dto object</typeparam>
-    public class MapperRepository<TEntity, TDto> : Repository<TEntity>, IMapperRepository<TEntity, TDto> where TEntity : Entity
+    /// <typeparam name="TDTO">Type of Dto object</typeparam>
+    public class MapperRepository<TEntity, TDTO> : Repository<TEntity>, IMapperRepository<TEntity, TDTO> where TEntity : Entity
     {
         /// <summary>
         /// Mapper
@@ -31,43 +32,43 @@ namespace MeetHut.Services
         }
 
         /// <inheritdoc />
-        public virtual IEnumerable<TDto> GetAllMapped()
+        public virtual IEnumerable<TDTO> GetAllMapped()
         {
-            return Mapper.Map<List<TDto>>(GetAll());
+            return Mapper.Map<List<TDTO>>(GetAll());
         }
 
         /// <inheritdoc />
-        public virtual IEnumerable<TDto> GetMappedList(Expression<Func<TEntity, bool>> expression)
+        public virtual IEnumerable<TDTO> GetMappedList(Expression<Func<TEntity, bool>> expression)
         {
-            return Mapper.Map<List<TDto>>(GetList(expression));
+            return Mapper.Map<List<TDTO>>(GetList(expression));
         }
 
         /// <inheritdoc />
-        public virtual TDto GetMapped(int id)
+        public virtual TDTO GetMapped(int id)
         {
-            return Mapper.Map<TDto>(Get(id));
+            return Mapper.Map<TDTO>(Get(id));
         }
 
         /// <inheritdoc />
-        public virtual TEntity Create<TModel>(TModel entity)
+        public virtual TEntity CreateByModel<TModel>(TModel entity)
         {
             return Create(Mapper.Map<TEntity>(entity));
         }
 
         /// <inheritdoc />
-        public virtual int CreateAndSave<TModel>(TModel entity)
+        public virtual int CreateAndSaveByModel<TModel>(TModel entity)
         {
             return CreateAndSave(Mapper.Map<TEntity>(entity));
         }
 
         /// <inheritdoc />
-        public virtual void Update<TModel>(int id, TModel model)
+        public virtual void UpdateByModel<TModel>(int id, TModel model)
         {
             Update(Mapper.Map(model, Get(id)));
         }
 
         /// <inheritdoc />
-        public virtual void UpdateAndSave<TModel>(int id, TModel model)
+        public virtual void UpdateAndSaveByModel<TModel>(int id, TModel model)
         {
             UpdateAndSave(Mapper.Map(model, Get(id)));
         }
