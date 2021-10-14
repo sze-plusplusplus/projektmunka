@@ -80,6 +80,11 @@ namespace MeetHut.Services.Application
         /// <inheritdoc />
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {
+            if (string.IsNullOrEmpty(token))
+            {
+                throw new ArgumentException("Token cannot be null");
+            }
+
             var tokenValidationParams = GetTokenValidationParameters();
             var tokenHandler = new JwtSecurityTokenHandler();
 

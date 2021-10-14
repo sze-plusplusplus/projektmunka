@@ -11,7 +11,7 @@ namespace MeetHut.Backend.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    [AllowAnonymous]
+    [Authorize]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -31,6 +31,7 @@ namespace MeetHut.Backend.Controllers
         /// <param name="model">Model</param>
         /// <returns>Token</returns>
         [HttpPost("login")]
+        [AllowAnonymous]
         public TokenDTO Login([FromBody] LoginModel model)
         {
             return _authService.Login(model);
@@ -41,6 +42,7 @@ namespace MeetHut.Backend.Controllers
         /// </summary>
         /// <param name="model">Model</param>
         [HttpPost("registration")]
+        [AllowAnonymous]
         public void Registration([FromBody] RegistrationModel model)
         {
             _authService.Registration(model);
@@ -51,7 +53,6 @@ namespace MeetHut.Backend.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("logout")]
-        [Authorize]
         public void Logout()
         {
             _authService.Logout(User.Identity.Name);

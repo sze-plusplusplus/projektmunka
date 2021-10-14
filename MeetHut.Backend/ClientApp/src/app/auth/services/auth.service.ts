@@ -31,6 +31,10 @@ export class AuthService {
     localStorage.setItem(this.ACCESS_TOKEN_KEY, value);
   }
 
+  get refreshTokenExists(): boolean {
+    return ![null, ''].includes(localStorage.getItem(this.REFRESH_TOKEN_KEY));
+  }
+
   get refreshToken(): string {
     return localStorage.getItem(this.REFRESH_TOKEN_KEY) ?? '';
   }

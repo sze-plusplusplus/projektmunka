@@ -34,14 +34,20 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((err: HttpErrorResponse) => {
         if (err.status === 401) {
           // Try to refresh the token
-          return this.tokenService.refreshObservable().pipe(
-            catchError(() => throwError(err)),
-            mergeMap(() =>
-              next
-                .handle(this.cloneRequest(request))
-                .pipe(catchError((newError) => throwError(newError)))
-            )
-          );
+          if (this.authService.refreshTokenExists) {
+            return this.tokenService.refreshObservable().pipe(
+              catchError(() => throwError(err)),
+              mergeMap(() =>
+                next
+                  .handle(this.cloneRequest(request))
+                  .pipe(catchError((newError) => throwError(newError)))
+              )
+            );
+          }
+          // TODO: Redirect to login
+          // TODO: ignore some route
+
+          return throwError(err);
         } else {
           // Throw error
           return throwError(err);

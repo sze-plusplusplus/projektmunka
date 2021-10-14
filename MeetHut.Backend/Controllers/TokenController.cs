@@ -15,15 +15,13 @@ namespace MeetHut.Backend.Controllers
     public class TokenController : ControllerBase
     {
         private readonly ITokenService _tokenService;
-        private readonly IUserService _userService;
 
         /// <summary>
         /// Init Token controller
         /// </summary>
-        public TokenController(ITokenService tokenService, IUserService userService) 
+        public TokenController(ITokenService tokenService) 
         {
             _tokenService = tokenService;
-            _userService = userService;
         }
 
         /// <summary>

@@ -6,6 +6,7 @@ import { AuthModule, MediaModule, WebModule } from '.';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './auth/interceptors/auth-interceptor';
+import { ErrorInterceptor } from './shared/interceptors/error-interceptor';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
@@ -22,7 +23,8 @@ import { SharedModule } from './shared/shared.module';
     WebModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

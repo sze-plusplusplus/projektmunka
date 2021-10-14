@@ -74,6 +74,11 @@ namespace MeetHut.Services.Application
         /// <inheritdoc />
         public void Logout(string userName)
         {
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new ArgumentException("User is not logged in");
+            }
+
             var user = _userService.GetMappedByName(userName);
 
             if (user == null)

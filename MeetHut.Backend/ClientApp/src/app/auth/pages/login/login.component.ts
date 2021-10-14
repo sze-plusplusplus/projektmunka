@@ -12,6 +12,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService) {}
 
+  // TODO: Redirect parameter
+
   ngOnInit(): void {}
 
   login() {
