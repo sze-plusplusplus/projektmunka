@@ -3,7 +3,6 @@ using MeetHut.DataAccess;
 using MeetHut.DataAccess.Entities;
 using MeetHut.Services.Application.DTOs;
 using MeetHut.Services.Application.Interfaces;
-using MeetHut.Services.Application.Models;
 using System.Linq;
 
 namespace MeetHut.Services.Application
@@ -34,9 +33,15 @@ namespace MeetHut.Services.Application
         }
 
         /// <inheritdoc />
-        public UserDTO GetMappedByName(string userName)
+        public T GetMappedByName<T>(string userName)
         {
-            return Mapper.Map<UserDTO>(GetByName(userName));
+            return Mapper.Map<T>(GetByName(userName));
+        }
+
+        /// <inheritdoc />
+        public T GetMappedById<T>(int id)
+        {
+            return Mapper.Map<T>(Get(id));
         }
 
         /// <inheritdoc />

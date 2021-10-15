@@ -5,7 +5,6 @@ using AutoMapper;
 using MeetHut.DataAccess;
 using MeetHut.DataAccess.Entities;
 using MeetHut.DataAccess.Repositories;
-using MeetHut.Services.Application.Models;
 
 namespace MeetHut.Services
 {

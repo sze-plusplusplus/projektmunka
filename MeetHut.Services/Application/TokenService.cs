@@ -30,7 +30,7 @@ namespace MeetHut.Services.Application
         }
 
         /// <inheritdoc />
-        public string BuildAccessToken(UserDTO user)
+        public string BuildAccessToken(UserTokenDTO user)
         {
             var key = _jwtConfigurations.Key;
             var issuer = _jwtConfigurations.Issuer;
@@ -62,7 +62,7 @@ namespace MeetHut.Services.Application
         /// <inheritdoc />
         public bool ValidateToken(string token)
         {
-            var tokenValidationParams = GetTokenValidationParameters();
+            var tokenValidationParams = GetTokenValidationParameters(true);
             var tokenHandler = new JwtSecurityTokenHandler();
 
             try
@@ -85,13 +85,13 @@ namespace MeetHut.Services.Application
                 throw new ArgumentException("Token cannot be null");
             }
 
-            var tokenValidationParams = GetTokenValidationParameters();
+            var tokenValidationParams = GetTokenValidationParameters(false);
             var tokenHandler = new JwtSecurityTokenHandler();
 
             SecurityToken securityToken;
             var principal = tokenHandler.ValidateToken(token, tokenValidationParams, out securityToken);
             var jwtSecurityToken = securityToken as JwtSecurityToken;
-            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256Signature, StringComparison.InvariantCultureIgnoreCase))
                 throw new SecurityTokenException("Invalid token");
             return principal;
         }
@@ -105,17 +105,25 @@ namespace MeetHut.Services.Application
             }
 
             var principal = GetPrincipalFromExpiredToken(model.AccessToken);
-            var user = _userService.GetMappedByName(principal.Identity.Name);
+
+            if (principal.Identity == null || string.IsNullOrEmpty(principal.Identity.Name))
+            {
+                throw new ArgumentException("Invalid token data");
+            }
+
+            UserTokenDTO user = _userService.GetMappedByName<UserTokenDTO>(principal.Identity.Name);
 
             if (user == null)
             {
                 throw new ArgumentException("User does not exists");
             }
-            else if (user.RefreshToken != model.RefreshToken)
+
+            if (user.RefreshToken != model.RefreshToken)
             {
                 throw new ArgumentException("Refresh token is invalid");
             }
-            else if (user.RefreshTokenExpiryTime < DateTime.Now)
+
+            if (user.RefreshTokenExpiryTime < DateTime.Now)
             {
                 throw new ArgumentException("Refresh token is expired");
             }
@@ -128,7 +136,7 @@ namespace MeetHut.Services.Application
             return new TokenDTO { AccessToken = accessToken, RefreshToken = refreshToken };
         }
 
-        private TokenValidationParameters GetTokenValidationParameters()
+        private TokenValidationParameters GetTokenValidationParameters(bool validateLifetime = true)
         {
             var key = _jwtConfigurations.Key;
             var issuer = _jwtConfigurations.Issuer;
@@ -141,7 +149,8 @@ namespace MeetHut.Services.Application
                 ValidateIssuer = true,
                 ValidateAudience = false,
                 ValidIssuer = issuer,
-                IssuerSigningKey = mySecurityKey
+                IssuerSigningKey = mySecurityKey,
+                ValidateLifetime = validateLifetime
             };
         }
     }

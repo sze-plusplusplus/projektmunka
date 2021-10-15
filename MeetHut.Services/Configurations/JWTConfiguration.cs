@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MeetHut.Services.Configurations
+﻿namespace MeetHut.Services.Configurations
 {
     /// <summary>
     /// JWT Configuration

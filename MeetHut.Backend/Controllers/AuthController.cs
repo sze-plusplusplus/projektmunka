@@ -1,8 +1,11 @@
-﻿using MeetHut.Services.Application.DTOs;
+﻿using System;
+using MeetHut.Backend.Configurations;
+using MeetHut.Services.Application.DTOs;
 using MeetHut.Services.Application.Interfaces;
 using MeetHut.Services.Application.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace MeetHut.Backend.Controllers
 {
@@ -15,14 +18,17 @@ namespace MeetHut.Backend.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly ApplicationConfiguration _applicationConfiguration;
 
         /// <summary>
         /// Init Auth controller
         /// </summary>
         /// <param name="authService">Auth Service</param>
-        public AuthController(IAuthService authService)
+        /// <param name="options">Application options</param>
+        public AuthController(IAuthService authService, IOptions<ApplicationConfiguration> options)
         {
             _authService = authService;
+            _applicationConfiguration = options.Value;
         }
         
         /// <summary>
@@ -45,6 +51,10 @@ namespace MeetHut.Backend.Controllers
         [AllowAnonymous]
         public void Registration([FromBody] RegistrationModel model)
         {
+            if (_applicationConfiguration.DisableRegistration)
+            {
+                throw new Exception("Registration is disabled");
+            }
             _authService.Registration(model);
         }
 
@@ -55,6 +65,11 @@ namespace MeetHut.Backend.Controllers
         [HttpPost("logout")]
         public void Logout()
         {
+            if (User.Identity == null || string.IsNullOrEmpty(User.Identity.Name))
+            {
+                throw new ArgumentException("Identity is invalid");
+            }
+            
             _authService.Logout(User.Identity.Name);
         }
     }

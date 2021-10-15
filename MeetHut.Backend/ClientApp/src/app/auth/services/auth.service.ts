@@ -72,29 +72,32 @@ export class AuthService {
       .toPromise();
   }
 
-  logout(): Promise<void> {
+  logout(action?: () => void): Promise<void> {
     return new Promise<void>((resolve) =>
       this.http
         .post<void>(this.getAuthUrl('logout'), {})
         .toPromise()
         .then(() => {
           this.clearTokens();
+          if (action) {
+            action();
+          }
           resolve();
         })
     );
   }
 
-  private getAuthUrl(endpoint: string): string {
-    return `${environment.apiUrl}/Auth/${endpoint}`;
+  clearTokens(): void {
+    this.accessToken = '';
+    this.refreshToken = '';
   }
 
-  private saveTokens(tokens: TokenDTO): void {
+  saveTokens(tokens: TokenDTO): void {
     this.accessToken = tokens.accessToken;
     this.refreshToken = tokens.refreshToken;
   }
 
-  private clearTokens(): void {
-    this.accessToken = '';
-    this.refreshToken = '';
+  private getAuthUrl(endpoint: string): string {
+    return `${environment.apiUrl}/Auth/${endpoint}`;
   }
 }

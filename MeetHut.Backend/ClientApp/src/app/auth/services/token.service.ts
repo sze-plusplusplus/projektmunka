@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import jwtDecode from 'jwt-decode';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '.';
 import { TokenDTO } from '../dtos';
+import { Token } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +22,20 @@ export class TokenService {
       accessToken: this.authService.accessToken,
       refreshToken: this.authService.refreshToken
     });
+  }
+
+  getExpirationDate(): Date {
+    const token = this.authService.accessToken;
+    if (!token) {
+      return new Date(-8640000000000000);
+    }
+
+    const obj = jwtDecode<Token>(token);
+    return new Date(obj.exp * 1000);
+  }
+
+  tokenIsExpired(): boolean {
+    return this.getExpirationDate() <= new Date();
   }
 
   private getTokenUrl(endpoint: string): string {

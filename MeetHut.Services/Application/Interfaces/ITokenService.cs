@@ -14,7 +14,7 @@ namespace MeetHut.Services.Application.Interfaces
         /// </summary>
         /// <param name="user">User</param>
         /// <returns>Created token</returns>
-        string BuildAccessToken(UserDTO user);
+        string BuildAccessToken(UserTokenDTO user);
 
         /// <summary>
         /// Build refresh token

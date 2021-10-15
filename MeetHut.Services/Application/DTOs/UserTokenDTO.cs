@@ -1,11 +1,15 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace MeetHut.Services.Application.DTOs
 {
     /// <summary>
-    /// User DTO object
+    /// User DTO for token management
     /// </summary>
-    public class UserDTO
+    public class UserTokenDTO
     {
         /// <summary>
         /// Id
@@ -23,13 +27,13 @@ namespace MeetHut.Services.Application.DTOs
         public string Email { get; set; }
 
         /// <summary>
-        /// Full name
+        /// Access token refresh token
         /// </summary>
-        public string FullName { get; set; }
+        public string RefreshToken { get; set; }
 
         /// <summary>
-        /// Last login date
+        /// Expiry time of the Refresh token
         /// </summary>
-        public DateTime LastLogin { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
     }
 }

@@ -26,5 +26,6 @@
   "Migration": {
     "OnStart": true
   },
-  "ClientUrl": "http://frontend:4200"
+  "ClientUrl": "http://frontend:4200",
+  "DisableRegistration": false
 }

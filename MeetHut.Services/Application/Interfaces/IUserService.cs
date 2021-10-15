@@ -1,6 +1,5 @@
 using MeetHut.DataAccess.Entities;
 using MeetHut.Services.Application.DTOs;
-using MeetHut.Services.Application.Models;
 
 namespace MeetHut.Services.Application.Interfaces
 {
@@ -19,9 +18,10 @@ namespace MeetHut.Services.Application.Interfaces
         /// <summary>
         /// Get mapped User by name
         /// </summary>
+        /// <typeparam name="T">Type of map</typeparam>
         /// <param name="userName">User name</param>
-        /// <returns>User DTO</returns>
-        UserDTO GetMappedByName(string userName);
+        /// <returns>T DTO</returns>
+        T GetMappedByName<T>(string userName);
 
         /// <summary>
         /// Get User by email address
@@ -29,6 +29,14 @@ namespace MeetHut.Services.Application.Interfaces
         /// <param name="email">Email address</param>
         /// <returns>User</returns>
         User GetByEmail(string email);
+
+        /// <summary>
+        /// Get mapped User by Id
+        /// </summary>
+        /// <typeparam name="T">Type of map</typeparam>
+        /// <param name="id">User id</param>
+        /// <returns>User map</returns>
+        T GetMappedById<T>(int id);
 
         /// <summary>
         /// Is user exist with given name or email

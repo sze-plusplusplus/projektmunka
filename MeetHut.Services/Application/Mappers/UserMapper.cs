@@ -16,6 +16,7 @@ namespace MeetHut.Services.Application.Mappers
         public UserMapper()
         {
             CreateMap<User, UserDTO>();
+            CreateMap<User, UserTokenDTO>();
             CreateMap<UserModel, User>();
             CreateMap<UserTokenRefreshModel, User>();
         }

@@ -27,5 +27,6 @@
   "Migration": {
     "OnStart": true
   },
-  "ClientUrl": "<path>"
+  "ClientUrl": "<path>",
+  "DisableRegistration": true
 }

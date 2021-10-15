@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using MeetHut.Services.Meet;
 using MeetHut.Services.Meet.DTOs;
 using MeetHut.Services.Meet.Interfaces;
 using MeetHut.Services.Meet.Models;

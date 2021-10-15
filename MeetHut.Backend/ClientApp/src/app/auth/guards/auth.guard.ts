@@ -13,7 +13,10 @@ import { AuthService } from '../services';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -25,7 +28,9 @@ export class AuthGuard implements CanActivate {
     | UrlTree {
     if (!this.authService.accessTokenExists) {
       console.log('Re-route');
-      this.router.navigate(['auth', 'login']);
+      this.router.navigate(['auth', 'login'], {
+        queryParams: { redirect: state.url }
+      });
       return false;
     }
     return true;
