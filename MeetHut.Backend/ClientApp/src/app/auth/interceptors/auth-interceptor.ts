@@ -7,7 +7,7 @@ import {
   HttpRequest
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { RouterStateSnapshot } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { mergeMap, catchError } from 'rxjs/operators';
 import { TokenDTO } from '../dtos';
@@ -25,9 +25,16 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
     private tokenService: TokenService,
-    private router: Router
+    private route: RouterStateSnapshot
   ) {}
 
+  /**
+   * Intercept to the HTTP request
+   *
+   * @param request Request
+   * @param next Handler
+   * @returns HTTP event
+   */
   public intercept(
     request: HttpRequest<any>,
     next: HttpHandler
@@ -134,6 +141,6 @@ export class AuthInterceptor implements HttpInterceptor {
 
   private notAuthorizedEvent(): void {
     this.authService.clearTokens();
-    this.router.navigate(['']);
+    this.authService.navigateToTheLoginPage({ redirect: this.route.url });
   }
 }

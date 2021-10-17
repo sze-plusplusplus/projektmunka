@@ -9,6 +9,11 @@ import { RoomDTO } from '../dtos';
 export class RoomService {
   constructor(private http: HttpClient) {}
 
+  /**
+   * Get all room entry
+   *
+   * @returns Promised rooms
+   */
   getAll(): Promise<RoomDTO[]> {
     return this.http.get<RoomDTO[]>(this.getRoomUrl('')).toPromise();
   }

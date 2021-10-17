@@ -13,10 +13,20 @@ import { Token } from '../models';
 export class TokenService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
+  /**
+   * Refresh access token by refresh token
+   *
+   * @returns Promised tokens
+   */
   refresh(): Promise<TokenDTO> {
     return this.refreshObservable().toPromise();
   }
 
+  /**
+   * Refresh access token by refresh token
+   *
+   * @returns Observable refresh
+   */
   refreshObservable(): Observable<TokenDTO> {
     return this.http.post<TokenDTO>(this.getTokenUrl('refresh'), {
       accessToken: this.authService.accessToken,
@@ -24,6 +34,11 @@ export class TokenService {
     });
   }
 
+  /**
+   * Get access token's expiration date from the token
+   *
+   * @returns Expiration date
+   */
   getExpirationDate(): Date {
     const token = this.authService.accessToken;
     if (!token) {
@@ -34,6 +49,11 @@ export class TokenService {
     return new Date(obj.exp * 1000);
   }
 
+  /**
+   * Check access token is expired
+   *
+   * @returns True when expired
+   */
   tokenIsExpired(): boolean {
     return this.getExpirationDate() <= new Date();
   }

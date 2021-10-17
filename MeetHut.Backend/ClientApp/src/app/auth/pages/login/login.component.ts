@@ -18,14 +18,19 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  // TODO: Redirect parameter
-
+  /**
+   * On Init hook
+   */
   ngOnInit(): void {
     this.route.queryParams.subscribe(
       (params) => (this.redirectPath = params.redirect || '/home')
     );
   }
 
+  /**
+   * Do login
+   * On success clears the state and navigates to home or the redirect param
+   */
   login() {
     this.authService
       .login(this.loginModel)

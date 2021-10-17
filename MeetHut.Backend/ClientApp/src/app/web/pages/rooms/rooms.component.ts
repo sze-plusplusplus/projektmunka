@@ -12,6 +12,9 @@ export class RoomsComponent implements OnInit {
 
   constructor(private roomService: RoomService) {}
 
+  /**
+   * On Init hook
+   */
   ngOnInit(): void {
     this.getRooms();
   }

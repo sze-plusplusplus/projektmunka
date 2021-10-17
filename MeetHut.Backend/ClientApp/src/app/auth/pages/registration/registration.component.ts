@@ -19,7 +19,11 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  registration() {
+  /**
+   * Do registration
+   * On success clear the state
+   */
+  registration(): void {
     this.authService.register(this.registrationModel).then(() => {
       this.registrationModel = new RegistrationModel('', '', '', '');
     });

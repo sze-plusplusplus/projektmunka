@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
-  Router,
   RouterStateSnapshot,
   UrlTree
 } from '@angular/router';
@@ -13,11 +12,15 @@ import { AuthService } from '../services';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthService) {}
 
+  /**
+   * Can activate route
+   *
+   * @param route Route
+   * @param state Route state
+   * @returns
+   */
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -27,10 +30,7 @@ export class AuthGuard implements CanActivate {
     | boolean
     | UrlTree {
     if (!this.authService.accessTokenExists) {
-      console.log('Re-route');
-      this.router.navigate(['auth', 'login'], {
-        queryParams: { redirect: state.url }
-      });
+      this.authService.navigateToTheLoginPage({ redirect: state.url });
       return false;
     }
     return true;
