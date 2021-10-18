@@ -21,3 +21,4 @@ jobs:
           port: ${{ secrets.PORT }}
           source: "docs/*"
           target: "/home/${{ secrets.USERNAME }}/projektmunka-service/base/static"
+          strip_components: 1
