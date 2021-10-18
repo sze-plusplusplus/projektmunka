@@ -13,7 +13,8 @@
   },
   "Jwt": {
     "Key": "<secret>",
-    "Issuer": "TeamPlusPlusPlus"
+    "Issuer": "TeamPlusPlusPlus",
+    "ExpirationInMinutes": 60
   },
   "Livekit": {
     "host": "http://livekit:7886",

@@ -6,7 +6,7 @@ namespace MeetHut.Services.Application.Interfaces
     /// <summary>
     /// User Service
     /// </summary>
-    public interface IUserService : IMapperRepository<User, UserDTO>
+    public interface IUserService : IMapperRepository<Entity, UserDTO>
     {
         /// <summary>
         /// Get User by name

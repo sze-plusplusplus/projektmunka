@@ -9,6 +9,11 @@ using System.Security.Cryptography;
 using Microsoft.Extensions.Options;
 using MeetHut.Services.Configurations;
 using MeetHut.Services.Application.Models;
+using Microsoft.AspNetCore.Identity;
+using MeetHut.DataAccess.Entities;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MeetHut.Services.Application
 {
@@ -17,34 +22,39 @@ namespace MeetHut.Services.Application
     {
         private readonly JWTConfiguration _jwtConfigurations;
         private readonly IUserService _userService;
+        private readonly UserManager<User> _userManager;
 
         /// <summary>
         /// Init Token Service
         /// </summary>
         /// <param name="jwtOptions">JWT Configuration</param>
         /// <param name="userService">User Service</param>
-        public TokenService(IOptions<JWTConfiguration> jwtOptions, IUserService userService)
+        /// <param name="userManager">User Manager</param>
+        public TokenService(IOptions<JWTConfiguration> jwtOptions, IUserService userService, UserManager<User> userManager)
         {
             _jwtConfigurations = jwtOptions.Value;
             _userService = userService;
+            _userManager = userManager;
         }
 
         /// <inheritdoc />
-        public string BuildAccessToken(UserTokenDTO user)
+        public string BuildAccessToken(UserTokenDTO user, IList<string> roles)
         {
-            var key = _jwtConfigurations.Key;
-            var issuer = _jwtConfigurations.Issuer;
-
-            var claims = new[]
+            var claims = new List<Claim>
             {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-            var tokenDescriptor = new JwtSecurityToken(issuer, issuer, claims, expires: DateTime.Now.AddMinutes(60), signingCredentials: credentials);
+            var roleClaims = roles.Select(r => new Claim(ClaimTypes.Role, r));
+            claims.AddRange(roleClaims);
+
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfigurations.Key));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var tokenDescriptor = new JwtSecurityToken(_jwtConfigurations.Issuer, _jwtConfigurations.Issuer, claims, expires: DateTime.Now.AddMinutes(_jwtConfigurations.ExpirationInMinutes), signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
         }
 
@@ -91,13 +101,13 @@ namespace MeetHut.Services.Application
             SecurityToken securityToken;
             var principal = tokenHandler.ValidateToken(token, tokenValidationParams, out securityToken);
             var jwtSecurityToken = securityToken as JwtSecurityToken;
-            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256Signature, StringComparison.InvariantCultureIgnoreCase))
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
                 throw new SecurityTokenException("Invalid token");
             return principal;
         }
 
         /// <inheritdoc />
-        public TokenDTO Refresh(TokenModel model)
+        public async Task<TokenDTO> Refresh(TokenModel model)
         {
             if (model == null)
             {
@@ -128,7 +138,7 @@ namespace MeetHut.Services.Application
                 throw new ArgumentException("Refresh token is expired");
             }
 
-            var accessToken = BuildAccessToken(user);
+            var accessToken = BuildAccessToken(user, await _userManager.GetRolesAsync(_userManager.Users.FirstOrDefault(u => u.Id == user.Id)));
             var refreshToken = BuildRefreshToken();
 
             _userService.UpdateAndSaveByModel(user.Id, new UserTokenRefreshModel { RefreshToken = refreshToken });

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using MeetHut.Backend.Configurations;
 using MeetHut.Services.Application.DTOs;
 using MeetHut.Services.Application.Interfaces;
@@ -38,9 +39,9 @@ namespace MeetHut.Backend.Controllers
         /// <returns>Token</returns>
         [HttpPost("login")]
         [AllowAnonymous]
-        public TokenDTO Login([FromBody] LoginModel model)
+        public async Task<TokenDTO> Login([FromBody] LoginModel model)
         {
-            return _authService.Login(model);
+            return await _authService.Login(model);
         }
         
         /// <summary>
@@ -49,13 +50,13 @@ namespace MeetHut.Backend.Controllers
         /// <param name="model">Model</param>
         [HttpPost("registration")]
         [AllowAnonymous]
-        public void Registration([FromBody] RegistrationModel model)
+        public async Task Registration([FromBody] RegistrationModel model)
         {
             if (_applicationConfiguration.DisableRegistration)
             {
                 throw new Exception("Registration is disabled");
             }
-            _authService.Registration(model);
+            await _authService.Registration(model);
         }
 
         /// <summary>

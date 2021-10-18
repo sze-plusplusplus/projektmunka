@@ -1,5 +1,6 @@
 ﻿using MeetHut.Services.Application.DTOs;
 using MeetHut.Services.Application.Models;
+using System.Threading.Tasks;
 
 namespace MeetHut.Services.Application.Interfaces
 {
@@ -13,13 +14,13 @@ namespace MeetHut.Services.Application.Interfaces
         /// </summary>
         /// <param name="model">Model</param>
         /// <returns>Token</returns>
-        TokenDTO Login(LoginModel model);
+        Task<TokenDTO> Login(LoginModel model);
         
         /// <summary>
         /// Registration
         /// </summary>
         /// <param name="model">Model</param>
-        void Registration(RegistrationModel model);
+        Task Registration(RegistrationModel model);
 
         /// <summary>
         /// Logout

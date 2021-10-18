@@ -3,6 +3,7 @@ using MeetHut.Services.Application.Interfaces;
 using MeetHut.Services.Application.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace MeetHut.Backend.Controllers
 {
@@ -30,9 +31,9 @@ namespace MeetHut.Backend.Controllers
         /// <param name="model">Model</param>
         /// <returns>Refreshed token</returns>
         [HttpPost("refresh")]
-        public TokenDTO Refresh(TokenModel model) 
+        public async Task<TokenDTO> Refresh(TokenModel model) 
         {
-            return _tokenService.Refresh(model);
+            return await _tokenService.Refresh(model);
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using MeetHut.Services.Application.DTOs;
 using MeetHut.Services.Application.Models;
+using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace MeetHut.Services.Application.Interfaces
 {
@@ -13,8 +15,9 @@ namespace MeetHut.Services.Application.Interfaces
         /// Build access token
         /// </summary>
         /// <param name="user">User</param>
+        /// <param name="roles">Roles for claim</param>
         /// <returns>Created token</returns>
-        string BuildAccessToken(UserTokenDTO user);
+        string BuildAccessToken(UserTokenDTO user, IList<string> roles);
 
         /// <summary>
         /// Build refresh token
@@ -41,6 +44,6 @@ namespace MeetHut.Services.Application.Interfaces
         /// </summary>
         /// <param name="model">Model</param>
         /// <returns>Refreshed tokens</returns>
-        TokenDTO Refresh(TokenModel model);
+        Task<TokenDTO> Refresh(TokenModel model);
     }
 }

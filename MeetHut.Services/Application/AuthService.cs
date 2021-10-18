@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using MeetHut.DataAccess.Entities;
+using MeetHut.DataAccess.Enums;
 using MeetHut.Services.Application.DTOs;
 using MeetHut.Services.Application.Interfaces;
 using MeetHut.Services.Application.Models;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.AspNetCore.Identity;
 
 namespace MeetHut.Services.Application
 {
@@ -13,29 +17,37 @@ namespace MeetHut.Services.Application
     {
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
 
         /// <summary>
         /// Init Auth Service
         /// </summary>
         /// <param name="userService">User Service</param>
         /// <param name="tokenService">Token Service</param>
-        public AuthService(IUserService userService, ITokenService tokenService)
+        /// <param name="userManager">User Manager</param>
+        /// <param name="roleManager">Role Manager</param>
+        public AuthService(IUserService userService, ITokenService tokenService, UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             _userService = userService;
             _tokenService = tokenService;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         /// <inheritdoc />
-        public TokenDTO Login(LoginModel model)
+        public async Task<TokenDTO> Login(LoginModel model)
         {
-            var user = _userService.GetByName(model.UserName);
+            var user = _userManager.Users.SingleOrDefault(u => u.UserName == model.UserName);
 
-            if (user == null)
+            if (user is null)
             {
-                throw new ArgumentException("Invalid username");
+                throw new ArgumentException("User not found");
             }
 
-            if (VerifyPassword(user.PasswordHash, model.Password))
+            var signingResult = await _userManager.CheckPasswordAsync(user, model.Password);
+
+            if (signingResult)
             {
                 var refreshToken = _tokenService.BuildRefreshToken();
 
@@ -43,18 +55,18 @@ namespace MeetHut.Services.Application
                 user.RefreshToken = refreshToken;
                 user.RefreshTokenExpiryTime = DateTime.Now.AddDays(1);
 
-                _userService.UpdateAndSave(user);
+                _userService.UpdateAndSave(/*user*/ null); // FIXME
 
-                return new TokenDTO { AccessToken = _tokenService.BuildAccessToken(_userService.GetMappedById<UserTokenDTO>(user.Id)), RefreshToken = refreshToken };
+                return new TokenDTO { AccessToken = _tokenService.BuildAccessToken(_userService.GetMappedById<UserTokenDTO>(user.Id), await _userManager.GetRolesAsync(user)), RefreshToken = refreshToken };
             }
 
-            throw new ArgumentException("Invalid password");
+            throw new ArgumentException("Incorrect username or password");
         }
 
         /// <inheritdoc />
-        public void Registration(RegistrationModel model)
+        public async Task Registration(RegistrationModel model)
         {
-            if (_userService.IsExist(model.UserName, model.Email))
+            if (_userManager.Users.Any(u => u.Email == model.Email || u.UserName == model.UserName))
             {
                 throw new ArgumentException("User already created");
             }
@@ -64,11 +76,22 @@ namespace MeetHut.Services.Application
                 UserName = model.UserName,
                 FullName = model.FullName,
                 Email = model.Email,
-                PasswordHash = HashPassword(model.Password),
                 LastLogin = DateTime.Now
             };
 
-            _userService.CreateAndSave(user);
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                throw new ArgumentException(result.Errors.FirstOrDefault()?.ToString());
+            } 
+            else
+            {
+                if (await _roleManager.RoleExistsAsync(UserRole.Student.ToString()))
+                {
+                    await _userManager.AddToRoleAsync(user, UserRole.Student.ToString());
+                }
+            }
         }
 
         /// <inheritdoc />
@@ -87,45 +110,6 @@ namespace MeetHut.Services.Application
             }
 
             _userService.UpdateAndSaveByModel(user.Id, new UserTokenRefreshModel { RefreshToken = null });
-        }
-
-        private static string HashPassword(string password, byte[] salt = null, bool needsOnlyHash = false)
-        {
-            if (salt is not { Length: 16 })
-            {
-                // generate a 128-bit salt using a secure PRNG
-                salt = new byte[128 / 8];
-                using var rng = RandomNumberGenerator.Create();
-                rng.GetBytes(salt);
-            }
-
-            var hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password,
-                salt,
-                KeyDerivationPrf.HMACSHA256,
-                10000,
-                256 / 8)
-            );
-
-            // password will be concatenated with salt using ':'
-            return needsOnlyHash ? hashed : $"{hashed}:{Convert.ToBase64String(salt)}";
-        }
-
-        private static bool VerifyPassword(string hashedPasswordWithSalt, string passwordToCheck)
-        {
-            // retrieve both salt and password from 'hashedPasswordWithSalt'
-            var passwordAndHash = hashedPasswordWithSalt.Split(':');
-            if (passwordAndHash is not { Length: 2 })
-            {
-                return false;
-            }
-
-            var salt = Convert.FromBase64String(passwordAndHash[1]);
-
-            // hash the given password
-            var hashOfPasswordToCheck = HashPassword(passwordToCheck, salt, true);
-            // compare both hashes
-            return string.CompareOrdinal(passwordAndHash[0], hashOfPasswordToCheck) == 0;
         }
     }
 }

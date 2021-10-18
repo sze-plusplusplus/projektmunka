@@ -8,7 +8,7 @@ using System.Linq;
 namespace MeetHut.Services.Application
 {
     /// <inheritdoc cref="MeetHut.Services.Application.Interfaces.IUserService" />
-    public class UserService : MapperRepository<User, UserDTO>, IUserService
+    public class UserService : MapperRepository<Entity, UserDTO>, IUserService
     {
         /// <summary>
         /// Init User Service
@@ -23,13 +23,13 @@ namespace MeetHut.Services.Application
         /// <inheritdoc />
         public User GetByEmail(string email)
         {
-            return GetList(user => user.Email == email).FirstOrDefault();
+            return /*GetList(user => user.Email == email).FirstOrDefault();*/ null;
         }
 
         /// <inheritdoc />
         public User GetByName(string userName)
         {
-            return GetList(user => user.UserName == userName).FirstOrDefault();
+            return /* GetList(user => user.UserName == userName).FirstOrDefault();*/ null;
         }
 
         /// <inheritdoc />
@@ -47,7 +47,7 @@ namespace MeetHut.Services.Application
         /// <inheritdoc />
         public bool IsExist(string userName, string email)
         {
-            return GetList(user => user.Email == email || user.UserName == userName).FirstOrDefault() != null;
+            return /* GetList(user => user.Email == email || user.UserName == userName).FirstOrDefault() != null; */ false;
         }
     }
 }

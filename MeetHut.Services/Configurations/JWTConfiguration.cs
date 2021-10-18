@@ -14,5 +14,10 @@
         /// JWT issuer
         /// </summary>
         public string Issuer { get; set; }
+
+        /// <summary>
+        /// Token expiration in minutes
+        /// </summary>
+        public int ExpirationInMinutes { get; set; }
     }
 }
