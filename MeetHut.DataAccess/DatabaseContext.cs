@@ -11,7 +11,7 @@ namespace MeetHut.DataAccess
 {
     /// <inheritdoc />
     public class DatabaseContext : IdentityDbContext<User, Role, int>
-    {        
+    {
         /// <summary>
         /// Rooms
         /// </summary>
@@ -21,6 +21,11 @@ namespace MeetHut.DataAccess
         /// Room users (mapper connection)
         /// </summary>
         public DbSet<RoomUser> RoomUsers { get; set; }
+
+        /// <summary>
+        /// Refresh tokens
+        /// </summary>
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         /// <summary>
         /// Init Database context
@@ -53,7 +58,7 @@ namespace MeetHut.DataAccess
                 .WithMany(x => x.OwnedRooms)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.ClientCascade);
-            
+
             // Room user
             modelBuilder.Entity<RoomUser>().HasKey(ru => new { ru.RoomId, ru.UserId });
             modelBuilder.Entity<RoomUser>().Property(u => u.Role).HasDefaultValue(MeetRole.Guest);
@@ -73,6 +78,16 @@ namespace MeetHut.DataAccess
                 .WithMany(x => x.AddedRoomUsers)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Refresh token
+            modelBuilder.Entity<RefreshToken>()
+                .HasIndex(t => t.Token)
+                .IsUnique();
+            modelBuilder.Entity<RefreshToken>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.RefreshTokens)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.ClientCascade);
         }
 
         /// <inheritdoc />

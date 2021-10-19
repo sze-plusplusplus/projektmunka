@@ -24,16 +24,6 @@ namespace MeetHut.DataAccess.Entities
         /// </summary>
         [Required]
         public DateTime LastLogin { get; set; }
-
-        /// <summary>
-        /// Access token refresh token
-        /// </summary>
-        public string RefreshToken { get; set; }
-
-        /// <summary>
-        /// Expiry time of the Refresh token
-        /// </summary>
-        public DateTime? RefreshTokenExpiryTime { get; set; }
         
         /// <summary>
         /// Room Users
@@ -49,6 +39,11 @@ namespace MeetHut.DataAccess.Entities
         /// Added room users
         /// </summary>
         public virtual ICollection<RoomUser> AddedRoomUsers { get; set; }
+
+        /// <summary>
+        /// Refresh tokens
+        /// </summary>
+        public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
 
         public Dictionary<string, string> GetKeyValuePairs()
         {

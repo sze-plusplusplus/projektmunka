@@ -1,4 +1,6 @@
-﻿namespace MeetHut.Services.Application.DTOs
+﻿using System;
+
+namespace MeetHut.Services.Application.DTOs
 {
     /// <summary>
     /// Login Response
@@ -14,5 +16,10 @@
         /// Refresh Token
         /// </summary>
         public string RefreshToken { get; set; }
+
+        /// <summary>
+        /// Refresh token expires in
+        /// </summary>
+        public DateTime RefreshTokenExpiresIn { get; set; }
     }
 }

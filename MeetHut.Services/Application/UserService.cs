@@ -54,5 +54,11 @@ namespace MeetHut.Services.Application
         {
             return _userManager.Users.Any(user => user.Email == email || user.UserName == userName);
         }
+
+        /// <inheritdoc />
+        public User GetByRefreshToken(string token)
+        {
+            return GetList(x => x.RefreshTokens.Any(t => t.Token == token)).FirstOrDefault();
+        }
     }
 }

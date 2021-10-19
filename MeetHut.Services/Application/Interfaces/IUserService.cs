@@ -38,6 +38,13 @@ namespace MeetHut.Services.Application.Interfaces
         T GetMappedById<T>(int id);
 
         /// <summary>
+        /// Get user by refresh token
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        User GetByRefreshToken(string token);
+
+        /// <summary>
         /// Is user exist with given name or email
         /// </summary>
         /// <param name="userName">User name</param>

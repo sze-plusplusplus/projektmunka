@@ -1,4 +1,5 @@
-﻿using MeetHut.Services.Application.DTOs;
+﻿using MeetHut.DataAccess.Entities;
+using MeetHut.Services.Application.DTOs;
 using MeetHut.Services.Application.Models;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -23,21 +24,7 @@ namespace MeetHut.Services.Application.Interfaces
         /// Build refresh token
         /// </summary>
         /// <returns>Created token</returns>
-        string BuildRefreshToken();
-
-        /// <summary>
-        /// Validate input token
-        /// </summary>
-        /// <param name="token">Token</param>
-        /// <returns>True if it is valid</returns>
-        bool ValidateToken(string token);
-
-        /// <summary>
-        /// Get claims from token
-        /// </summary>
-        /// <param name="token">Token</param>
-        /// <returns>Claim principals</returns>
-        ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
+        RefreshToken BuildRefreshToken();
 
         /// <summary>
         /// Refresh tokens

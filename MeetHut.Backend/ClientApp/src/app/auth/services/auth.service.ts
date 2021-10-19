@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Params, Router } from '@angular/router';
+import { Params, Router, RouterState } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { TokenDTO } from '../dtos';
 import { ForgotPasswordModel, LoginModel, RegistrationModel } from '../models';
@@ -166,6 +166,12 @@ export class AuthService {
    */
   navigateToTheLoginPage(queryParams: Params | null): void {
     this.router.navigate(['auth', 'login'], { queryParams });
+  }
+
+  navigateToTheLoginPageWithRoute(): void {
+    this.navigateToTheLoginPage({
+      redirect: this.router.routerState.snapshot.url
+    });
   }
 
   private getAuthUrl(endpoint: string): string {

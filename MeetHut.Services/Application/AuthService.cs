@@ -45,19 +45,20 @@ namespace MeetHut.Services.Application
                 throw new ArgumentException("User not found");
             }
 
-            var signingResult = await _userManager.CheckPasswordAsync(user, model.Password);
-
-            if (signingResult)
+            if (await _userManager.CheckPasswordAsync(user, model.Password))
             {
-                var refreshToken = _tokenService.BuildRefreshToken();
+                RefreshToken refreshToken = user.RefreshTokens.FirstOrDefault(t => t.IsActive);
+                if (refreshToken is null)
+                {
+                    refreshToken = _tokenService.BuildRefreshToken();
+                    user.RefreshTokens.Add(refreshToken);
+                }
 
                 user.LastLogin = DateTime.Now;
-                user.RefreshToken = refreshToken;
-                user.RefreshTokenExpiryTime = DateTime.Now.AddDays(1);
 
                 _userService.UpdateAndSave(user);
 
-                return new TokenDTO { AccessToken = _tokenService.BuildAccessToken(_userService.GetMapped<UserTokenDTO>(user.Id), await _userManager.GetRolesAsync(user)), RefreshToken = refreshToken };
+                return new TokenDTO { AccessToken = _tokenService.BuildAccessToken(_userService.GetMapped<UserTokenDTO>(user.Id), await _userManager.GetRolesAsync(user)), RefreshToken = refreshToken.Token, RefreshTokenExpiresIn = refreshToken.Expires };
             }
 
             throw new ArgumentException("Incorrect username or password");
@@ -83,8 +84,8 @@ namespace MeetHut.Services.Application
 
             if (!result.Succeeded)
             {
-                throw new ArgumentException(result.Errors.FirstOrDefault()?.ToString());
-            } 
+                throw new ArgumentException(result.Errors.FirstOrDefault()?.Description);
+            }
             else
             {
                 if (await _roleManager.RoleExistsAsync(UserRole.Student.ToString()))
@@ -102,14 +103,22 @@ namespace MeetHut.Services.Application
                 throw new ArgumentException("User is not logged in");
             }
 
-            var user = _userService.GetMappedByName<UserTokenDTO>(userName);
+            var user = _userService.GetByName(userName);
 
-            if (user == null)
+            if (user is null)
             {
                 throw new ArgumentException("User does not exist");
             }
 
-            _userService.UpdateAndSaveByModel(user.Id, new UserTokenRefreshModel { RefreshToken = null });
+            foreach (var token in user.RefreshTokens)
+            {
+                if (token.IsActive)
+                {
+                    token.Revoked = DateTime.Now;
+                }
+            }
+
+            _userService.UpdateAndSave(user);
         }
     }
 }

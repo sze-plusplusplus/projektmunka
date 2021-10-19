@@ -59,109 +59,52 @@ namespace MeetHut.Services.Application
         }
 
         /// <inheritdoc />
-        public string BuildRefreshToken()
+        public RefreshToken BuildRefreshToken()
         {
             var randomNumber = new byte[32];
-            using (var rng = RandomNumberGenerator.Create())
+            using (var generator = new RNGCryptoServiceProvider())
             {
-                rng.GetBytes(randomNumber);
-                return Convert.ToBase64String(randomNumber);
+                generator.GetBytes(randomNumber);
+                return new RefreshToken
+                {
+                    Token = Convert.ToBase64String(randomNumber),
+                    Expires = DateTime.Now.AddDays(3),
+                    Created = DateTime.Now
+                };
             }
-        }
-
-        /// <inheritdoc />
-        public bool ValidateToken(string token)
-        {
-            var tokenValidationParams = GetTokenValidationParameters(true);
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            try
-            {
-                tokenHandler.ValidateToken(token, tokenValidationParams, out _);
-            }
-            catch
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <inheritdoc />
-        public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
-        {
-            if (string.IsNullOrEmpty(token))
-            {
-                throw new ArgumentException("Token cannot be null");
-            }
-
-            var tokenValidationParams = GetTokenValidationParameters(false);
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            SecurityToken securityToken;
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParams, out securityToken);
-            var jwtSecurityToken = securityToken as JwtSecurityToken;
-            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-                throw new SecurityTokenException("Invalid token");
-            return principal;
         }
 
         /// <inheritdoc />
         public async Task<TokenDTO> Refresh(TokenModel model)
         {
-            if (model == null)
+            if (model is null)
             {
                 throw new ArgumentException("Input model is invalid");
             }
 
-            var principal = GetPrincipalFromExpiredToken(model.AccessToken);
+            var user = _userService.GetByRefreshToken(model.RefreshToken);
 
-            if (principal.Identity == null || string.IsNullOrEmpty(principal.Identity.Name))
+            if (user is null)
             {
-                throw new ArgumentException("Invalid token data");
+                throw new ArgumentException("The refresh token is invalid");
             }
 
-            UserTokenDTO user = _userService.GetMappedByName<UserTokenDTO>(principal.Identity.Name);
+            var refreshToken = user.RefreshTokens.Single(t => t.Token == model.RefreshToken);
 
-            if (user == null)
+            if (!refreshToken.IsActive)
             {
-                throw new ArgumentException("User does not exists");
+                throw new ArgumentException("The refresh token is expired");
             }
 
-            if (user.RefreshToken != model.RefreshToken)
-            {
-                throw new ArgumentException("Refresh token is invalid");
-            }
+            refreshToken.Revoked = DateTime.Now;
 
-            if (user.RefreshTokenExpiryTime < DateTime.Now)
-            {
-                throw new ArgumentException("Refresh token is expired");
-            }
+            var newRefreshToken = BuildRefreshToken();
+            user.RefreshTokens.Add(newRefreshToken);
+            _userService.UpdateAndSave(user);
 
-            var accessToken = BuildAccessToken(user, await _userManager.GetRolesAsync(_userManager.Users.FirstOrDefault(u => u.Id == user.Id)));
-            var refreshToken = BuildRefreshToken();
+            var accessToken = BuildAccessToken(_userService.GetMapped<UserTokenDTO>(user.Id), await _userManager.GetRolesAsync(_userManager.Users.FirstOrDefault(u => u.Id == user.Id)));
 
-            _userService.UpdateAndSaveByModel(user.Id, new UserTokenRefreshModel { RefreshToken = refreshToken });
-
-            return new TokenDTO { AccessToken = accessToken, RefreshToken = refreshToken };
-        }
-
-        private TokenValidationParameters GetTokenValidationParameters(bool validateLifetime = true)
-        {
-            var key = _jwtConfigurations.Key;
-            var issuer = _jwtConfigurations.Issuer;
-            var mySecret = Encoding.UTF8.GetBytes(key);
-            var mySecurityKey = new SymmetricSecurityKey(mySecret);
-
-            return new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                ValidateIssuer = true,
-                ValidateAudience = false,
-                ValidIssuer = issuer,
-                IssuerSigningKey = mySecurityKey,
-                ValidateLifetime = validateLifetime
-            };
+            return new TokenDTO { AccessToken = accessToken, RefreshToken = newRefreshToken.Token };
         }
     }
 }
