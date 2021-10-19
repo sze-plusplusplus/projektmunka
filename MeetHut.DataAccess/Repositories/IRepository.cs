@@ -8,7 +8,7 @@ namespace MeetHut.DataAccess.Repositories
     /// <summary>
     /// Default repository management
     /// </summary>
-    public interface IRepository<T> where T : Entity
+    public interface IRepository<T> where T : class, IEntity
     {
         /// <summary>
         /// Get all element

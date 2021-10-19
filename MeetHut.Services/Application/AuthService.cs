@@ -55,9 +55,9 @@ namespace MeetHut.Services.Application
                 user.RefreshToken = refreshToken;
                 user.RefreshTokenExpiryTime = DateTime.Now.AddDays(1);
 
-                _userService.UpdateAndSave(/*user*/ null); // FIXME
+                _userService.UpdateAndSave(user);
 
-                return new TokenDTO { AccessToken = _tokenService.BuildAccessToken(_userService.GetMappedById<UserTokenDTO>(user.Id), await _userManager.GetRolesAsync(user)), RefreshToken = refreshToken };
+                return new TokenDTO { AccessToken = _tokenService.BuildAccessToken(_userService.GetMapped<UserTokenDTO>(user.Id), await _userManager.GetRolesAsync(user)), RefreshToken = refreshToken };
             }
 
             throw new ArgumentException("Incorrect username or password");
@@ -66,7 +66,7 @@ namespace MeetHut.Services.Application
         /// <inheritdoc />
         public async Task Registration(RegistrationModel model)
         {
-            if (_userManager.Users.Any(u => u.Email == model.Email || u.UserName == model.UserName))
+            if (_userService.IsExist(model.UserName, model.Email))
             {
                 throw new ArgumentException("User already created");
             }

@@ -1,14 +1,13 @@
 using AutoMapper;
 using MeetHut.DataAccess;
 using MeetHut.DataAccess.Entities.Meet;
-using MeetHut.Services.Meet.DTOs;
 using Microsoft.Extensions.Configuration;
 using MeetHut.Services.Meet.Interfaces;
 
 namespace MeetHut.Services.Meet
 {
     /// <inheritdoc cref="MeetHut.Services.Meet.Interfaces.IRoomService" />
-    public class RoomService : MapperRepository<Room, RoomDTO>, IRoomService
+    public class RoomService : MapperRepository<Room>, IRoomService
     {
         /// <summary>
         /// Init Room Service

@@ -32,7 +32,7 @@ namespace MeetHut.Backend.Controllers
         [HttpGet]
         public IEnumerable<UserDTO> GetAll()
         {
-            return _userService.GetAllMapped();
+            return _userService.GetAllMapped<UserDTO>();
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace MeetHut.Backend.Controllers
         [HttpGet("{id:int}")]
         public UserDTO Get(int id)
         {
-            return _userService.GetMapped(id);
+            return _userService.GetMapped<UserDTO>(id);
         }
 
         /// <summary>

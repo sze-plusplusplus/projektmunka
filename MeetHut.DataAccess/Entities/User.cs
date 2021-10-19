@@ -11,7 +11,7 @@ namespace MeetHut.DataAccess.Entities
     /// <summary>
     /// User Entity
     /// </summary>
-    public class User : IdentityUser<int>
+    public class User : IdentityUser<int>, IEntity
     {
 
         /// <summary>
@@ -49,5 +49,24 @@ namespace MeetHut.DataAccess.Entities
         /// Added room users
         /// </summary>
         public virtual ICollection<RoomUser> AddedRoomUsers { get; set; }
+
+        public Dictionary<string, string> GetKeyValuePairs()
+        {
+            return new()
+            {
+                {
+                    "Id",
+                    Id.ToString()
+                },
+                {
+                    "FullName",
+                    FullName.ToString(CultureInfo.CurrentCulture)
+                },
+                {
+                    "LastLogin",
+                    LastLogin.ToString(CultureInfo.CurrentCulture)
+                }
+            };
+        }
     }
 }

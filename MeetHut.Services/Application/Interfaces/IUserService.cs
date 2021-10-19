@@ -1,12 +1,11 @@
 using MeetHut.DataAccess.Entities;
-using MeetHut.Services.Application.DTOs;
 
 namespace MeetHut.Services.Application.Interfaces
 {
     /// <summary>
     /// User Service
     /// </summary>
-    public interface IUserService : IMapperRepository<Entity, UserDTO>
+    public interface IUserService : IMapperRepository<User>
     {
         /// <summary>
         /// Get User by name

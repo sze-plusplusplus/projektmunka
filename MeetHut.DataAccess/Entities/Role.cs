@@ -7,7 +7,14 @@ using System.Threading.Tasks;
 
 namespace MeetHut.DataAccess.Entities
 {
-    public class Role : IdentityRole<int>
+    public class Role : IdentityRole<int>, IEntity
     {
+        public Dictionary<string, string> GetKeyValuePairs()
+        {
+            return new()
+            {
+               
+            };
+        }
     }
 }

@@ -9,27 +9,27 @@ namespace MeetHut.Services
     /// <summary>
     /// Mapper Repository
     /// </summary>
-    public interface IMapperRepository<TEntity, out TDTO> : IRepository<TEntity> where TEntity : Entity
+    public interface IMapperRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
         /// <summary>
         /// Get all mapped element
         /// </summary>
         /// <returns>List of element of the given type</returns>
-        IEnumerable<TDTO> GetAllMapped();
+        IEnumerable<T> GetAllMapped<T>();
 
         /// <summary>
         /// Get mapped list of elements filtered by the given expression
         /// </summary>
         /// <param name="expression">Expression</param>
         /// <returns>Filtered list of the given type</returns>
-        IEnumerable<TDTO> GetMappedList(Expression<Func<TEntity, bool>> expression);
+        IEnumerable<T> GetMappedList<T>(Expression<Func<TEntity, bool>> expression);
 
         /// <summary>
         /// Get mapped element by id
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns>Element or default value</returns>
-        TDTO GetMapped(int id);
+        T GetMapped<T>(int id);
 
         /// <summary>
         /// Create entity

@@ -13,7 +13,7 @@ namespace MeetHut.Services
     /// </summary>
     /// <typeparam name="TEntity">Type of database entity</typeparam>
     /// <typeparam name="TDTO">Type of Dto object</typeparam>
-    public class MapperRepository<TEntity, TDTO> : Repository<TEntity>, IMapperRepository<TEntity, TDTO> where TEntity : Entity
+    public class MapperRepository<TEntity> : Repository<TEntity>, IMapperRepository<TEntity> where TEntity : class, IEntity
     {
         /// <summary>
         /// Mapper
@@ -31,21 +31,21 @@ namespace MeetHut.Services
         }
 
         /// <inheritdoc />
-        public virtual IEnumerable<TDTO> GetAllMapped()
+        public virtual IEnumerable<T> GetAllMapped<T>()
         {
-            return Mapper.Map<List<TDTO>>(GetAll());
+            return Mapper.Map<List<T>>(GetAll());
         }
 
         /// <inheritdoc />
-        public virtual IEnumerable<TDTO> GetMappedList(Expression<Func<TEntity, bool>> expression)
+        public virtual IEnumerable<T> GetMappedList<T>(Expression<Func<TEntity, bool>> expression)
         {
-            return Mapper.Map<List<TDTO>>(GetList(expression));
+            return Mapper.Map<List<T>>(GetList(expression));
         }
 
         /// <inheritdoc />
-        public virtual TDTO GetMapped(int id)
+        public virtual T GetMapped<T>(int id)
         {
-            return Mapper.Map<TDTO>(Get(id));
+            return Mapper.Map<T>(Get(id));
         }
 
         /// <inheritdoc />
