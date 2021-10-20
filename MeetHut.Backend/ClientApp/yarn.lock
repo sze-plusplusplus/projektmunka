@@ -1889,6 +1889,13 @@ alphanum-sort@^1.0.2:
   resolved "https://registry.npmjs.org/alphanum-sort/-/alphanum-sort-1.0.2.tgz"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
+angularx-social-login@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/angularx-social-login/-/angularx-social-login-4.0.1.tgz#fe1b7d60f7243554daa8dd0074ba7a20e9ccf15c"
+  integrity sha512-dL65y0HXlKd8hhuH70/FFTxWsndEBU5DX2I1x7AcJ1ZAYpU6LPtQMbnzy10eSOcWZNeZX8XzaRaIbc4P+GjmvA==
+  dependencies:
+    tslib "^2.0.0"
+
 ansi-colors@4.1.1, ansi-colors@^4.1.1:
   version "4.1.1"
   resolved "https://registry.npmjs.org/ansi-colors/-/ansi-colors-4.1.1.tgz"

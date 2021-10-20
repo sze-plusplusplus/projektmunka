@@ -31,19 +31,43 @@ namespace MeetHut.Backend.Controllers
             _authService = authService;
             _applicationConfiguration = options.Value;
         }
-        
+
         /// <summary>
         /// Login
         /// </summary>
         /// <param name="model">Model</param>
-        /// <returns>Token</returns>
+        /// <returns>Tokens</returns>
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<TokenDTO> Login([FromBody] LoginModel model)
         {
             return await _authService.Login(model);
         }
-        
+
+        /// <summary>
+        /// Google Login
+        /// </summary>
+        /// <param name="model">Model</param>
+        /// <returns>Tokens</returns>
+        [HttpPost("google-login")]
+        [AllowAnonymous]
+        public async Task<TokenDTO> GoogleLogin([FromBody] GoogleLoginModel model)
+        {
+            return await _authService.GoogleLogin(model);
+        }
+
+        /// <summary>
+        /// Microsoft Login
+        /// </summary>
+        /// <param name="model">Model</param>
+        /// <returns>Tokens</returns>
+        [HttpPost("ms-login")]
+        [AllowAnonymous]
+        public async Task<TokenDTO> MicrosoftLogin([FromBody] MicrosoftLoginModel model)
+        {
+            return await _authService.MicrosoftLogin(model);
+        }
+
         /// <summary>
         /// Registration
         /// </summary>

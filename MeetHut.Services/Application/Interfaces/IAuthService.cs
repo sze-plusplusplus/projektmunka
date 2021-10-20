@@ -15,7 +15,21 @@ namespace MeetHut.Services.Application.Interfaces
         /// <param name="model">Model</param>
         /// <returns>Token</returns>
         Task<TokenDTO> Login(LoginModel model);
-        
+
+        /// <summary>
+        /// Google Login
+        /// </summary>
+        /// <param name="model">Model</param>
+        /// <returns>Token</returns>
+        Task<TokenDTO> GoogleLogin(GoogleLoginModel model);
+
+        /// <summary>
+        /// Microsoft Login
+        /// </summary>
+        /// <param name="model">Model</param>
+        /// <returns>Token</returns>
+        Task<TokenDTO> MicrosoftLogin(MicrosoftLoginModel model);
+
         /// <summary>
         /// Registration
         /// </summary>

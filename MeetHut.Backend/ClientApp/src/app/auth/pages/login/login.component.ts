@@ -1,6 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoginModel } from '../../models';
+import {
+  GoogleLoginProvider,
+  MicrosoftLoginProvider,
+  SocialAuthService
+} from 'angularx-social-login';
+import {
+  GoogleLoginModel,
+  LoginModel,
+  MicrosoftLoginModel
+} from '../../models';
 import { AuthService } from '../../services';
 
 @Component({
@@ -15,7 +24,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private socialAuthService: SocialAuthService
   ) {}
 
   /**
@@ -34,10 +44,39 @@ export class LoginComponent implements OnInit {
   login() {
     this.authService
       .login(this.loginModel)
-      .then(() => {
-        this.loginModel = new LoginModel('', '');
-        this.router.navigateByUrl(this.redirectPath);
-      })
+      .then(() => this.loginEvent())
       .catch((err) => console.log(err));
+  }
+
+  loginWithGoogle(): void {
+    this.socialAuthService
+      .signIn(GoogleLoginProvider.PROVIDER_ID)
+      .then((res) => {
+        this.authService
+          .loginWithGoogle(new GoogleLoginModel(res.idToken, res.provider))
+          .then(() => this.loginEvent())
+          .catch((err) => {
+            console.log(err);
+            this.socialAuthService.signOut();
+          });
+      });
+  }
+
+  loginWithMicrosoft(): void {
+    this.socialAuthService
+      .signIn(MicrosoftLoginProvider.PROVIDER_ID)
+      .then((res) => {
+        this.authService
+          .loginWithMicrosoft(
+            new MicrosoftLoginModel(res.idToken, res.provider, res.authToken)
+          )
+          .then(() => this.loginEvent())
+          .catch((err) => console.log(err));
+      });
+  }
+
+  private loginEvent(): void {
+    this.loginModel = new LoginModel('', '');
+    this.router.navigateByUrl(this.redirectPath);
   }
 }

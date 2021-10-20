@@ -28,5 +28,15 @@
     "OnStart": true
   },
   "ClientUrl": "http://frontend:4200",
-  "DisableRegistration": false
+  "DisableRegistration": false,
+  "ExternalAuthentication": {
+    "Google": {
+      "ClientId": "",
+      "ClientSecret": ""
+    },
+    "Microsoft": {
+      "ClientId": "",
+      "GraphUrl": "https://graph.microsoft.com"
+    }
+  }
 }

@@ -54,7 +54,11 @@ namespace MeetHut.Backend
         {
             services.Configure<ApplicationConfiguration>(Configuration);
             services.Configure<JWTConfiguration>(Configuration.GetSection("Jwt"));
+            services.Configure<GoogleConfiguration>(Configuration.GetSection("ExternalAuthentication:Google"));
+            services.Configure<MicrosoftConfiguration>(Configuration.GetSection("ExternalAuthentication:Microsoft"));
             services.Configure<MigrationConfiguration>(Configuration.GetSection("Migration"));
+
+            services.AddHttpClient();
 
             services.AddCors(options =>
             {

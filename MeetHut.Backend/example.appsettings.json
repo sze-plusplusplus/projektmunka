@@ -29,5 +29,15 @@
     "OnStart": true
   },
   "ClientUrl": "<path>",
-  "DisableRegistration": true
+  "DisableRegistration": true,
+  "ExternalAuthentication": {
+    "Google": {
+      "ClientId": "",
+      "ClientSecret": ""
+    },
+    "Microsoft": {
+      "ClientId": "",
+      "GraphUrl": "https://graph.microsoft.com"
+    }
+  }
 }

@@ -3,7 +3,13 @@ import { Injectable } from '@angular/core';
 import { Params, Router, RouterState } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { TokenDTO } from '../dtos';
-import { ForgotPasswordModel, LoginModel, RegistrationModel } from '../models';
+import {
+  ForgotPasswordModel,
+  GoogleLoginModel,
+  LoginModel,
+  MicrosoftLoginModel,
+  RegistrationModel
+} from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +77,32 @@ export class AuthService {
     return new Promise((resolve) =>
       this.http
         .post<TokenDTO>(this.getAuthUrl('login'), model)
+        .toPromise()
+        .then((res) => {
+          this.saveTokens(res);
+          resolve(res);
+        })
+        .catch((err) => console.error(err))
+    );
+  }
+
+  loginWithGoogle(model: GoogleLoginModel): Promise<TokenDTO> {
+    return new Promise((resolve) =>
+      this.http
+        .post<TokenDTO>(this.getAuthUrl('google-login'), model)
+        .toPromise()
+        .then((res) => {
+          this.saveTokens(res);
+          resolve(res);
+        })
+        .catch((err) => console.error(err))
+    );
+  }
+
+  loginWithMicrosoft(model: MicrosoftLoginModel): Promise<TokenDTO> {
+    return new Promise((resolve) =>
+      this.http
+        .post<TokenDTO>(this.getAuthUrl('ms-login'), model)
         .toPromise()
         .then((res) => {
           this.saveTokens(res);

@@ -7,3 +7,25 @@ export class LoginModel {
     this.password = password;
   }
 }
+
+export class GoogleLoginModel {
+  idToken: string;
+  provider: string;
+
+  constructor(idToken: string, provider: string) {
+    this.idToken = idToken;
+    this.provider = provider;
+  }
+}
+
+export class MicrosoftLoginModel {
+  idToken: string;
+  provider: string;
+  authToken: string;
+
+  constructor(idToken: string, provider: string, authToken: string) {
+    this.idToken = idToken;
+    this.provider = provider;
+    this.authToken = authToken;
+  }
+}

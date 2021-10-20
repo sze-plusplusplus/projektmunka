@@ -12,7 +12,6 @@ namespace MeetHut.Services
     /// Mapper Repository
     /// </summary>
     /// <typeparam name="TEntity">Type of database entity</typeparam>
-    /// <typeparam name="TDTO">Type of Dto object</typeparam>
     public class MapperRepository<TEntity> : Repository<TEntity>, IMapperRepository<TEntity> where TEntity : class, IEntity
     {
         /// <summary>
