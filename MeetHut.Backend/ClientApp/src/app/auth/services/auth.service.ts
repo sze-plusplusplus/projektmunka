@@ -16,9 +16,9 @@ import {
 })
 export class AuthService {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  private ACCESS_TOKEN_KEY = 'access-token';
+  private static readonly ACCESS_TOKEN_KEY = 'access-token';
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  private REFRESH_TOKEN_KEY = 'refresh-token';
+  private static readonly REFRESH_TOKEN_KEY = 'refresh-token';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -26,44 +26,48 @@ export class AuthService {
    * Check access token is in the local storage
    */
   get accessTokenExists(): boolean {
-    return ![null, ''].includes(localStorage.getItem(this.ACCESS_TOKEN_KEY));
+    return ![null, ''].includes(
+      localStorage.getItem(AuthService.ACCESS_TOKEN_KEY)
+    );
   }
 
   /**
    * Get access token from the local storage
    */
   get accessToken(): string {
-    return localStorage.getItem(this.ACCESS_TOKEN_KEY) ?? '';
+    return localStorage.getItem(AuthService.ACCESS_TOKEN_KEY) ?? '';
   }
 
   private set accessToken(value: string) {
     if (value === '') {
-      localStorage.removeItem(this.ACCESS_TOKEN_KEY);
+      localStorage.removeItem(AuthService.ACCESS_TOKEN_KEY);
     }
 
-    localStorage.setItem(this.ACCESS_TOKEN_KEY, value);
+    localStorage.setItem(AuthService.ACCESS_TOKEN_KEY, value);
   }
 
   /**
    * Check refresh token is in the local storage
    */
   get refreshTokenExists(): boolean {
-    return ![null, ''].includes(localStorage.getItem(this.REFRESH_TOKEN_KEY));
+    return ![null, ''].includes(
+      localStorage.getItem(AuthService.REFRESH_TOKEN_KEY)
+    );
   }
 
   /**
    * Get access token from the local storage
    */
   get refreshToken(): string {
-    return localStorage.getItem(this.REFRESH_TOKEN_KEY) ?? '';
+    return localStorage.getItem(AuthService.REFRESH_TOKEN_KEY) ?? '';
   }
 
   private set refreshToken(value: string) {
     if (value === '') {
-      localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+      localStorage.removeItem(AuthService.REFRESH_TOKEN_KEY);
     }
 
-    localStorage.setItem(this.REFRESH_TOKEN_KEY, value);
+    localStorage.setItem(AuthService.REFRESH_TOKEN_KEY, value);
   }
 
   /**
@@ -78,36 +82,41 @@ export class AuthService {
       this.http
         .post<TokenDTO>(this.getAuthUrl('login'), model)
         .toPromise()
-        .then((res) => {
-          this.saveTokens(res);
-          resolve(res);
-        })
+        .then((res) => this.handleTokens(res, resolve))
         .catch((err) => console.error(err))
     );
   }
 
+  /**
+   * Calls login with google endpoint
+   * Saves the result token on success
+   *
+   * @param model Google login input
+   * @returns Promised tokens
+   */
   loginWithGoogle(model: GoogleLoginModel): Promise<TokenDTO> {
     return new Promise((resolve) =>
       this.http
         .post<TokenDTO>(this.getAuthUrl('google-login'), model)
         .toPromise()
-        .then((res) => {
-          this.saveTokens(res);
-          resolve(res);
-        })
+        .then((res) => this.handleTokens(res, resolve))
         .catch((err) => console.error(err))
     );
   }
 
+  /**
+   * Calls login with microsoft endpoint
+   * Saves the result token on success
+   *
+   * @param model Microsoft login input
+   * @returns Promised tokens
+   */
   loginWithMicrosoft(model: MicrosoftLoginModel): Promise<TokenDTO> {
     return new Promise((resolve) =>
       this.http
         .post<TokenDTO>(this.getAuthUrl('ms-login'), model)
         .toPromise()
-        .then((res) => {
-          this.saveTokens(res);
-          resolve(res);
-        })
+        .then((res) => this.handleTokens(res, resolve))
         .catch((err) => console.error(err))
     );
   }
@@ -200,6 +209,9 @@ export class AuthService {
     this.router.navigate(['auth', 'login'], { queryParams });
   }
 
+  /**
+   * Navigate to the login page with the current route
+   */
   navigateToTheLoginPageWithRoute(): void {
     this.navigateToTheLoginPage({
       redirect: this.router.routerState.snapshot.url
@@ -208,5 +220,13 @@ export class AuthService {
 
   private getAuthUrl(endpoint: string): string {
     return `${environment.apiUrl}/Auth/${endpoint}`;
+  }
+
+  private handleTokens(
+    tokens: TokenDTO,
+    resolve: (value: TokenDTO | PromiseLike<TokenDTO>) => void
+  ): void {
+    this.saveTokens(tokens);
+    resolve(tokens);
   }
 }

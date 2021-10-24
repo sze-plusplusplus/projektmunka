@@ -48,6 +48,10 @@ export class LoginComponent implements OnInit {
       .catch((err) => console.log(err));
   }
 
+  /**
+   * Do login with Google
+   * On success clears the state and navigates to home or the redirect param
+   */
   loginWithGoogle(): void {
     this.socialAuthService
       .signIn(GoogleLoginProvider.PROVIDER_ID)
@@ -62,6 +66,10 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  /**
+   * Do login with Microsoft
+   * On success clears the state and navigates to home or the redirect param
+   */
   loginWithMicrosoft(): void {
     this.socialAuthService
       .signIn(MicrosoftLoginProvider.PROVIDER_ID)

@@ -36,6 +36,8 @@ namespace MeetHut.Services.Application
         /// <param name="userManager">User Manager</param>
         /// <param name="roleManager">Role Manager</param>
         /// <param name="googleOptions">Google options</param>
+        /// <param name="microsoftOptions">Microsoft options</param>
+        /// <param name="clientFactory">HTTP Client factory</param>
         public AuthService(IUserService userService, ITokenService tokenService, UserManager<User> userManager, RoleManager<Role> roleManager, IOptions<GoogleConfiguration> googleOptions, IOptions<MicrosoftConfiguration> microsoftOptions, IHttpClientFactory clientFactory)
         {
             _userService = userService;
@@ -55,6 +57,12 @@ namespace MeetHut.Services.Application
             if (user is null)
             {
                 throw new ArgumentException("User not found");
+            }
+
+            // If the password is does not exist, then the user is logged by an external authenticator
+            if (string.IsNullOrEmpty(user.PasswordHash))
+            {
+                throw new ArgumentException("This is an external user");
             }
 
             if (await _userManager.CheckPasswordAsync(user, model.Password))
@@ -80,8 +88,6 @@ namespace MeetHut.Services.Application
         /// <inheritdoc />
         public async Task<TokenDTO> MicrosoftLogin(MicrosoftLoginModel model)
         {
-
-
             var request = new HttpRequestMessage(HttpMethod.Get, $"{_microsoftConfiguration.GraphUrl}/oidc/userinfo");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", model.AuthToken);
             var client = _httpClientFactory.CreateClient();

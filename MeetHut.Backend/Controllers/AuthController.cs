@@ -53,6 +53,11 @@ namespace MeetHut.Backend.Controllers
         [AllowAnonymous]
         public async Task<TokenDTO> GoogleLogin([FromBody] GoogleLoginModel model)
         {
+            if (_applicationConfiguration.DisableRegistration)
+            {
+                throw new Exception("External login is disabled");
+            }
+
             return await _authService.GoogleLogin(model);
         }
 
@@ -65,6 +70,11 @@ namespace MeetHut.Backend.Controllers
         [AllowAnonymous]
         public async Task<TokenDTO> MicrosoftLogin([FromBody] MicrosoftLoginModel model)
         {
+            if (_applicationConfiguration.DisableRegistration)
+            {
+                throw new Exception("External login is disabled");
+            }
+
             return await _authService.MicrosoftLogin(model);
         }
 
@@ -80,6 +90,7 @@ namespace MeetHut.Backend.Controllers
             {
                 throw new Exception("Registration is disabled");
             }
+
             await _authService.Registration(model);
         }
 
