@@ -78,6 +78,7 @@ namespace MeetHut.Backend
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IRoomService, RoomService>();
+            services.AddScoped<IParameterService, ParameterService>();
 
             // Add mappers
             var mapperConfig = new MapperConfiguration(conf => { conf.AddProfile<UserMapper>(); conf.AddProfile<RoomMapper>(); });

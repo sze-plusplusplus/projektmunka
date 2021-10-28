@@ -20,5 +20,10 @@ namespace MeetHut.Services.Configurations
         /// Graph Url
         /// </summary>
         public string GraphUrl { get; set; }
+
+        /// <summary>
+        /// Login Disabled
+        /// </summary>
+        public bool LoginDisabled { get; set; }
     }
 }

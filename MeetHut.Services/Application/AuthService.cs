@@ -214,7 +214,7 @@ namespace MeetHut.Services.Application
             var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
             if (user is null)
             {
-                user = await _userManager.FindByEmailAsync(email);
+                user = _userManager.Users.SingleOrDefault(x => x.Email == email);
 
                 if (user is null)
                 {

@@ -33,11 +33,13 @@
   "ExternalAuthentication": {
     "Google": {
       "ClientId": "",
-      "ClientSecret": ""
+      "ClientSecret": "",
+      "LoginDisabled": false
     },
     "Microsoft": {
       "ClientId": "",
-      "GraphUrl": "https://graph.microsoft.com"
+      "GraphUrl": "https://graph.microsoft.com",
+      "LoginDisabled":  false
     }
   }
 }
