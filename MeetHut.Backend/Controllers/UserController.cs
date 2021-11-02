@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using MeetHut.Services.Application;
 using MeetHut.Services.Application.DTOs;
+using MeetHut.Services.Application.Interfaces;
 using MeetHut.Services.Application.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +13,7 @@ namespace MeetHut.Backend.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class UserController
+    public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
 
@@ -32,7 +32,7 @@ namespace MeetHut.Backend.Controllers
         [HttpGet]
         public IEnumerable<UserDTO> GetAll()
         {
-            return _userService.GetAllMapped();
+            return _userService.GetAllMapped<UserDTO>();
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace MeetHut.Backend.Controllers
         [HttpGet("{id:int}")]
         public UserDTO Get(int id)
         {
-            return _userService.GetMapped(id);
+            return _userService.GetMapped<UserDTO>(id);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace MeetHut.Backend.Controllers
         [HttpPost]
         public int Create([FromBody] UserModel model)
         {
-            return _userService.CreateAndSave(model);
+            return _userService.CreateAndSaveByModel(model);
         }
         
         /// <summary>
@@ -63,7 +63,7 @@ namespace MeetHut.Backend.Controllers
         [HttpPut("{id:int}")]
         public void Update(int id, [FromBody] UserModel model)
         {
-            _userService.UpdateAndSave(id, model);
+            _userService.UpdateAndSaveByModel(id, model);
         }
         
         /// <summary>

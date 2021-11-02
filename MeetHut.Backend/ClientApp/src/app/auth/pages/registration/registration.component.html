@@ -1,0 +1,19 @@
+<div>
+    <label>
+        User Name: 
+        <input [(ngModel)]="registrationModel.userName" />
+    </label> <br />
+    <label>
+        Password:
+        <input [(ngModel)]="registrationModel.password" type="password" />
+    </label> <br />
+    <label>
+        E-mail address:
+        <input [(ngModel)]="registrationModel.email" type="email" />
+    </label> <br />
+    <label>
+        Full Name:
+        <input [(ngModel)]="registrationModel.fullName" />
+    </label> <br />
+    <button (click)="registration()">Registration</button>
+</div>

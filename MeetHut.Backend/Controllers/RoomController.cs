@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using MeetHut.Services.Meet;
 using MeetHut.Services.Meet.DTOs;
+using MeetHut.Services.Meet.Interfaces;
 using MeetHut.Services.Meet.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +13,7 @@ namespace MeetHut.Backend.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class RoomController
+    public class RoomController : ControllerBase
     {
         private readonly IRoomService _roomService;
 
@@ -32,7 +32,7 @@ namespace MeetHut.Backend.Controllers
         [HttpGet]
         public IEnumerable<RoomDTO> GetAll()
         {
-            return _roomService.GetAllMapped();
+            return _roomService.GetAllMapped<RoomDTO>();
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace MeetHut.Backend.Controllers
         [HttpGet("{id:int}")]
         public RoomDTO Get(int id)
         {
-            return _roomService.GetMapped(id);
+            return _roomService.GetMapped<RoomDTO>(id);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace MeetHut.Backend.Controllers
         [HttpPost]
         public int Create([FromBody] RoomModel model)
         {
-            return _roomService.CreateAndSave(model);
+            return _roomService.CreateAndSaveByModel(model);
         }
         
         /// <summary>
@@ -63,7 +63,7 @@ namespace MeetHut.Backend.Controllers
         [HttpPut("{id:int}")]
         public void Update(int id, [FromBody] RoomModel model)
         {
-            _roomService.UpdateAndSave(id, model);
+            _roomService.UpdateAndSaveByModel(id, model);
         }
         
         /// <summary>

@@ -1,15 +1,22 @@
+using System;
+using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
-using MeetHut.Backend.Configuration;
+using MeetHut.Backend.Configurations;
 using MeetHut.Backend.Middlewares;
 using MeetHut.DataAccess;
+using MeetHut.DataAccess.Entities;
 using MeetHut.Services.Application;
+using MeetHut.Services.Application.Interfaces;
 using MeetHut.Services.Application.Mappers;
+using MeetHut.Services.Configurations;
 using MeetHut.Services.Meet;
+using MeetHut.Services.Meet.Interfaces;
 using MeetHut.Services.Meet.Mappers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,17 +53,28 @@ namespace MeetHut.Backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ApplicationConfiguration>(Configuration);
+            services.Configure<JWTConfiguration>(Configuration.GetSection("Jwt"));
+            services.Configure<GoogleConfiguration>(Configuration.GetSection("ExternalAuthentication:Google"));
+            services.Configure<MicrosoftConfiguration>(Configuration.GetSection("ExternalAuthentication:Microsoft"));
             services.Configure<MigrationConfiguration>(Configuration.GetSection("Migration"));
 
+            services.AddHttpClient();
 
-            // Add Database context
-            string connectionString = Configuration.GetConnectionString(Configuration.GetValue<bool>("UseDesignTimeConnection") ? "DesignTimeConnection" : "DefaultConnection");
-            services.AddDbContextPool<DatabaseContext>(options =>
-                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
-                    builder => builder.MigrationsAssembly("MeetHut.DataAccess")));
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials()
+                            .WithOrigins(Configuration.GetValue("ClientUrl", "http://localhost:4200"), "http://localhost:5000", "https://localhost:5001");
+                    });
+            });
 
             // Add services
+            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IRoomService, RoomService>();
@@ -67,16 +85,39 @@ namespace MeetHut.Backend
             var mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
+            // Add Database context
+            string connectionString = Configuration.GetConnectionString(Configuration.GetValue<bool>("UseDesignTimeConnection") ? "DesignTimeConnection" : "DefaultConnection");
+            services.AddDbContextPool<DatabaseContext>(options =>
+                options.UseLazyLoadingProxies().UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
+                    builder => builder.MigrationsAssembly("MeetHut.DataAccess")));
+
+            services
+                .AddIdentity<User, Role>(options =>
+                {
+                    options.Password.RequiredLength = 8;
+                    options.Password.RequireNonAlphanumeric = true;
+                    options.Password.RequireUppercase = true;
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1d);
+                    options.Lockout.MaxFailedAccessAttempts = 5;
+                })
+                .AddEntityFrameworkStores<DatabaseContext>()
+                .AddDefaultTokenProviders();
+
             // Add controllers
             services.AddControllers();
 
-            // Add session
-            // services.AddSession();
-
             // Register auth
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            services
+                .AddAuthorization()
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
                 .AddJwtBearer(options =>
                 {
+                    options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
@@ -92,6 +133,31 @@ namespace MeetHut.Backend
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MeetHut.Backend", Version = "v1" });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT containing userid claim",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                });
+                var security =
+                    new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Id = "Bearer",
+                                    Type = ReferenceType.SecurityScheme
+                                },
+                                UnresolvedReference = true
+                            },
+                            new List<string>()
+                        }
+                    };
+                c.AddSecurityRequirement(security);
             });
 
             services.AddSpaStaticFiles(conf =>
@@ -105,8 +171,11 @@ namespace MeetHut.Backend
         /// </summary>
         /// <param name="app">App builder</param>
         /// <param name="env">Environment</param>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        /// <param name="roleManager">Role Manager</param>
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, RoleManager<Role> roleManager)
         {
+            IdentityDataInitalizer.SeedRoles(roleManager);
+
             if (env.IsDevelopment())
             {
                 app.UseSwagger();
@@ -114,19 +183,6 @@ namespace MeetHut.Backend
             }
 
             app.UseWebSockets();
-
-            // app.UseSession();
-
-            /* app.Use(async (context, next) =>
-            {
-                var token = context.Session.GetString("Token");
-                if (!string.IsNullOrEmpty(token))
-                {
-                    context.Request.Headers.Add("Authorization", "Bearer " + token);
-                }
-
-                await next();
-            });*/
 
             app.UseServerExceptionHandler();
 
@@ -140,6 +196,11 @@ namespace MeetHut.Backend
             }
 
             app.UseRouting();
+
+            if (env.IsDevelopment())
+            {
+                app.UseCors("CorsPolicy");
+            }
 
             app.UseAuthentication();
 

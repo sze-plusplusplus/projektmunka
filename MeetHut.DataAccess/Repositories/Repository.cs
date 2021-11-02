@@ -7,7 +7,7 @@ using MeetHut.DataAccess.Entities;
 namespace MeetHut.DataAccess.Repositories
 {
     /// <inheritdoc />
-    public class Repository<T> : IRepository<T> where T : Entity
+    public class Repository<T> : IRepository<T> where T : class, IEntity
     {
         /// <summary>
         /// Database Context

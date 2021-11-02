@@ -1,5 +1,5 @@
 using System;
-using MeetHut.Backend.Configuration;
+using MeetHut.Backend.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

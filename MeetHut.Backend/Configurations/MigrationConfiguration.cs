@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MeetHut.Backend.Configuration
+﻿namespace MeetHut.Backend.Configurations
 {
     /// <summary>
     /// Migration configuration

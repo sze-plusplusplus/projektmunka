@@ -16,8 +16,8 @@ namespace MeetHut.Services.Application.Mappers
         public UserMapper()
         {
             CreateMap<User, UserDTO>();
-            CreateMap<UserModel, User>()
-                .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => "Password hash"));
+            CreateMap<User, UserTokenDTO>();
+            CreateMap<UserModel, User>();
         }
     }
 }

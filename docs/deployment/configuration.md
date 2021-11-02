@@ -6,6 +6,7 @@
 - `Jwt`
   - `Key` - JWT signing secret (should be randomly generated)
   - `Issuer` - Issuer of the JWT tokens
+  - `ExpirationInMinutes` - Token expiration setting in minutes
 - `Livekit` - connecting to a livekit instance
   - `host` - http://host:port/
   - `key` - Access key to use
@@ -13,6 +14,14 @@
   - `webhook` - The `key` and `secret` to be used for webhook validation (as it can be different)
 - `Migration.OnStart` - when enabled migration will be executed on application startup
 - `ClientUrl` - url of the Angular dev mode app (required only in dev, http://frontend:4200 or http://localhost:4200)
+- `DisableRegistration` - Disable registration feature
+- `ExternalAuthentication` - External authentication settings
+  - `Google` - Google settings
+    - `ClientId` - Google app client Id
+    - `ClientSecret` - Google app client secret
+  - `Microsoft` - Microsoft settings
+    - `ClientId` - Microsoft Azure app client Id
+    - `GraphUrl` - Microsoft Graph url
 
 ## Livekit
 

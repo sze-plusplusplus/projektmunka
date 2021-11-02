@@ -9,7 +9,7 @@ namespace MeetHut.DataAccess.Entities
     /// <summary>
     /// Base entity for database
     /// </summary>
-    public abstract class Entity
+    public abstract class Entity : IEntity
     {
         /// <summary>
         /// Entity Id
@@ -40,7 +40,7 @@ namespace MeetHut.DataAccess.Entities
         /// Generate key values pairs
         /// </summary>
         /// <returns>Map of values</returns>
-        protected virtual Dictionary<string, string> GetKeyValuePairs()
+        public virtual Dictionary<string, string> GetKeyValuePairs()
         {
             return new()
             {

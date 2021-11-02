@@ -9,54 +9,58 @@ namespace MeetHut.Services
     /// <summary>
     /// Mapper Repository
     /// </summary>
-    public interface IMapperRepository<TEntity, out TDto, in TModel> : IRepository<TEntity> where TEntity : Entity
+    public interface IMapperRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
         /// <summary>
         /// Get all mapped element
         /// </summary>
         /// <returns>List of element of the given type</returns>
-        IEnumerable<TDto> GetAllMapped();
+        IEnumerable<T> GetAllMapped<T>();
 
         /// <summary>
         /// Get mapped list of elements filtered by the given expression
         /// </summary>
         /// <param name="expression">Expression</param>
         /// <returns>Filtered list of the given type</returns>
-        IEnumerable<TDto> GetMappedList(Expression<Func<TEntity, bool>> expression);
+        IEnumerable<T> GetMappedList<T>(Expression<Func<TEntity, bool>> expression);
 
         /// <summary>
         /// Get mapped element by id
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns>Element or default value</returns>
-        TDto GetMapped(int id);
+        T GetMapped<T>(int id);
 
         /// <summary>
         /// Create entity
         /// </summary>
+        /// <typeparam name="TModel">Type of model</typeparam>
         /// <param name="model">Model object</param>
         /// <returns>The newly created object's Id</returns>
-        TEntity Create(TModel model);
+        TEntity CreateByModel<TModel>(TModel model);
 
         /// <summary>
         /// Create entity and perform save
         /// </summary>
+        /// <typeparam name="TModel">Type of model</typeparam>
         /// <param name="model">Model object</param>
         /// <returns>The newly created object's Id</returns>
-        int CreateAndSave(TModel model);
+        int CreateAndSaveByModel<TModel>(TModel model);
 
         /// <summary>
         /// Update entity
         /// </summary>
+        /// <typeparam name="TModel">Type of model</typeparam>
         /// <param name="id">Id</param>
         /// <param name="model">Model object</param>
-        void Update(int id, TModel model);
+        void UpdateByModel<TModel>(int id, TModel model);
 
         /// <summary>
         /// Update entity and perform save
         /// </summary>
+        /// <typeparam name="TModel">Type of model</typeparam>
         /// <param name="id">Id</param>
         /// <param name="model">Model object</param>
-        void UpdateAndSave(int id, TModel model);
+        void UpdateAndSaveByModel<TModel>(int id, TModel model);
     }
 }

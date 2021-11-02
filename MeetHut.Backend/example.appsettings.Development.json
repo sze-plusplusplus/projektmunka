@@ -12,7 +12,8 @@
   },
   "Jwt": {
     "Key": "<secret>",
-    "Issuer": "TeamPlusPlusPlus"
+    "Issuer": "TeamPlusPlusPlus",
+    "ExpirationInMinutes": 60
   },
   "Livekit": {
     "host": "http://livekit:7886",
@@ -26,5 +27,16 @@
   "Migration": {
     "OnStart": true
   },
-  "ClientUrl": "http://frontend:4200"
+  "ClientUrl": "http://frontend:4200",
+  "DisableRegistration": false,
+  "ExternalAuthentication": {
+    "Google": {
+      "ClientId": "",
+      "ClientSecret": ""
+    },
+    "Microsoft": {
+      "ClientId": "",
+      "GraphUrl": "https://graph.microsoft.com"
+    }
+  }
 }

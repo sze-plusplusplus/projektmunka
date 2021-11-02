@@ -4,18 +4,14 @@ using MeetHut.DataAccess.Entities;
 using MeetHut.DataAccess.Entities.Meet;
 using MeetHut.DataAccess.Enums;
 using MeetHut.DataAccess.Enums.Meet;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MeetHut.DataAccess
 {
     /// <inheritdoc />
-    public class DatabaseContext : DbContext
+    public class DatabaseContext : IdentityDbContext<User, Role, int>
     {
-        /// <summary>
-        /// Application users
-        /// </summary>
-        public DbSet<User> Users { get; set; }
-        
         /// <summary>
         /// Rooms
         /// </summary>
@@ -25,6 +21,11 @@ namespace MeetHut.DataAccess
         /// Room users (mapper connection)
         /// </summary>
         public DbSet<RoomUser> RoomUsers { get; set; }
+
+        /// <summary>
+        /// Refresh tokens
+        /// </summary>
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         /// <summary>
         /// Init Database context
@@ -38,11 +39,17 @@ namespace MeetHut.DataAccess
         /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            // User
             modelBuilder.Entity<User>()
                 .HasIndex(user => user.UserName)
                 .IsUnique();
-            modelBuilder.Entity<User>().Property(u => u.Role).HasDefaultValue(UserRole.Student);
+            modelBuilder.Entity<User>()
+                .HasIndex(user => user.Email)
+                .IsUnique();
 
+            // Room
             modelBuilder.Entity<Room>()
                 .HasIndex(room => room.PublicId)
                 .IsUnique();
@@ -52,6 +59,7 @@ namespace MeetHut.DataAccess
                 .IsRequired()
                 .OnDelete(DeleteBehavior.ClientCascade);
 
+            // Room user
             modelBuilder.Entity<RoomUser>().HasKey(ru => new { ru.RoomId, ru.UserId });
             modelBuilder.Entity<RoomUser>().Property(u => u.Role).HasDefaultValue(MeetRole.Guest);
             modelBuilder.Entity<RoomUser>().Property(ru => ru.Added).HasDefaultValueSql("NOW()");
@@ -71,7 +79,15 @@ namespace MeetHut.DataAccess
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            base.OnModelCreating(modelBuilder);
+            // Refresh token
+            modelBuilder.Entity<RefreshToken>()
+                .HasIndex(t => t.Token)
+                .IsUnique();
+            modelBuilder.Entity<RefreshToken>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.RefreshTokens)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.ClientCascade);
         }
 
         /// <inheritdoc />
@@ -81,13 +97,15 @@ namespace MeetHut.DataAccess
                 .Entries()
                 .Where(e => e.Entity is Entity && e.State is EntityState.Added or EntityState.Modified);
 
+            var now = DateTime.Now;
+
             foreach (var entityEntry in entries)
             {
-                ((Entity)entityEntry.Entity).LastUpdate = DateTime.Now;
+                ((Entity)entityEntry.Entity).LastUpdate = now;
 
                 if (entityEntry.State == EntityState.Added)
                 {
-                    ((Entity)entityEntry.Entity).Creation = DateTime.Now;
+                    ((Entity)entityEntry.Entity).Creation = now;
                 }
             }
 

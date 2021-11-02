@@ -12,7 +12,7 @@ namespace MeetHut.Backend.Controllers
     /// Web socket controller
     /// </summary>
     [ApiController]
-    public class WebSocketController
+    public class WebSocketController : ControllerBase
     {
         private readonly ILogger<WebSocketController> _logger;
         private readonly HttpContext _context;
