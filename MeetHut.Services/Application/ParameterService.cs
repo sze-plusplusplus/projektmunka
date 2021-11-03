@@ -1,23 +1,22 @@
 ﻿using MeetHut.Services.Application.DTOs;
 using MeetHut.Services.Application.Interfaces;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MeetHut.Services.Application
 {
     /// <inheritdoc />
     public class ParameterService : IParameterService
     {
-        private static readonly Dictionary<string, string> keyPairs = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> KeyPairs = new()
         {
             { "Microsoft.ClientId", "ExternalAuthentication:Microsoft:ClientId" },
             { "Google.ClientId", "ExternalAuthentication:Google:ClientId" },
             { "Microsoft.Login", "ExternalAuthentication:Microsoft:LoginDisabled" },
             { "Google.Login", "ExternalAuthentication:Google:LoginDisabled" },
+            { "Microsoft.RedirectUri", "ExternalAuthentication:Microsoft:RedirectUri" },
+            { "Google.RedirectUri", "ExternalAuthentication:Google:RedirectUri" },
             { "Registration", "DisableRegistration" }
         };
         private readonly IConfiguration _configuration;
@@ -34,7 +33,7 @@ namespace MeetHut.Services.Application
         /// <inheritdoc />
         public ParameterDTO Get(string key)
         {
-            var configKey = keyPairs[key];
+            var configKey = KeyPairs[key];
             var configValue = _configuration[configKey];
 
             if (string.IsNullOrEmpty(configValue))
@@ -48,7 +47,7 @@ namespace MeetHut.Services.Application
         /// <inheritdoc />
         public List<ParameterDTO> GetAll()
         {
-            return keyPairs
+            return KeyPairs
                 .Select(key => new ParameterDTO { Key = key.Key, Value = _configuration[key.Value] })
                 .ToList();
         }

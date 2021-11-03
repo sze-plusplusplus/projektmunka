@@ -34,11 +34,12 @@ const socialConfigFactory = (parameterService: ParameterService) =>
 
         // Microsoft
         const msClientIdParam = res.find((x) => x.key === 'Microsoft.ClientId');
-        if (msClientIdParam && msClientIdParam.value) {
+        const msRedirectUri = res.find((x) => x.key === 'Microsoft.RedirectUri');
+        if (msClientIdParam && msClientIdParam.value && msRedirectUri && msRedirectUri.value) {
           providers.push({
             id: MicrosoftLoginProvider.PROVIDER_ID,
             provider: new MicrosoftLoginProvider(msClientIdParam.value, {
-              redirect_uri: 'https://localhost:5001/signin-ms'
+              redirect_uri: msRedirectUri.value
             })
           });
         }

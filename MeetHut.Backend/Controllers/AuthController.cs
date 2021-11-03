@@ -29,6 +29,8 @@ namespace MeetHut.Backend.Controllers
         /// </summary>
         /// <param name="authService">Auth Service</param>
         /// <param name="options">Application options</param>
+        /// <param name="googleOptions">Google options</param>
+        /// <param name="msOptions">Microsoft options</param>
         public AuthController(IAuthService authService, IOptions<ApplicationConfiguration> options, IOptions<GoogleConfiguration> googleOptions, IOptions<MicrosoftConfiguration> msOptions)
         {
             _authService = authService;

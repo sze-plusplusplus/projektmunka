@@ -19,9 +19,13 @@
   - `Google` - Google settings
     - `ClientId` - Google app client Id
     - `ClientSecret` - Google app client secret
+    - `LoginDisabled` - Disable Google external login feature
+    - `RedirectUri` - Login redirect Uri
   - `Microsoft` - Microsoft settings
     - `ClientId` - Microsoft Azure app client Id
     - `GraphUrl` - Microsoft Graph url
+    - `LoginDisabled` - Disable Microsoft external login feature
+    - `RedirectUri` - Login redirect Uri
 
 ## Livekit
 

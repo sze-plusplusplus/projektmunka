@@ -33,12 +33,14 @@
     "Google": {
       "ClientId": "",
       "ClientSecret": "",
-      "LoginDisabled": false
+      "LoginDisabled": false,
+      "RedirectUri": "https://localhost:5001/signin-google"
     },
     "Microsoft": {
       "ClientId": "",
       "GraphUrl": "https://graph.microsoft.com",
-      "LoginDisabled": false
+      "LoginDisabled": false,
+      "RedirectUri": "https://localhost:5001/signin-ms"
     }
   }
 }
