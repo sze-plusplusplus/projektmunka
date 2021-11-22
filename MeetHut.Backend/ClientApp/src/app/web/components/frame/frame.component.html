@@ -1,0 +1,32 @@
+<div id="outer-main">
+  <ng-container *ngIf="showHeader" [ngTemplateOutlet]="header"></ng-container>
+  <div id="inner-main">
+    <router-outlet></router-outlet>
+  </div>
+  <ng-container *ngIf="showFooter" [ngTemplateOutlet]="footer"></ng-container>
+</div>
+
+<ng-template #header>
+  <div id="header">
+    <span id="title">{{ title }}</span>
+  </div>
+</ng-template>
+
+<ng-template #footer>
+  <div id="footer">
+    <div class="item-block">
+      <div class="logo-block"></div>
+    </div>
+    <div class="item-block"></div>
+    <div id="navigation-block" class="item-block">
+      <button
+        id="dashboard-button"
+        mat-fab
+        color="primary"
+        [routerLink]="['/dashboard']"
+      >
+        <mat-icon>dashboard</mat-icon>
+      </button>
+    </div>
+  </div>
+</ng-template>

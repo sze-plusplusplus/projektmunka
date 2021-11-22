@@ -1,12 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomeComponent, RoomsComponent } from './pages/';
-import { RoomService } from './services';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { SharedModule } from '../shared/shared.module';
+import { FrameComponent } from './components';
+import { DashboardComponent, RoomsComponent } from './pages/';
+import { RoomService } from './services';
+import { WebRoutingModule } from './web-routing.module';
 
 @NgModule({
-  declarations: [HomeComponent, RoomsComponent],
-  imports: [CommonModule, HttpClientModule],
+  declarations: [FrameComponent, DashboardComponent, RoomsComponent],
+  imports: [CommonModule, HttpClientModule, WebRoutingModule, SharedModule],
   providers: [RoomService],
   exports: []
 })
