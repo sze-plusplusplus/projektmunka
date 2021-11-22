@@ -26,14 +26,22 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private socialAuthService: SocialAuthService
-  ) {}
+  ) {
+  }
 
   /**
    * On Init hook
    */
   ngOnInit(): void {
     this.route.queryParams.subscribe(
-      (params) => (this.redirectPath = params.redirect || '/home')
+      (params) => {
+        let redirectUrl = params.redirect;
+        if (redirectUrl === "/auth/login") {
+          this.redirectPath = "/home";
+        } else {
+          this.redirectPath = redirectUrl || "/home";
+        }
+      }
     );
   }
 
@@ -84,7 +92,7 @@ export class LoginComponent implements OnInit {
   }
 
   private loginEvent(): void {
-    this.loginModel = new LoginModel('', '');
+    this.loginModel = new LoginModel("", "");
     this.router.navigateByUrl(this.redirectPath);
   }
 }
