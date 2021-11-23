@@ -1,0 +1,6 @@
+<div *ngIf="user" class="data">
+    <div class="data-row"><span class="name">User Name: </span> {{ user.userName }}</div>
+    <div class="data-row"><span class="name">E-mail address: </span> {{ user.email }}</div>
+    <div class="data-row"><span class="name">Full Name: </span> {{ user.fullName }}</div>
+    <div class="data-row"><span class="name">Last Login: </span> {{ user.lastLogin | date: 'yyyy-MM-dd HH:mm:ss' }}</div>
+</div>

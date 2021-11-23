@@ -4,8 +4,8 @@ import { AuthGuard } from '../auth/guards';
 import {
   FrameComponent,
   IFrameSettings
-} from './components/frame/frame.component';
-import { DashboardComponent, RoomsComponent } from './pages';
+} from "./components";
+import { DashboardComponent, RoomsComponent, UserComponent } from './pages';
 
 export interface IRouteData {
   title: string;
@@ -38,6 +38,14 @@ const routes: Routes = [
           frameSettings: <IFrameSettings>{ showHeader: true, showFooter: true }
         },
         canActivate: [AuthGuard]
+      },
+      {
+        path: 'user',
+        component: UserComponent,
+        data: <IRouteData>{
+          title: 'User',
+          frameSettings: <IFrameSettings>{ showHeader: true, showFooter: true }
+        }
       },
       { path: '**', redirectTo: 'dashboard' }
     ]
