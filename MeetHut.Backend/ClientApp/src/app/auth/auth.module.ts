@@ -12,10 +12,17 @@ import {
   SocialAuthServiceConfig,
   SocialLoginModule
 } from 'angularx-social-login';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [LoginComponent, RegistrationComponent],
-  imports: [CommonModule, FormsModule, HttpClientModule, SocialLoginModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    HttpClientModule,
+    SocialLoginModule,
+    SharedModule
+  ],
   providers: [
     AuthGuard,
     AuthService,

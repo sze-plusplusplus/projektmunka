@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './auth/interceptors/auth-interceptor';
 import { ErrorInterceptor } from './shared/interceptors/error-interceptor';
-import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,7 +16,6 @@ import { SharedModule } from './shared/shared.module';
     BrowserAnimationsModule,
 
     /* Application modules */
-    SharedModule,
     AuthModule,
     MediaModule,
     WebModule
