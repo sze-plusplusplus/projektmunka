@@ -6,6 +6,8 @@ import {
   IFrameSettings
 } from './components/frame/frame.component';
 import { DashboardComponent, RoomsComponent } from './pages';
+import { RoomComponent } from './pages/room/room.component';
+import { RoomResolver } from './resolvers/room.resolver';
 
 export interface IRouteData {
   title: string;
@@ -39,6 +41,18 @@ const routes: Routes = [
         },
         canActivate: [AuthGuard]
       },
+      {
+        path: 'room/:publicId',
+        component: RoomComponent,
+        resolve: {
+          room: RoomResolver
+        },
+        data: <IRouteData>{
+          title: 'Room',
+          frameSettings: <IFrameSettings>{ showHeader: true, showFooter: true }
+        },
+        canActivate: [AuthGuard]
+      },
       { path: '**', redirectTo: 'dashboard' }
     ]
   }
@@ -46,6 +60,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [RoomResolver]
 })
 export class WebRoutingModule {}
