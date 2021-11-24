@@ -4,11 +4,18 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { FrameComponent } from './components';
 import { DashboardComponent, RoomsComponent, UserComponent } from './pages/';
+import { RoomComponent } from './pages/room/room.component';
 import { RoomService } from './services';
 import { WebRoutingModule } from './web-routing.module';
 
 @NgModule({
-  declarations: [FrameComponent, DashboardComponent, RoomsComponent, UserComponent],
+  declarations: [
+    FrameComponent,
+    DashboardComponent,
+    RoomsComponent,
+    RoomComponent,
+    UserComponent
+  ],
   imports: [CommonModule, HttpClientModule, WebRoutingModule, SharedModule],
   providers: [RoomService],
   exports: []
