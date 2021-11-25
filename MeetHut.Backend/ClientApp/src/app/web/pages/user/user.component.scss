@@ -1,0 +1,85 @@
+@import 'src/app/shared/shared-variables.scss';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+#user-data {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+
+  #data-rows {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+
+     table {
+       width: 100%;
+       table-layout: fixed;
+       border-collapse: collapse;
+
+       tr {
+
+         td {
+           height: 3rem;
+           padding: 0.4rem;
+           border-bottom: 2px solid $primary-dark;
+           font-size: 18px;
+           word-break: break-word;
+
+           &.header {
+             font-weight: bold;
+             color: $primary-dark;
+           }
+
+           &.data {
+
+           }
+         }
+
+         &:first-of-type {
+           td {
+             border-top: 2px solid $primary-dark;
+           }
+         }
+
+         &:hover {
+           td {
+             background-color: $primary-light-hover;
+           }
+         }
+       }
+     }
+  }
+
+  #divider {
+    border: 1px solid $primary-dark;
+    margin-left: 18px;
+    margin-right: 18px;
+  }
+
+  #profile-image {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 4px solid $primary-dark;
+      transition-duration: 0.4s;
+
+      &:hover {
+        width: 400px;
+        height: 400px;
+        transition-duration: 0.4s;
+      }
+    }
+  }
+}

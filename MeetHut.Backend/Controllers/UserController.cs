@@ -46,6 +46,16 @@ namespace MeetHut.Backend.Controllers
         }
 
         /// <summary>
+        /// Get current user
+        /// </summary>
+        /// <returns>User</returns>
+        [HttpGet("me")]
+        public UserDTO GetCurrent() 
+        {
+            return _userService.GetMappedByName<UserDTO>(User.Identity.Name);
+        }
+
+        /// <summary>
         /// Create user from model
         /// </summary>
         /// <param name="model">Model</param>

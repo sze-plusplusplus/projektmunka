@@ -34,14 +34,14 @@
             height: 30px;
             padding: 5px $paddingAmount 5px $paddingAmount;
             margin-top: -$gapAmount;
-            border-radius: 0px 0px $roundedBy $roundedBy;
+            border-radius: 0 0 $roundedBy $roundedBy;
             background-color: $white;
         }
 
         &#footer {
             align-items: stretch;
             height: 75px;
-            padding: 0px;
+            padding: 0;
 
             .item-block {
                 display: flex;
@@ -69,5 +69,6 @@
         border-radius: $roundedBy;
         padding: 18px;
         background-color: $white;
+        display: flex;
     }
 }

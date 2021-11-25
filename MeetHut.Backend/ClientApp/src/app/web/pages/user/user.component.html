@@ -1,0 +1,32 @@
+<div *ngIf="user" id="user-data">
+
+  <div id="data-rows">
+    <div>
+      <table>
+        <tr>
+          <td class="header">User Name:</td>
+          <td class="data"> {{ user.userName }}</td>
+        </tr>
+        <tr>
+          <td class="header">E-mail address:</td>
+          <td class="data">{{ user.email }}</td>
+        </tr>
+        <tr>
+          <td class="header">Full Name:</td>
+          <td class="data">{{ user.fullName }}</td>
+        </tr>
+        <tr>
+          <td class="header">Last Login:</td>
+          <td class="data">{{ user.lastLogin | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div id="divider"></div>
+
+  <div id="profile-image">
+    <img src="/assets/profile-image.png" />
+  </div>
+
+</div>
