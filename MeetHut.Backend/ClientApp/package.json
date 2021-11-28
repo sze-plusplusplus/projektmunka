@@ -27,6 +27,7 @@
     "angularx-social-login": "^4.0.1",
     "bootstrap": "^5.0.2",
     "jwt-decode": "^3.1.2",
+    "livekit-client": "^0.14.3",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"

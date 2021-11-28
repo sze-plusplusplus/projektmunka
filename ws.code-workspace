@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "name": "Backend Solution",
+      "path": "."
+    },
+    {
+      "name": "Frontend",
+      "path": "./MeetHut.Backend/ClientApp/"
+    }
+  ]
+}

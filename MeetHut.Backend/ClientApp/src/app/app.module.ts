@@ -2,7 +2,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthModule, MediaModule, WebModule } from '.';
+import { AuthModule, WebModule } from '.';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './auth/interceptors/auth-interceptor';
@@ -17,7 +17,6 @@ import { ErrorInterceptor } from './shared/interceptors/error-interceptor';
 
     /* Application modules */
     AuthModule,
-    MediaModule,
     WebModule
   ],
   providers: [

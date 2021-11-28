@@ -13,8 +13,12 @@ import { ParticipantTileComponent } from './components/participant-tile/particip
 import { DialogFrameComponent } from './components/common/dialog-frame/dialog-frame.component';
 import { ParticipantsDialogComponent } from './components/dialog/participants-dialog/participants-dialog.component';
 import { ChatDialogComponent } from './components/dialog/chat-dialog/chat-dialog.component';
-
 import { SettingsDialogComponent } from './components/dialog/settings-dialog/settings-dialog.component';
+import { LivekitComponent } from './components/livekit/livekit.component';
+import { VideoComponent } from './components/livekit/video/video.component';
+import { ControlsComponent } from './components/livekit/controls/controls.component';
+import { ScreenshareComponent } from './components/livekit/screenshare/screenshare.component';
+import { ParticipantComponent } from './components/livekit/participant/participant.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,12 @@ import { SettingsDialogComponent } from './components/dialog/settings-dialog/set
     ParticipantsDialogComponent,
     DialogFrameComponent,
     ChatDialogComponent,
-    SettingsDialogComponent
+    SettingsDialogComponent,
+    LivekitComponent,
+    VideoComponent,
+    ControlsComponent,
+    ScreenshareComponent,
+    ParticipantComponent
   ],
   imports: [CommonModule, HttpClientModule, WebRoutingModule, SharedModule],
   providers: [RoomService],

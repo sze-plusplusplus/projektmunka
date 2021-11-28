@@ -65,6 +65,15 @@ const routes: Routes = [
         }),
         canActivate: [AuthGuard]
       },
+      {
+        path: 'room',
+        component: RoomComponent,
+        data: <IRouteData>{
+          title: 'Room',
+          frameSettings: <IFrameSettings>{ showHeader: true, showFooter: true }
+        },
+        canActivate: [AuthGuard]
+      },
       { path: '**', redirectTo: 'dashboard' }
     ]
   }

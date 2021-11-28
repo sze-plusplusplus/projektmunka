@@ -1,0 +1,9 @@
+<div id="livekit">
+	<div class="main" [ngClass]="{'is-loading' : isConnecting}">
+		<livekit-screenshare [track]="screenTrack"></livekit-screenshare>
+		<div class="participant-renderer">
+			<livekit-participant *ngFor="let participant of participants | slice:0:userNumberLimit" [participant]="participant"></livekit-participant>
+		</div>
+	</div>
+	<livekit-controls></livekit-controls>
+</div>
