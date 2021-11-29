@@ -1,14 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/guards';
-import { FrameComponent, IFrameSettings } from './components';
+import { FrameComponent } from './components';
 import { DashboardComponent, RoomsComponent, UserComponent } from './pages';
 import { RoomComponent } from './pages/room/room.component';
+import { RoomFrameSettingsResolver } from './resolvers/frame-settings/room-frame-settings.resolver';
+import { RoomsFrameSettingsResolver } from './resolvers/frame-settings/rooms-frame-settings.resolver';
 import { RoomResolver } from './resolvers/room.resolver';
 
-export interface IRouteData {
+interface IRouteData {
+  title?: string;
+}
+
+export class RouteData implements IRouteData {
   title: string;
-  frameSettings: IFrameSettings;
+
+  constructor(from?: IRouteData) {
+    this.title = from?.title ?? '';
+  }
 }
 
 const routes: Routes = [
@@ -20,22 +29,20 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent,
-        data: <IRouteData>{
-          title: 'Dashboard',
-          frameSettings: <IFrameSettings>{
-            showHeader: false,
-            showFooter: false
-          }
-        },
+        data: new RouteData({
+          title: 'Dashboard'
+        }),
         canActivate: [AuthGuard]
       },
       {
         path: 'rooms',
         component: RoomsComponent,
-        data: <IRouteData>{
-          title: 'Rooms',
-          frameSettings: <IFrameSettings>{ showHeader: true, showFooter: true }
+        resolve: {
+          frameSettings: RoomsFrameSettingsResolver
         },
+        data: new RouteData({
+          title: 'Rooms'
+        }),
         canActivate: [AuthGuard]
       },
       {
@@ -50,12 +57,12 @@ const routes: Routes = [
         path: 'room/:publicId',
         component: RoomComponent,
         resolve: {
-          room: RoomResolver
+          room: RoomResolver,
+          frameSettings: RoomFrameSettingsResolver
         },
-        data: <IRouteData>{
-          title: 'Room',
-          frameSettings: <IFrameSettings>{ showHeader: true, showFooter: true }
-        },
+        data: new RouteData({
+          title: 'Room'
+        }),
         canActivate: [AuthGuard]
       },
       { path: '**', redirectTo: 'dashboard' }

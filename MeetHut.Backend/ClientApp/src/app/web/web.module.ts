@@ -7,6 +7,8 @@ import { DashboardComponent, RoomsComponent, UserComponent } from './pages/';
 import { RoomComponent } from './pages/room/room.component';
 import { RoomService } from './services';
 import { WebRoutingModule } from './web-routing.module';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { WebRoutingModule } from './web-routing.module';
     DashboardComponent,
     RoomsComponent,
     RoomComponent,
-    UserComponent
+    UserComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [CommonModule, HttpClientModule, WebRoutingModule, SharedModule],
   providers: [RoomService],

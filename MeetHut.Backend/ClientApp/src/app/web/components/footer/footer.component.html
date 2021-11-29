@@ -1,0 +1,31 @@
+<div id="footer">
+  <div id="left-controls" class="control-block">
+    <img id="logo" src="/assets/logo.png" />
+    <ng-container
+      [ngTemplateOutlet]="controlBlock"
+      [ngTemplateOutletContext]="{ locationToPlace: leftLocation }"
+    ></ng-container>
+  </div>
+  <div id="center-controls" class="control-block">
+    <ng-container
+      [ngTemplateOutlet]="controlBlock"
+      [ngTemplateOutletContext]="{ locationToPlace: centerLocation }"
+    ></ng-container>
+  </div>
+  <div id="right-controls" class="control-block">
+    <ng-container
+      [ngTemplateOutlet]="controlBlock"
+      [ngTemplateOutletContext]="{ locationToPlace: rightLocation }"
+    ></ng-container>
+  </div>
+</div>
+
+<ng-template #controlBlock let-locationToPlace="locationToPlace">
+  <ng-container *ngFor="let control of settings?.controls">
+    <ng-container *ngIf="control.location === locationToPlace">
+      <button mat-fab [color]="control.color" (click)="control.action(router)">
+        <mat-icon>{{ control.iconKey }}</mat-icon>
+      </button>
+    </ng-container>
+  </ng-container>
+</ng-template>

@@ -1,0 +1,35 @@
+@import "../../../shared/shared-variables.scss";
+
+$paddingAmount: 18px;
+
+#footer {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 10px;
+    height: 75px;
+    padding: 0px;
+
+    .control-block {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        gap: 10px;
+
+        &#left-controls {
+            justify-content: flex-start;
+
+            #logo {
+                height: 100%;
+            }
+        }
+
+        &#center-controls {
+            justify-content: center;
+        }
+
+        &#right-controls {
+            justify-content: flex-end;
+        }
+    }
+}
