@@ -1,0 +1,21 @@
+@import "../../../shared/shared-variables.scss";
+
+$paddingAmount: 18px;
+
+#header {
+    display: flex;
+    flex-direction: row;
+
+    &#header {
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: 500;
+
+        height: 30px;
+        padding: 5px $paddingAmount 5px $paddingAmount;
+        margin-top: -$primary-gap;
+        border-radius: 0 0 $primary-rounding $primary-rounding;
+        background-color: $white;
+    }
+}
