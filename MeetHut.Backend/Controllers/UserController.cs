@@ -12,7 +12,7 @@ namespace MeetHut.Backend.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -25,9 +25,9 @@ namespace MeetHut.Backend.Controllers
         {
             _userService = userService;
         }
-        
+
         /// <summary>
-        /// Get all element 
+        /// Get all element
         /// </summary>
         [HttpGet]
         public IEnumerable<UserDTO> GetAll()
@@ -64,7 +64,7 @@ namespace MeetHut.Backend.Controllers
         {
             return _userService.CreateAndSaveByModel(model);
         }
-        
+
         /// <summary>
         /// Update user by model
         /// </summary>
@@ -75,7 +75,7 @@ namespace MeetHut.Backend.Controllers
         {
             _userService.UpdateAndSaveByModel(id, model);
         }
-        
+
         /// <summary>
         /// Delete user by Id
         /// </summary>

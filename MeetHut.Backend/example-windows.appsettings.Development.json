@@ -22,7 +22,9 @@
     "webhook": {
       "key": "test",
       "secret": "EXAMPLElgnfIrYsA8C8vZ0n53rqKCWsm"
-    }
+    },
+    "emptyTimeout": 30,
+    "maxParticipants": 10
   },
   "Migration": {
     "OnStart": true

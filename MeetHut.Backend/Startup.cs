@@ -80,6 +80,9 @@ namespace MeetHut.Backend
             services.AddScoped<IRoomService, RoomService>();
             services.AddScoped<IParameterService, ParameterService>();
 
+            // Hosted services
+            services.AddHostedService<RoomWorker>();
+
             // Add mappers
             var mapperConfig = new MapperConfiguration(conf => { conf.AddProfile<UserMapper>(); conf.AddProfile<RoomMapper>(); });
 
@@ -101,6 +104,7 @@ namespace MeetHut.Backend
                     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1d);
                     options.Lockout.MaxFailedAccessAttempts = 5;
                 })
+                .AddRoles<Role>()
                 .AddEntityFrameworkStores<DatabaseContext>()
                 .AddDefaultTokenProviders();
 
