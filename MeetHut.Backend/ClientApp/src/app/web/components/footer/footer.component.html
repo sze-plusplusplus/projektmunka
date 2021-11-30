@@ -1,24 +1,51 @@
 <div id="footer">
-  <div id="left-controls" class="control-block">
-    <img id="logo" src="/assets/logo.png" />
-    <ng-container
-      [ngTemplateOutlet]="controlBlock"
-      [ngTemplateOutletContext]="{ locationToPlace: leftLocation }"
-    ></ng-container>
-  </div>
-  <div id="center-controls" class="control-block">
-    <ng-container
-      [ngTemplateOutlet]="controlBlock"
-      [ngTemplateOutletContext]="{ locationToPlace: centerLocation }"
-    ></ng-container>
-  </div>
-  <div id="right-controls" class="control-block">
-    <ng-container
-      [ngTemplateOutlet]="controlBlock"
-      [ngTemplateOutletContext]="{ locationToPlace: rightLocation }"
-    ></ng-container>
-  </div>
+  <mat-expansion-panel
+    id="control-expansion-panel"
+    [expanded]="controlsExpanded"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title
+        ><mat-icon id="control-expand-icon"
+          >videogame_asset</mat-icon
+        ></mat-panel-title
+      >
+    </mat-expansion-panel-header>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div id="left-controls" class="control-block col d-none d-md-flex">
+          <img id="logo" class="d-none d-md-block" src="/assets/logo.png" />
+          <ng-container *ngTemplateOutlet="leftControlBLock"> </ng-container>
+        </div>
+        <div id="center-controls" class="control-block col">
+          <ng-container
+            [ngTemplateOutlet]="controlBlock"
+            [ngTemplateOutletContext]="{ locationToPlace: centerLocation }"
+          ></ng-container>
+        </div>
+        <div id="right-controls" class="control-block col">
+          <div
+            id="left-control-block-on-small-screen"
+            class="d-block d-md-none"
+          >
+            <ng-container *ngTemplateOutlet="leftControlBLock"> </ng-container>
+          </div>
+          <ng-container
+            [ngTemplateOutlet]="controlBlock"
+            [ngTemplateOutletContext]="{ locationToPlace: rightLocation }"
+          ></ng-container>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
 </div>
+
+<ng-template #leftControlBLock>
+  <ng-container
+    [ngTemplateOutlet]="controlBlock"
+    [ngTemplateOutletContext]="{ locationToPlace: leftLocation }"
+  ></ng-container>
+</ng-template>
 
 <ng-template #controlBlock let-locationToPlace="locationToPlace">
   <ng-container *ngFor="let control of settings?.controls">

@@ -1,73 +1,26 @@
 @import "../../../shared/shared-variables.scss";
+@import "../../../shared/shared-mixins.scss";
 
 :host {
-  display: flex;
-  flex: 1;
+  @include flex-stretched-container(row);
 }
 
 #outer-main {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+  @include flex-stretched-container(column);
+  @include primary-gap;
 
-  gap: $primary-gap;
-
-  padding: $primary-gap;
-  background-color: $primary-dark;
-
-  $roundedBy: 20px;
-
-  #header,
-  #footer {
-    display: flex;
-    flex-direction: row;
-
-    $paddingAmount: 18px;
-
-    &#header {
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      font-weight: 500;
-
-      height: 30px;
-      padding: 5px $paddingAmount 5px $paddingAmount;
-      margin-top: -$gapAmount;
-      border-radius: 0 0 $roundedBy $roundedBy;
-      background-color: $white;
-    }
-
-    &#footer {
-      align-items: stretch;
-      height: 75px;
-      padding: 0;
-
-      .item-block {
-        display: flex;
-        flex: 1;
-        align-items: center;
-
-        .logo-block {
-          width: 200px;
-          height: 100%;
-          background-image: url("/assets/logo.png");
-          background-repeat: no-repeat;
-          background-size: contain;
-          background-position: center left;
-        }
-
-        &#navigation-block {
-          justify-content: flex-end;
-        }
-      }
-    }
+  &#header {
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 500;
   }
 
   #inner-main {
-    flex: 1;
-    border-radius: $primary-rounding;
+    @include flex-stretched-container(row);
+    @include primary-rounding;
+
     padding: 18px;
     background-color: $white;
-    display: flex;
   }
 }

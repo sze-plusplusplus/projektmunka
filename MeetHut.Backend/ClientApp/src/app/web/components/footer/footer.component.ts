@@ -10,11 +10,21 @@ import { ControlLocation, FooterSettings } from '../../models';
 export class FooterComponent implements OnInit {
   @Input() settings: FooterSettings | undefined;
 
+  controlsExpanded: boolean = false;
+
   readonly leftLocation = ControlLocation.LEFT;
   readonly centerLocation = ControlLocation.CENTER;
   readonly rightLocation = ControlLocation.RIGHT;
 
-  constructor(public router: Router) {}
+  constructor(public router: Router) {
+    this.setExpandedState();
+  }
 
   ngOnInit(): void {}
+
+  private setExpandedState(): void {
+    if (window.innerWidth >= 768) {
+      this.controlsExpanded = true;
+    }
+  }
 }

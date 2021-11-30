@@ -1,0 +1,35 @@
+// Flex
+
+@mixin flex-container($direction) {
+    display: flex;
+    flex-direction: $direction;
+}
+
+@mixin flex-stretched-container($direction) {
+    @include flex-container($direction);
+    flex: 1;
+}
+
+@mixin flex-aligned($items, $content) {
+    align-items: $items;
+    justify-content: $content;
+}
+
+@mixin primary-gap {
+    gap: $primary-gap;
+}
+
+// Other
+
+@mixin primary-rounding {
+    border-radius: $primary-rounding;
+}
+
+@mixin prevent-select() {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
