@@ -58,7 +58,13 @@ export class ControlSettings implements IControlSettings {
     }
 
     if (this.open) {
-      a.push(this.open());
+      a.push(
+        of(
+          this.open()
+            .toPromise()
+            .then(() => this.toggle())
+        )
+      );
     }
 
     if (this.toggleSettings) {
@@ -72,7 +78,7 @@ export class ControlSettings implements IControlSettings {
     const to = { ...this, ...this.toggleSettings } as ControlSettings;
     this.toggleSettings = { ...this } as ControlSettings;
 
-    this.iconKey = to.iconKey;
+    this.iconKey = to.iconKey ?? this.iconKey;
     this.color = to.color;
     this.routeTo = to.routeTo;
     this.open = to.open;

@@ -1,0 +1,31 @@
+@import "../../../../shared/shared-variables.scss";
+@import "../../../../shared/shared-mixins.scss";
+
+#chat-main {
+    #message-list {
+        flex: 6;
+        background-color: $white;
+    }
+
+    #input-area {
+        @include flex-stretched-container(row);
+
+        #input {
+            display: flex;
+            background-color: $white;
+            padding: $primary-gap;
+            border-radius: $primary-rounding;
+
+            mat-form-field {
+                color: initial;
+                flex: 1;
+                font-size: 15px;
+            }
+        }
+
+        button {
+            height: 100%;
+            width: 100%;
+        }
+    }
+}

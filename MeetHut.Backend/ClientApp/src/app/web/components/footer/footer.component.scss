@@ -1,35 +1,68 @@
 @import "../../../shared/shared-variables.scss";
+@import "../../../shared/shared-mixins.scss";
 
-$paddingAmount: 18px;
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+@import "~bootstrap/scss/mixins/_breakpoints";
 
-#footer {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    gap: 10px;
-    height: 75px;
-    padding: 0px;
+::ng-deep {
+    .mat-expansion-panel {
+        box-shadow: none !important;
+        @include prevent-select;
 
-    .control-block {
-        display: flex;
-        flex: 1;
-        align-items: center;
-        gap: 10px;
+        .mat-expansion-panel-header {
+            &:hover {
+                background: initial !important;
+            }
 
-        &#left-controls {
-            justify-content: flex-start;
-
-            #logo {
-                height: 100%;
+            .mat-expansion-panel-header-title {
+                justify-content: center;
+                margin: 0;
             }
         }
+    }
 
-        &#center-controls {
-            justify-content: center;
+    .mat-expansion-indicator {
+        display: none !important;
+    }
+}
+
+#footer {
+    height: max-content;
+
+    #control-expansion-panel {
+        flex: 1;
+        background: none;
+
+        #control-expand-icon {
+            color: white;
+        }
+    }
+
+    .control-block {
+        @include flex-container(row);
+        @include flex-aligned(center, center);
+        flex: 1;
+
+        gap: $primary-gap;
+        padding: 5px;
+
+        #logo {
+            width: 100px;
         }
 
-        &#right-controls {
-            justify-content: flex-end;
+        @include media-breakpoint-up(md) {
+            &#left-controls {
+                justify-content: flex-start;
+            }
+
+            &#center-controls {
+                justify-content: center;
+            }
+
+            &#right-controls {
+                justify-content: flex-end;
+            }
         }
     }
 }

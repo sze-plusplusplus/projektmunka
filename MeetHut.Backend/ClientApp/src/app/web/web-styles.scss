@@ -1,0 +1,38 @@
+@import "../shared/shared-variables.scss";
+@import "../shared/shared-mixins.scss";
+
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+@import "~bootstrap/scss/mixins/_breakpoints";
+
+.frame-inner-component {
+    @include flex-stretched-container(row);
+}
+
+.dialog {
+    .app-dialog {
+        @include flex-stretched-container(column);
+        color: $white;
+
+        .dialog-main {
+            @include flex-stretched-container(column);
+            @include primary-gap;
+
+            > div {
+                @include primary-rounding;
+                @include primary-gap;
+            }
+        }
+    }
+
+    @include media-breakpoint-down(sm) {
+        max-width: 95vw !important;
+        width: 95vw !important;
+        height: 90vh !important;
+        max-height: 90vh !important;
+    }
+}
+
+.overflow-ellipsis {
+    text-overflow: ellipsis;
+}

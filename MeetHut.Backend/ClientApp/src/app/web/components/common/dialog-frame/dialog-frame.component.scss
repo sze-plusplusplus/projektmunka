@@ -1,0 +1,11 @@
+@import "../../../../shared/shared-mixins.scss";
+
+:host {
+    @include flex-stretched-container(column);
+}
+
+.dialog-header {
+    @include flex-container(row);
+    @include flex-aligned(center, space-between);
+    font-size: 30px;
+}

@@ -1,0 +1,26 @@
+<app-dialog-frame title="Chat" (close)="dialogRef.close()">
+  <div id="chat-main" class="dialog-main">
+    <div id="message-list"></div>
+    <div id="input-area" class="container-fluid">
+      <div class="row">
+        <div id="input" class="col col-12 col-md-10">
+          <mat-form-field>
+            <textarea
+              matInput
+              placeholder="Your message"
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="4"
+            ></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="col col-12 col-md-2">
+          <button mat-mini-fab color="primary">
+            <mat-icon>send</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-dialog-frame>

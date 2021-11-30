@@ -1,0 +1,14 @@
+@import "../../../shared/shared-mixins.scss";
+
+.container-fluid {
+    @include flex-container(column);
+}
+
+.row {
+    @include flex-stretched-container(row);
+}
+
+.col {
+    padding: 10px !important;
+    display: flex;
+}
