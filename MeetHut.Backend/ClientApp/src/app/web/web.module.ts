@@ -6,10 +6,12 @@ import { FrameComponent } from './components';
 import { DashboardComponent, RoomsComponent, UserComponent } from './pages/';
 import { RoomService } from './services';
 import { WebRoutingModule } from './web-routing.module';
+import { ChatComponent } from "./pages";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
-  declarations: [FrameComponent, DashboardComponent, RoomsComponent, UserComponent],
-  imports: [CommonModule, HttpClientModule, WebRoutingModule, SharedModule],
+  declarations: [FrameComponent, DashboardComponent, RoomsComponent, UserComponent, ChatComponent],
+  imports: [CommonModule, HttpClientModule, WebRoutingModule, SharedModule, FormsModule, ReactiveFormsModule],
   providers: [RoomService],
   exports: []
 })

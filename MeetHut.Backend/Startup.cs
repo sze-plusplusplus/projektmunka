@@ -211,7 +211,7 @@ namespace MeetHut.Backend
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<MessageHub>("/chat"); 
+                endpoints.MapHub<MessageHub>("/Chat"); 
                 endpoints.MapControllers();
             });
 

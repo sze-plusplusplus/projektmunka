@@ -5,7 +5,7 @@ import {
   FrameComponent,
   IFrameSettings
 } from "./components";
-import { DashboardComponent, RoomsComponent, UserComponent } from './pages';
+import { ChatComponent, DashboardComponent, RoomsComponent, UserComponent } from "./pages";
 
 export interface IRouteData {
   title: string;
@@ -44,6 +44,14 @@ const routes: Routes = [
         component: UserComponent,
         data: <IRouteData>{
           title: 'User',
+          frameSettings: <IFrameSettings>{ showHeader: true, showFooter: true }
+        }
+      },
+      {
+        path: 'demo-chat',
+        component: ChatComponent,
+        data: <IRouteData>{
+          title: 'Chat',
           frameSettings: <IFrameSettings>{ showHeader: true, showFooter: true }
         }
       },
