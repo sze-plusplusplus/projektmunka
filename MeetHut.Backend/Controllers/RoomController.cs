@@ -94,7 +94,22 @@ namespace MeetHut.Backend.Controllers
         [HttpPost]
         public int Create([FromBody] RoomModel model)
         {
-            return _roomService.CreateAndSaveByModel(setupModel(model));
+
+            if (User.Identity == null)
+            {
+                return 0;
+            }
+
+            var user = _userService.GetByName(User.Identity.Name);
+            if (user is null)
+            {
+                throw new ArgumentException("Logged in user does not exist");
+            }
+
+            var created = _roomService.CreateAndSaveByModel(setupModel(model));
+            _roomService.AddToRoom(created, user.Id, user.Id, DataAccess.Enums.Meet.MeetRole.Lecturer);
+
+            return created;
         }
 
         /// <summary>

@@ -7,6 +7,7 @@ using MeetHut.Services.Meet.Interfaces;
 using MeetHut.Services.Meet.DTOs;
 using MeetHut.DataAccess.Entities;
 using Livekit.Client;
+using MeetHut.DataAccess.Enums.Meet;
 
 namespace MeetHut.Services.Meet
 {
@@ -93,6 +94,20 @@ namespace MeetHut.Services.Meet
         public RoomUser[] GetRoomUsers(int roomId)
         {
             return this.DatabaseContext.RoomUsers.Where(r => r.RoomId == roomId).ToArray();
+        }
+
+
+        /// <inheritdoc />
+        public void AddToRoom(int roomId, int userId, int adderId, MeetRole role = MeetRole.Guest)
+        {
+            this.DatabaseContext.Add(new RoomUser()
+            {
+                AdderId = adderId,
+                RoomId = roomId,
+                UserId = userId,
+                Role = role
+            });
+            this.DatabaseContext.SaveChanges();
         }
     }
 }

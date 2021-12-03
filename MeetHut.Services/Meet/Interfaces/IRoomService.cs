@@ -1,5 +1,6 @@
 using MeetHut.DataAccess.Entities;
 using MeetHut.DataAccess.Entities.Meet;
+using MeetHut.DataAccess.Enums.Meet;
 using MeetHut.Services.Meet.DTOs;
 
 namespace MeetHut.Services.Meet.Interfaces
@@ -40,5 +41,13 @@ namespace MeetHut.Services.Meet.Interfaces
         /// </summary>
         /// <param name="roomId">ID of the room</param>
         public void DeleteRoomWithLivekit(int roomId);
+        /// <summary>
+        /// Add a user to a room with given role
+        /// </summary>
+        /// <param name="roomId">ID of room</param>
+        /// <param name="userId">ID of user</param>
+        /// <param name="adderId">ID of adding user (current)</param>
+        /// <param name="role">Role of user, default GUEST</param>
+        public void AddToRoom(int roomId, int userId, int adderId, MeetRole role);
     }
 }

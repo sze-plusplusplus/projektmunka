@@ -24,7 +24,9 @@
       "secret": "EXAMPLElgnfIrYsA8C8vZ0n53rqKCWsm"
     },
     "emptyTimeout": 30,
-    "maxParticipants": 10
+    "maxParticipants": 10,
+    "workerInterval": 30,
+    "workerLogging": true
   },
   "Migration": {
     "OnStart": true

@@ -4,6 +4,7 @@ using System;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using MeetHut.Services.Meet.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace MeetHut.Services.Meet
 {
@@ -14,14 +15,20 @@ namespace MeetHut.Services.Meet
     {
         private readonly IServiceProvider _sp;
 
+        private readonly bool Logging;
+        private readonly int TimerInterval;
+
         /// <summary>
         /// RoomWorker
         /// </summary>
         /// <param name="sp"></param>
+        /// <param name="configuration"></param>
         public RoomWorker(
-            IServiceProvider sp)
+            IServiceProvider sp, IConfiguration configuration)
         {
             _sp = sp;
+            Logging = bool.Parse(configuration["Livekit:workerLogging"]);
+            TimerInterval = int.Parse(configuration["Livekit:workerInterval"]);
         }
 
         /// <summary>
@@ -33,8 +40,9 @@ namespace MeetHut.Services.Meet
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                PingLivekit();
-                await Task.Delay(30000, cancellationToken);
+                if (Logging)
+                    PingLivekit();
+                await Task.Delay(TimerInterval * 1000, cancellationToken);
             }
         }
 
