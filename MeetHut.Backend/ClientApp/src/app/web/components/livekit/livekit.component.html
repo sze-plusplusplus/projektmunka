@@ -1,9 +1,11 @@
 <div id="livekit">
 	<div class="main" [ngClass]="{'is-loading' : isConnecting}">
+		<p>in the room isConnecting: {{isConnecting}} Number of users: {{participants.length}} Has screen sharing: {{!!screenTrack}}</p>
+
 		<livekit-screenshare [track]="screenTrack"></livekit-screenshare>
 		<div class="participant-renderer">
-			<livekit-participant *ngFor="let participant of participants | slice:0:userNumberLimit" [participant]="participant"></livekit-participant>
+			<livekit-participant *ngFor="let participant of participants | slice:0:userNumberLimit" [participant]="participant" (localTrackChanged)="updateScreenShare()"></livekit-participant>
 		</div>
 	</div>
-	<livekit-controls></livekit-controls>
+	<livekit-controls *ngIf="room" [localParticipant]="room.localParticipant" (leave)="leaveRoom()"></livekit-controls>
 </div>

@@ -1,4 +1,11 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output
+} from '@angular/core';
 import {
   LocalParticipant,
   LocalTrack,
@@ -15,6 +22,9 @@ import {
 })
 export class ParticipantComponent implements OnInit, OnDestroy {
   @Input() participant!: Participant;
+
+  @Output()
+  localTrackChanged = new EventEmitter();
 
   isLocal = false;
 
@@ -55,9 +65,13 @@ export class ParticipantComponent implements OnInit, OnDestroy {
   onPublicationsChanged = () => {
     this.isLocal = this.participant instanceof LocalParticipant;
 
+    if (this.isLocal) {
+      this.localTrackChanged.emit();
+    }
+
     const video = this.participant.getTrack(Track.Source.Camera);
 
-    if (video && (video.isSubscribed || this.isLocal)) {
+    if (video && !video.isMuted && (video.isSubscribed || this.isLocal)) {
       const track = video?.track?.attach();
 
       if (track) {

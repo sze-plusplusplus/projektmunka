@@ -18,6 +18,14 @@
     ></ng-container>
   </div>
   <app-livekit></app-livekit>
+	<div *ngIf="!roomId || !connectToken" class="before-connect">
+		<p>Before connect</p>
+		<h2>Room: {{room?.name}}</h2>
+		<p *ngIf="room?.startTime">Ütemezett idő: {{room?.startTime}}-{{room?.endTime}}</p>
+		<p>Létrehozó: {{room?.owner?.userName}}</p>
+		<button (click)="connect()">Kapcsolódás</button>
+	</div>
+	<app-livekit *ngIf="roomId && connectToken" [token]="connectToken" (leave)="leave()"></app-livekit>
 </div>
 
 <ng-template #groupTile>

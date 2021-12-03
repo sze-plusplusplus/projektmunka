@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { FrameComponent } from './components';
@@ -40,7 +39,7 @@ import { ParticipantComponent } from './components/livekit/participant/participa
     ScreenshareComponent,
     ParticipantComponent
   ],
-  imports: [CommonModule, HttpClientModule, WebRoutingModule, SharedModule],
+  imports: [CommonModule, WebRoutingModule, SharedModule],
   providers: [RoomService],
   exports: []
 })

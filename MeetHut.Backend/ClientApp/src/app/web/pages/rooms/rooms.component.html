@@ -1,6 +1,6 @@
 <div>
     Rooms: 
     <div *ngFor="let room of rooms">
-        {{room.name}}
+        <a [routerLink]="['/room/' + room.publicId]">{{room.name}}</a>
     </div>
 </div>

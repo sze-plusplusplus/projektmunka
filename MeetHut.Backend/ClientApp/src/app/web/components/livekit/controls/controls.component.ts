@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { LocalParticipant } from 'livekit-client';
 
 @Component({
   selector: 'livekit-controls',
@@ -6,10 +7,31 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./controls.component.scss']
 })
 export class ControlsComponent implements OnInit {
+  @Input()
+  localParticipant!: LocalParticipant;
 
-  constructor() { }
+  @Output()
+  leave = new EventEmitter();
 
-  ngOnInit(): void {
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  mute() {
+    this.localParticipant.setMicrophoneEnabled(
+      !this.localParticipant.isMicrophoneEnabled
+    );
   }
 
+  toggleVideo() {
+    this.localParticipant.setCameraEnabled(
+      !this.localParticipant.isCameraEnabled
+    );
+  }
+
+  toggleScreenShare() {
+    this.localParticipant.setScreenShareEnabled(
+      !this.localParticipant.isScreenShareEnabled
+    );
+  }
 }

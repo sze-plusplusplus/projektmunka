@@ -66,7 +66,7 @@ const routes: Routes = [
         canActivate: [AuthGuard]
       },
       {
-        path: 'room',
+        path: 'room/:id',
         component: RoomComponent,
         data: <IRouteData>{
           title: 'Room',

@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output
+} from '@angular/core';
 import {
   AudioTrack,
   connect,
@@ -18,6 +25,11 @@ import {
   styleUrls: ['./livekit.component.scss']
 })
 export class LivekitComponent implements OnInit, OnDestroy {
+  @Input() token!: string;
+
+  @Output()
+  leave = new EventEmitter();
+
   isConnecting: boolean;
   room?: Room;
   participants: Participant[];
@@ -45,7 +57,7 @@ export class LivekitComponent implements OnInit, OnDestroy {
     this.error = undefined;
 
     try {
-      this.room = await connect('http://localhost:7880', '', {
+      this.room = await connect('http://localhost:7880', this.token, {
         autoManageVideo: true,
         logLevel: LogLevel.info,
         publishDefaults: { simulcast: true }
@@ -77,7 +89,12 @@ export class LivekitComponent implements OnInit, OnDestroy {
 
     this.room.disconnect(true);
     this.room.engine.client.close();
-    document.body.removeChild(this.audioElement);
+    this.audioElement.remove();
+  }
+
+  leaveRoom() {
+    this.ngOnDestroy();
+    this.leave.emit();
   }
 
   onConnected = () => {
@@ -103,8 +120,6 @@ export class LivekitComponent implements OnInit, OnDestroy {
   };
 
   onSubscribedTrackChanged = (track?: RemoteTrack) => {
-    //console.log(track);
-
     this.onParticipantsChanged();
 
     if (!this.room || (track && track.kind !== Track.Kind.Audio)) {
