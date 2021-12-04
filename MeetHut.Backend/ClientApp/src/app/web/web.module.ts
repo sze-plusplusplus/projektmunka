@@ -1,9 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
-import { FrameComponent } from './components';
-import { DashboardComponent, RoomsComponent, UserComponent } from './pages/';
-import { RoomComponent } from './pages/room/room.component';
+import {
+  FrameComponent,
+  ParticipantEditDialogComponent,
+  RoomEditDialogComponent
+} from './components';
+import { DashboardComponent, RoomsComponent, RoomComponent } from './pages/';
 import { RoomService } from './services';
 import { WebRoutingModule } from './web-routing.module';
 import { HeaderComponent } from './components/header/header.component';
@@ -18,10 +22,18 @@ import { VideoComponent } from './components/livekit/video/video.component';
 import { ControlsComponent } from './components/livekit/controls/controls.component';
 import { ScreenshareComponent } from './components/livekit/screenshare/screenshare.component';
 import { ParticipantComponent } from './components/livekit/participant/participant.component';
+import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
+import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
 
 @NgModule({
   declarations: [
     FrameComponent,
+    RoomEditDialogComponent,
+    ParticipantEditDialogComponent,
     DashboardComponent,
     RoomsComponent,
     RoomComponent,
@@ -39,7 +51,18 @@ import { ParticipantComponent } from './components/livekit/participant/participa
     ScreenshareComponent,
     ParticipantComponent
   ],
-  imports: [CommonModule, WebRoutingModule, SharedModule],
+  imports: [
+    CommonModule,
+    WebRoutingModule,
+    SharedModule,
+    FormsModule,
+    MatListModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatIconModule,
+    NgxMatDatetimePickerModule
+  ],
   providers: [RoomService],
   exports: []
 })

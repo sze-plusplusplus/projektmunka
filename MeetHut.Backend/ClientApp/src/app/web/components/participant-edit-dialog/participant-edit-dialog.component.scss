@@ -1,0 +1,9 @@
+.edit-dialog {
+  > mat-form-field {
+    display: block;
+  }
+
+  .save-button {
+    float: right;
+  }
+}

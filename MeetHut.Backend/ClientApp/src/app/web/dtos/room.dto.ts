@@ -17,6 +17,7 @@ export class RoomDTO extends RoomPublicDTO {
   startTime: string;
   endTime: string;
   owner: {
+    id: number;
     userName: string;
   };
 

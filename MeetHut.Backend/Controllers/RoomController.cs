@@ -142,7 +142,7 @@ namespace MeetHut.Backend.Controllers
         /// Room will be created (even if its not necessary)
         /// </summary>
         /// <param name="id"></param>
-        [HttpGet("open/{id:int}")]
+        [HttpGet("{id:int}/open")]
         public OpenDTO Open(int id)
         {
             checkUserHasPermission(id);
@@ -165,6 +165,53 @@ namespace MeetHut.Backend.Controllers
                 RoomId = id,
                 Token = _roomService.ConnectionToken(user, room)
             };
+        }
+
+        /// <summary>
+        /// Get the list of the user entities connected to a room
+        /// </summary>
+        /// <param name="id">Room id</param>
+        [HttpGet("{id:int}/users")]
+        public RoomUserDTO[] GetRoomUsers(int id)
+        {
+            checkUserHasPermission(id);
+
+            return _roomService.GetRoomUsersMapped(id);
+        }
+
+        /// <summary>
+        /// Add a user to a room based on the username or email, should match exactly (case insensitive)
+        /// </summary>
+        /// <param name="roomId">Room id</param>
+        /// <param name="model">Model containing the input string</param>
+        [HttpPut("{roomId:int}/users")]
+        public RoomUserDTO[] AddUserToRoom(int roomId, [FromBody] RoomUserAddModel model)
+        {
+            checkUserHasPermission(roomId, null, true);
+            var user = _userService.GetByName(User.Identity.Name);
+            if (user is null)
+            {
+                throw new ArgumentException("Logged in user does not exist");
+            }
+
+            _roomService.AddToRoom(roomId, model.UserNameOrEmail, user.Id, DataAccess.Enums.Meet.MeetRole.Student);
+
+            return GetRoomUsers(roomId);
+        }
+
+        /// <summary>
+        /// Remove the given user from the room
+        /// </summary>
+        /// <param name="roomId">Room id</param>
+        /// <param name="userId">User id</param>
+        [HttpDelete("{roomId:int}/users/{userId:int}")]
+        public RoomUserDTO[] RemoveUserFromRoom(int roomId, int userId)
+        {
+            checkUserHasPermission(roomId, null, true);
+
+            _roomService.RemoveFromRoom(roomId, userId);
+
+            return GetRoomUsers(roomId);
         }
 
         // If Admin/Moderator, ok

@@ -1,3 +1,4 @@
+import { NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -15,6 +16,7 @@ import { ErrorInterceptor } from './shared/interceptors/error-interceptor';
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    NgxMatNativeDateModule,
 
     /* Application modules */
     AuthModule,

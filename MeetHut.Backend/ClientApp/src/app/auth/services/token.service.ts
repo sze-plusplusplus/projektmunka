@@ -49,6 +49,20 @@ export class TokenService {
     return new Date(obj.exp * 1000);
   }
 
+  getUserId() {
+    const token = this.authService.accessToken;
+    if (!token) {
+      return -1;
+    }
+
+    const obj = jwtDecode<Token>(token);
+    return Number(
+      obj[
+        'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'
+      ]
+    );
+  }
+
   /**
    * Check access token is expired
    *

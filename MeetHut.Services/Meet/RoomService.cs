@@ -96,6 +96,26 @@ namespace MeetHut.Services.Meet
             return this.DatabaseContext.RoomUsers.Where(r => r.RoomId == roomId).ToArray();
         }
 
+        /// <inheritdoc />
+        public RoomUserDTO[] GetRoomUsersMapped(int roomId)
+        {
+            return _mapper.Map<RoomUserDTO[]>(this.GetRoomUsers(roomId));
+        }
+
+        /// <inheritdoc />
+        public void AddToRoom(int roomId, string usernameOrEmail, int adderId, MeetRole role = MeetRole.Guest)
+        {
+            usernameOrEmail = usernameOrEmail.ToUpperInvariant();
+            var user = this.DatabaseContext.Users.Where(u => u.NormalizedUserName.Equals(usernameOrEmail) || u.NormalizedEmail.Equals(usernameOrEmail)).SingleOrDefault();
+
+            if (user == null)
+            {
+                throw new System.ArgumentException("User cannot be found");
+            }
+
+            this.AddToRoom(roomId, user.Id, adderId, role);
+        }
+
 
         /// <inheritdoc />
         public void AddToRoom(int roomId, int userId, int adderId, MeetRole role = MeetRole.Guest)
@@ -107,6 +127,14 @@ namespace MeetHut.Services.Meet
                 UserId = userId,
                 Role = role
             });
+            this.DatabaseContext.SaveChanges();
+        }
+
+        /// <inheritdoc />
+        public void RemoveFromRoom(int roomId, int userId)
+        {
+            var entity = this.DatabaseContext.RoomUsers.Find(roomId, userId);
+            this.DatabaseContext.RoomUsers.Remove(entity);
             this.DatabaseContext.SaveChanges();
         }
     }

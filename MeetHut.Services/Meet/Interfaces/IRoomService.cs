@@ -37,10 +37,23 @@ namespace MeetHut.Services.Meet.Interfaces
         /// <param name="roomId">ID of the room</param>
         public RoomUser[] GetRoomUsers(int roomId);
         /// <summary>
+        /// Get the list of the users mapped to DTO class
+        /// </summary>
+        /// <param name="roomId">ID of the room</param>
+        public RoomUserDTO[] GetRoomUsersMapped(int roomId);
+        /// <summary>
         /// Delete a room from the Livekit instance (will close connections) and remove room from db
         /// </summary>
         /// <param name="roomId">ID of the room</param>
         public void DeleteRoomWithLivekit(int roomId);
+        /// <summary>
+        /// Add user to the room, will search the user based on the provided username/email
+        /// </summary>
+        /// <param name="roomId">ID of the room</param>
+        /// <param name="usernameOrEmail">Username or email address</param>
+        /// <param name="adderId">ID of the adding (current user)</param>
+        /// <param name="role">Role of the user</param>
+        public void AddToRoom(int roomId, string usernameOrEmail, int adderId, MeetRole role);
         /// <summary>
         /// Add a user to a room with given role
         /// </summary>
@@ -49,5 +62,11 @@ namespace MeetHut.Services.Meet.Interfaces
         /// <param name="adderId">ID of adding user (current)</param>
         /// <param name="role">Role of user, default GUEST</param>
         public void AddToRoom(int roomId, int userId, int adderId, MeetRole role);
+        /// <summary>
+        /// Remove a user from a room
+        /// </summary>
+        /// <param name="roomId">ID of the room</param>
+        /// <param name="userId">ID of the user</param>
+        public void RemoveFromRoom(int roomId, int userId);
     }
 }
