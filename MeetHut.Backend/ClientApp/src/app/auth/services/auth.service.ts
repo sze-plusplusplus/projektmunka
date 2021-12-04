@@ -82,7 +82,7 @@ export class AuthService {
       this.http
         .post<TokenDTO>(this.getAuthUrl('login'), model)
         .toPromise()
-        .then((res) => this.handleTokens(res, resolve))
+        .then((res) => res && this.handleTokens(res, resolve))
         .catch((err) => console.error(err))
     );
   }
@@ -99,7 +99,7 @@ export class AuthService {
       this.http
         .post<TokenDTO>(this.getAuthUrl('google-login'), model)
         .toPromise()
-        .then((res) => this.handleTokens(res, resolve))
+        .then((res) => res && this.handleTokens(res, resolve))
         .catch((err) => console.error(err))
     );
   }
@@ -116,7 +116,7 @@ export class AuthService {
       this.http
         .post<TokenDTO>(this.getAuthUrl('ms-login'), model)
         .toPromise()
-        .then((res) => this.handleTokens(res, resolve))
+        .then((res) => res && this.handleTokens(res, resolve))
         .catch((err) => console.error(err))
     );
   }
