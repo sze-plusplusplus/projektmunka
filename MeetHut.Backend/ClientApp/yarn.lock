@@ -1320,6 +1320,11 @@
     merge-source-map "^1.1.0"
     schema-utils "^2.7.0"
 
+"@mattlewis92/dom-autoscroller@^2.4.2":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@mattlewis92/dom-autoscroller/-/dom-autoscroller-2.4.2.tgz#ccb753fbcf6b3672b0273e0c3bda7924fe238013"
+  integrity sha512-YbrUWREPGEjE/FU6foXcAT1YbVwqD/jkYnY1dFb0o4AxtP3s4xKBthlELjndZih8uwsDWgQZx1eNskRNe2BgZQ==
+
 "@ngtools/webpack@12.2.5":
   version "12.2.5"
   resolved "https://registry.npmjs.org/@ngtools/webpack/-/webpack-12.2.5.tgz"
@@ -1442,6 +1447,11 @@
   version "2.10.2"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.10.2.tgz#0798c03351f0dea1a5a4cabddf26a55a7cbee590"
   integrity sha512-IXf3XA7+XyN7CP9gGh/XB0UxVMlvARGEgGXLubFICsUMGz6Q+DU+i4gGlpOxTjKvXjkJDJC8YdqdKkDj9qZHEQ==
+
+"@scarf/scarf@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@scarf/scarf/-/scarf-1.1.1.tgz#d8b9f20037b3a37dbf8dcdc4b3b72f9285bfce35"
+  integrity sha512-VGbKDbk1RFIaSmdVb0cNjjWJoRWRI/Weo23AjRCC2nryO0iAS8pzsToJfPVPtVs74WHw4L1UTADNdIYRLkirZQ==
 
 "@schematics/angular@12.2.5":
   version "12.2.5"
@@ -1888,6 +1898,33 @@ alphanum-sort@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/alphanum-sort/-/alphanum-sort-1.0.2.tgz"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
+
+angular-calendar@^0.28.28:
+  version "0.28.28"
+  resolved "https://registry.yarnpkg.com/angular-calendar/-/angular-calendar-0.28.28.tgz#25d0a37f70badb570abaed0e2704dc560561958f"
+  integrity sha512-q6FIye6zkwFeMZfHBgFByHpZdHbWu02EQAJ67XjyZmwiDAvjo7LVoTlaug93CjggJ4DL0YEAWDG4rokLBBgq2w==
+  dependencies:
+    "@scarf/scarf" "^1.1.1"
+    angular-draggable-droppable "^4.6.0"
+    angular-resizable-element "^3.4.0"
+    calendar-utils "^0.8.5"
+    positioning "^2.0.1"
+    tslib "^1.14.1"
+
+angular-draggable-droppable@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/angular-draggable-droppable/-/angular-draggable-droppable-4.6.0.tgz#9e8671e2c13854dcabea3df2b15208af3dc85a2b"
+  integrity sha512-+8JhTDMKkc/NuFFqb8/H/QHpB+v4Z7YNrgvEbV+PQxXry19rkr89ofZgjNIXhZexTvJNb03BYlSQoknzXE9b3g==
+  dependencies:
+    "@mattlewis92/dom-autoscroller" "^2.4.2"
+    tslib "^1.9.0"
+
+angular-resizable-element@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/angular-resizable-element/-/angular-resizable-element-3.4.0.tgz#9f0f65c32dc3c1ce5c9f5be2ba1e738443ba31d3"
+  integrity sha512-xL5a8FmghzrZmHPy7uwWz98m91gRXgAcdeCRYcK/nD7psXMTYNk5EPmHA0qZTDCIYljhT4h0OKWLvx56NQGfDA==
+  dependencies:
+    tslib "^1.9.0"
 
 angularx-social-login@^4.0.1:
   version "4.0.1"
@@ -2446,6 +2483,11 @@ cache-base@^1.0.1:
     to-object-path "^0.3.0"
     union-value "^1.0.0"
     unset-value "^1.0.0"
+
+calendar-utils@^0.8.5:
+  version "0.8.5"
+  resolved "https://registry.yarnpkg.com/calendar-utils/-/calendar-utils-0.8.5.tgz#8d3aacc7ef3c5fbae4a1a3fc00458ac144efb69d"
+  integrity sha512-mgn7dqZfDEqY/obyPO9ib8FSk28vAIOIOXyrjffT9jw1vAmxLguhvohM6JehDA6dY+ddkWBlPCDLCcRv0PncKw==
 
 call-bind@^1.0.0, call-bind@^1.0.2:
   version "1.0.2"
@@ -3113,6 +3155,11 @@ dashdash@^1.12.0:
   integrity sha1-hTz6D3y+L+1d4gMmuN1YEDX24vA=
   dependencies:
     assert-plus "^1.0.0"
+
+date-fns@^2.27.0:
+  version "2.27.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.27.0.tgz#e1ff3c3ddbbab8a2eaadbb6106be2929a5a2d92b"
+  integrity sha512-sj+J0Mo2p2X1e306MHq282WS4/A8Pz/95GIFcsPNMPMZVI3EUrAdSv90al1k+p74WGLCruMXk23bfEDZa71X9Q==
 
 date-format@^2.1.0:
   version "2.1.0"
@@ -6616,6 +6663,11 @@ portfinder@^1.0.26:
     debug "^3.1.1"
     mkdirp "^0.5.5"
 
+positioning@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/positioning/-/positioning-2.0.1.tgz#4f1b3a65ed4b830e0922a3fcdf6de58a545bd398"
+  integrity sha512-DsAgM42kV/ObuwlRpAzDTjH9E8fGKkMDJHWFX+kfNXSxh7UCCQxEmdjv/Ws5Ft1XDnt3JT8fIDYeKNSE2TbttA==
+
 posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.npmjs.org/posix-character-classes/-/posix-character-classes-0.1.1.tgz"
@@ -8588,7 +8640,7 @@ tslib@2.3.0:
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.3.0.tgz"
   integrity sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==
 
-tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0:
+tslib@^1.10.0, tslib@^1.14.1, tslib@^1.8.1, tslib@^1.9.0:
   version "1.14.1"
   resolved "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==

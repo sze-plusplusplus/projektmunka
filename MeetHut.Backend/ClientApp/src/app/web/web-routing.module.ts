@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/guards';
 import {
   FrameComponent,
   IFrameSettings
-} from "./components";
+} from './components';
 import { DashboardComponent, RoomsComponent, UserComponent } from './pages';
+import { TimeTableComponent } from './pages/time-table/time-table.component';
 
 export interface IRouteData {
   title: string;
@@ -44,6 +46,14 @@ const routes: Routes = [
         component: UserComponent,
         data: <IRouteData>{
           title: 'User',
+          frameSettings: <IFrameSettings>{ showHeader: true, showFooter: true }
+        }
+      },
+      {
+        path: 'time-table',
+        component: TimeTableComponent,
+        data: <IRouteData>{
+          title: 'Time Table',
           frameSettings: <IFrameSettings>{ showHeader: true, showFooter: true }
         }
       },
