@@ -13,6 +13,44 @@ import {
   SocialLoginModule
 } from 'angularx-social-login';
 import { SharedModule } from '../shared/shared.module';
+import { ParameterService } from '../shared/services';
+
+const socialConfigFactory = (parameterService: ParameterService) =>
+  new Promise((resolve) => {
+    parameterService.getAll().then((res) => {
+      const providers = [];
+
+      if (res) {
+        // Google
+        const googleClientIdParam = res.find(
+          (x) => x.key === 'Google.ClientId'
+        );
+        if (googleClientIdParam && googleClientIdParam.value) {
+          providers.push({
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(googleClientIdParam.value)
+          });
+        }
+
+        // Microsoft
+        const msClientIdParam = res.find((x) => x.key === 'Microsoft.ClientId');
+        const msRedirectUri = res.find((x) => x.key === 'Microsoft.RedirectUri');
+        if (msClientIdParam && msClientIdParam.value && msRedirectUri && msRedirectUri.value) {
+          providers.push({
+            id: MicrosoftLoginProvider.PROVIDER_ID,
+            provider: new MicrosoftLoginProvider(msClientIdParam.value, {
+              redirect_uri: msRedirectUri.value
+            })
+          });
+        }
+      }
+
+      resolve({
+        autoLogin: false,
+        providers
+      } as SocialAuthServiceConfig);
+    });
+  });
 
 @NgModule({
   declarations: [LoginComponent, RegistrationComponent],
@@ -29,26 +67,8 @@ import { SharedModule } from '../shared/shared.module';
     TokenService,
     {
       provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '384354348458-oempt2jkiujkr7gcm7l9v0aru48bgp94.apps.googleusercontent.com'
-            )
-          },
-          {
-            id: MicrosoftLoginProvider.PROVIDER_ID,
-            provider: new MicrosoftLoginProvider(
-              '29ee6459-8ea6-4556-a487-e97f511832b8',
-              {
-                redirect_uri: 'https://localhost:5001/signin-ms'
-              }
-            )
-          }
-        ]
-      } as SocialAuthServiceConfig
+      useFactory: socialConfigFactory,
+      deps: [ParameterService]
     }
   ],
   exports: [LoginComponent]

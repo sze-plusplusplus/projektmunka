@@ -4,6 +4,7 @@ using MeetHut.Backend.Configurations;
 using MeetHut.Services.Application.DTOs;
 using MeetHut.Services.Application.Interfaces;
 using MeetHut.Services.Application.Models;
+using MeetHut.Services.Configurations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -20,16 +21,22 @@ namespace MeetHut.Backend.Controllers
     {
         private readonly IAuthService _authService;
         private readonly ApplicationConfiguration _applicationConfiguration;
+        private readonly GoogleConfiguration _googleConfiguration;
+        private readonly MicrosoftConfiguration _msConfiguration;
 
         /// <summary>
         /// Init Auth controller
         /// </summary>
         /// <param name="authService">Auth Service</param>
         /// <param name="options">Application options</param>
-        public AuthController(IAuthService authService, IOptions<ApplicationConfiguration> options)
+        /// <param name="googleOptions">Google options</param>
+        /// <param name="msOptions">Microsoft options</param>
+        public AuthController(IAuthService authService, IOptions<ApplicationConfiguration> options, IOptions<GoogleConfiguration> googleOptions, IOptions<MicrosoftConfiguration> msOptions)
         {
             _authService = authService;
             _applicationConfiguration = options.Value;
+            _googleConfiguration = googleOptions.Value;
+            _msConfiguration = msOptions.Value;
         }
 
         /// <summary>
@@ -53,7 +60,7 @@ namespace MeetHut.Backend.Controllers
         [AllowAnonymous]
         public async Task<TokenDTO> GoogleLogin([FromBody] GoogleLoginModel model)
         {
-            if (_applicationConfiguration.DisableRegistration)
+            if (_applicationConfiguration.DisableRegistration || _googleConfiguration.LoginDisabled)
             {
                 throw new Exception("External login is disabled");
             }
@@ -70,7 +77,7 @@ namespace MeetHut.Backend.Controllers
         [AllowAnonymous]
         public async Task<TokenDTO> MicrosoftLogin([FromBody] MicrosoftLoginModel model)
         {
-            if (_applicationConfiguration.DisableRegistration)
+            if (_applicationConfiguration.DisableRegistration || _msConfiguration.LoginDisabled)
             {
                 throw new Exception("External login is disabled");
             }

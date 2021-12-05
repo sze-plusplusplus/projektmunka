@@ -32,11 +32,15 @@
   "ExternalAuthentication": {
     "Google": {
       "ClientId": "",
-      "ClientSecret": ""
+      "ClientSecret": "",
+      "LoginDisabled": false,
+      "RedirectUri": "https://localhost:5001/signin-google"
     },
     "Microsoft": {
       "ClientId": "",
-      "GraphUrl": "https://graph.microsoft.com"
+      "GraphUrl": "https://graph.microsoft.com",
+      "LoginDisabled": false,
+      "RedirectUri": "https://localhost:5001/signin-ms"
     }
   }
 }

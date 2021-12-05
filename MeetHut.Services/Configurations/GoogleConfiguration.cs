@@ -20,5 +20,10 @@ namespace MeetHut.Services.Configurations
         /// Client Secret
         /// </summary>
         public string ClientSecret { get; set; }
+
+        /// <summary>
+        /// Login Disabled
+        /// </summary>
+        public bool LoginDisabled { get; set; }
     }
 }
