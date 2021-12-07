@@ -52,19 +52,9 @@ namespace MeetHut.Backend.Controllers
         [HttpGet("me")]
         public UserDTO GetCurrent() 
         {
-            return _userService.GetMappedByName<UserDTO>(User.Identity.Name);
+            return _userService.GetMappedByName<UserDTO>(User.Identity?.Name);
         }
 
-        /// <summary>
-        /// Create user from model
-        /// </summary>
-        /// <param name="model">Model</param>
-        [HttpPost]
-        public int Create([FromBody] UserModel model)
-        {
-            return _userService.CreateAndSaveByModel(model);
-        }
-        
         /// <summary>
         /// Update user by model
         /// </summary>
@@ -74,16 +64,6 @@ namespace MeetHut.Backend.Controllers
         public void Update(int id, [FromBody] UserModel model)
         {
             _userService.UpdateAndSaveByModel(id, model);
-        }
-        
-        /// <summary>
-        /// Delete user by Id
-        /// </summary>
-        /// <param name="id">Id</param>
-        [HttpDelete("{id:int}")]
-        public void Delete(int id)
-        {
-            _userService.DeleteByIdAndSave(id);
         }
     }
 }

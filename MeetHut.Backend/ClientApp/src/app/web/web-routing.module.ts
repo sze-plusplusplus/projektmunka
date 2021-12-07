@@ -47,7 +47,8 @@ const routes: Routes = [
         data: <IRouteData>{
           title: 'User',
           frameSettings: <IFrameSettings>{ showHeader: true, showFooter: true }
-        }
+        },
+        canActivate: [AuthGuard]
       },
       {
         path: 'time-table',
@@ -55,7 +56,8 @@ const routes: Routes = [
         data: <IRouteData>{
           title: 'Time Table',
           frameSettings: <IFrameSettings>{ showHeader: true, showFooter: true }
-        }
+        },
+        canActivate: [AuthGuard]
       },
       { path: '**', redirectTo: 'dashboard' }
     ]

@@ -17,6 +17,10 @@ namespace MeetHut.Services.Meet.Mappers
         {
             CreateMap<Room, RoomDTO>();
             CreateMap<RoomModel, Room>();
+
+            CreateMap<Room, RoomCalendarDTO>()
+                .ForMember(dest => dest.IsLocked, opt => opt.MapFrom(src => src.Locked))
+                .ForMember(dest => dest.IsOwner, opt => opt.MapFrom(src => false));
         }
     }
 }

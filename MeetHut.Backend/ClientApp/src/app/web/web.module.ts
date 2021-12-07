@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { FrameComponent } from './components';
@@ -12,7 +11,7 @@ import { TimeTableComponent } from './pages/time-table/time-table.component';
 
 @NgModule({
   declarations: [FrameComponent, DashboardComponent, RoomsComponent, UserComponent, TimeTableComponent],
-  imports: [CommonModule, HttpClientModule, WebRoutingModule, SharedModule, CalendarModule.forRoot({
+  imports: [CommonModule, WebRoutingModule, SharedModule, CalendarModule.forRoot({
     provide: DateAdapter,
     useFactory: adapterFactory
   })],

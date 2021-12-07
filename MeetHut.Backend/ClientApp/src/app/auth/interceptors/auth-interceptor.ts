@@ -52,7 +52,7 @@ export class AuthInterceptor implements HttpInterceptor {
     // Check token expiration
     if (this.tokenService.tokenIsExpired()) {
       if (this.authService.refreshTokenExists) {
-        // Pre refresh if the token is expired and the refresh token is exist
+        // Pre refresh if the token is expired and the refresh token is existing
         return this.tokenService.refreshObservable().pipe(
           catchError((err: HttpErrorResponse) => {
             this.notAuthorizedEvent();

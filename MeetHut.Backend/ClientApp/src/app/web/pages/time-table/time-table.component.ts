@@ -1,22 +1,42 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
-import { addDays, addHours, endOfDay, endOfMonth, isSameDay, isSameMonth, startOfDay, subDays } from 'date-fns';
+import { Component, OnInit} from '@angular/core';
+import { CalendarEvent, CalendarView } from 'angular-calendar';
+import { addDays, addHours, endOfMonth, isSameDay, isSameMonth, startOfDay, subDays } from 'date-fns';
 import { Subject } from 'rxjs';
+import { RoomCalendarDTO } from '../../models';
+import { Router } from '@angular/router';
+import { RoomService } from '../../services';
 
-const colors: any = {
-  red: {
+interface IEventColor {
+  primary: string;
+  secondary: string;
+}
+
+const colors: Record<string, IEventColor> = {
+  owner: {
     primary: '#ad2121',
     secondary: '#FAE3E3'
   },
-  blue: {
+  ownerLocked: {
+    primary: '#ad6c21',
+    secondary: '#faf3e3',
+  },
+  locked: {
+    primary: '#e3bc08',
+    secondary: '#FDF1BA'
+  },
+  general: {
     primary: '#1e90ff',
     secondary: '#D1E8FF'
   },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
 };
+
+// FOR TEST
+/*const rooms: RoomCalendarDTO[] = [
+  new RoomCalendarDTO(1, 'Event 1', 'asf-asds', subDays(startOfDay(new Date()), 1), addDays(new Date(), 1), true, false),
+  new RoomCalendarDTO(2, 'Event 2', 'asf-asd12sds', startOfDay(new Date()), undefined, true, true),
+  new RoomCalendarDTO(3, 'Event 3', 'asf-aasd23d12sds', addHours(startOfDay(new Date()), 2), addHours(new Date(), 2), false, false),
+  new RoomCalendarDTO(4, 'Event 4', 'asf-asdds0asd', subDays(endOfMonth(new Date()), 3), addDays(endOfMonth(new Date()), 3), false, true)
+];*/
 
 @Component({
   selector: 'app-time-table',
@@ -24,58 +44,23 @@ const colors: any = {
   styleUrls: ['./time-table.component.scss']
 })
 export class TimeTableComponent implements OnInit {
-  // @ts-ignore
-  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  CalendarView = CalendarView;
 
   view: CalendarView = CalendarView.Month;
-  CalendarView = CalendarView;
   viewDate: Date = new Date();
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true
-    }
-  ];
+  roomEvents: RoomCalendarDTO[] = [];
+  events: CalendarEvent[] = [];
 
-  activeDayIsOpen = true;
+  activeDayIsOpen = false;
 
-  constructor() {
+  constructor(private router: Router, private roomService: RoomService) {
   }
 
   ngOnInit(): void {
+    this.getRooms();
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -86,55 +71,58 @@ export class TimeTableComponent implements OnInit {
     }
   }
 
-  eventTimesChanged({
-                      event,
-                      newStart,
-                      newEnd
-                    }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
-  }
-
-  handleEvent(action: string, event: CalendarEvent): void {
-    // this.modalData = { event, action };
-    // this.modal.open(this.modalContent, { size: "lg" });
-  }
-
-  addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true
-        }
-      }
-    ];
-  }
-
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
-  }
-
   setView(view: CalendarView) {
     this.view = view;
   }
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
+  }
+
+  roomClicked(event: CalendarEvent): void {
+    const room = this.roomEvents.find(x => x.id === event.id);
+
+    if (room) {
+      this.router.navigate(['room', room.publicId]);
+    }
+  }
+
+  private getRooms(): void {
+    this.roomService.getCalendar().then((res) => {
+      this.roomEvents = res;
+      this.events = res.map(r => ({
+        id: r.id,
+        start: r.startTime,
+        end: r.endTime,
+        title: r.name,
+        color: this.getColor(r.isLocked, r.isOwner)
+      } as CalendarEvent));
+
+      if (!this.activeDayIsOpen) {
+        if (res.some(x => isSameDay(x.startTime, new Date()))) {
+          this.activeDayIsOpen = true;
+        }
+      }
+    }).catch(() => {
+      this.roomEvents = [];
+      this.events = [];
+      this.activeDayIsOpen = false;
+    });
+  }
+
+  private getColor(isLocked: boolean, isOwner: boolean): IEventColor {
+    if (isOwner) {
+      if (isLocked) {
+        return colors.ownerLocked;
+      }
+
+      return colors.owner;
+    }
+
+    if (isLocked) {
+      return colors.locked;
+    }
+
+    return colors.general;
   }
 }

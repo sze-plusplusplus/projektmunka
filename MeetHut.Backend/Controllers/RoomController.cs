@@ -75,5 +75,17 @@ namespace MeetHut.Backend.Controllers
         {
             _roomService.DeleteByIdAndSave(id);
         }
+
+        /// <summary>
+        /// Get calendar events endpoint
+        /// </summary>
+        /// <returns>List of calendar events</returns>
+        [HttpGet("calendar")]
+        public List<RoomCalendarDTO> GetCalendar()
+        {
+            return User.Identity != null 
+                ? _roomService.GetCalendar(User.Identity.Name) 
+                : new List<RoomCalendarDTO>();
+        }
     }
 }
