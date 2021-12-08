@@ -5,25 +5,30 @@ import {
   RouterStateSnapshot
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { RoomPublicDTO } from '../dtos';
+import { RoomDTO } from '../dtos';
+import { RoomService } from '../services';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RoomResolver implements Resolve<RoomPublicDTO> {
+export class RoomResolver implements Resolve<RoomDTO> {
+  constructor(private roomService: RoomService) {}
+
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<RoomPublicDTO> {
-    const publicId = route.params.publicId;
-    // TOOD: get from remote
-    const room = new RoomPublicDTO('Conference 4', publicId);
+  ): Observable<RoomDTO> {
+    const publicId = route.params.id;
+    const room = this.roomService.getPublicId(publicId);
+    room.subscribe((r) => {
+      const routeData = { ...route.data };
+      // update only title
+      routeData.title = `${route.data.title} - ${r.name} - #${r.publicId}`;
+      route.data = routeData;
 
-    let routeData = { ...route.data };
-    // update only title
-    routeData.title = `${route.data.title} - ${room.name} - #${room.publicId}`;
-    route.data = routeData;
+      return r;
+    });
 
-    return of(room);
+    return room;
   }
 }

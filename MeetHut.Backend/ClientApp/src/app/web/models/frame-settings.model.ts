@@ -5,7 +5,7 @@ import {
 } from '@angular/router';
 import { FooterSettings } from '.';
 
-interface IFrameSettings {
+export interface IFrameSettings {
   showHeader?: boolean;
   footerSettings?: FooterSettings;
 }

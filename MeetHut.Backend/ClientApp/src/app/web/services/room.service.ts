@@ -21,10 +21,8 @@ export class RoomService {
     return firstValueFrom(this.http.get<RoomDTO[]>(this.getRoomUrl('own')));
   }
 
-  getPublicId(publicId: string): Promise<RoomDTO> {
-    return firstValueFrom(
-      this.http.get<RoomDTO>(this.getRoomUrl(`publicId/${publicId}`))
-    );
+  getPublicId(publicId: string) {
+    return this.http.get<RoomDTO>(this.getRoomUrl(`publicId/${publicId}`));
   }
 
   connect(id: number): Promise<OpenDTO> {

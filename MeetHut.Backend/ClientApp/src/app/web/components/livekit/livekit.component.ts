@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -22,13 +23,17 @@ import {
 @Component({
   selector: 'app-livekit',
   templateUrl: './livekit.component.html',
-  styleUrls: ['./livekit.component.scss']
+  styleUrls: ['./livekit.component.scss'],
+  host: { class: 'frame-inner-component' }
 })
 export class LivekitComponent implements OnInit, OnDestroy {
   @Input() token!: string;
 
   @Output()
   leave = new EventEmitter();
+
+  readonly groupAtSmallScreen = 6;
+  readonly groupAtBigScreen = 12;
 
   isConnecting: boolean;
   room?: Room;
@@ -43,6 +48,8 @@ export class LivekitComponent implements OnInit, OnDestroy {
 
   error?: Error;
 
+  private _groupAt!: number;
+
   constructor() {
     this.isConnecting = true;
     this.participants = [];
@@ -50,6 +57,8 @@ export class LivekitComponent implements OnInit, OnDestroy {
     this.audioTracks = [];
     this.audioElement = document.createElement('div');
     document.body.append(this.audioElement);
+
+    this.setGrouping();
   }
 
   async ngOnInit() {
@@ -191,6 +200,36 @@ export class LivekitComponent implements OnInit, OnDestroy {
     this.screenTrack = screenTrack;
   };
 
+  get isGroupingNeccessary(): boolean {
+    return this.groupedParticipantCount > 0;
+  }
+
+  get groupedParticipantCount(): number {
+    return this.participants.length - this.groupAt;
+  }
+
+  get groupAt(): number {
+    return this._groupAt;
+  }
+
+  private set groupAt(value: number) {
+    if (this._groupAt === value) {
+      return;
+    }
+
+    this._groupAt = value;
+  }
+
+  private setGrouping(): void {
+    this.groupAt =
+      window.innerWidth < 768 ? this.groupAtSmallScreen : this.groupAtBigScreen;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  private onResize(event: Event) {
+    this.setGrouping();
+  }
+
   /**
    * Default sort for participants, it'll order participants by:
    * 1. dominant speaker (speaker with the loudest audio level)
@@ -200,7 +239,7 @@ export class LivekitComponent implements OnInit, OnDestroy {
    * 5. by joinedAt
    * 6. local participant is the last
    */
-  sortParticipants(
+  private sortParticipants(
     participants: Participant[],
     localParticipant?: LocalParticipant
   ) {

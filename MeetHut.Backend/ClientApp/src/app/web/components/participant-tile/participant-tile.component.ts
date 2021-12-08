@@ -1,22 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Participant } from 'livekit-client';
 import { MeetRole } from '../../models/room-role.model';
-
-export class Participant {
-  fullName: string;
-  meetRole: MeetRole;
-
-  constructor(fullName: string, meetRole: MeetRole = MeetRole.Student) {
-    this.fullName = fullName;
-    this.meetRole = meetRole;
-  }
-
-  get monogram(): string {
-    return this.fullName
-      .split(' ')
-      .map((n) => n[0])
-      .join('');
-  }
-}
 
 @Component({
   selector: 'app-participant-tile',
@@ -25,16 +9,12 @@ export class Participant {
 })
 export class ParticipantTileComponent implements OnInit {
   @Input() participant: Participant | undefined;
-  @Input() groupCount: number = 0;
+  @Input() groupCount = 0;
 
-  private _showActionsButton: boolean = false;
+  private _showActionsButton = false;
   private readonly actionsButtonDisabled: boolean = true;
 
   constructor() {}
-
-  get isLecturer(): boolean {
-    return this.participant?.meetRole === MeetRole.Lecturer;
-  }
 
   get participantsText(): string {
     return `Participant${this.groupCount > 1 ? 's' : ''}`;
@@ -63,6 +43,6 @@ export class ParticipantTileComponent implements OnInit {
       return;
     }
 
-    window.alert('actions of ' + this.participant!.fullName);
+    window.alert('actions of ' + this.participant!.identity);
   }
 }

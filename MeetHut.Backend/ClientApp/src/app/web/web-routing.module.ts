@@ -7,6 +7,7 @@ import { RoomComponent } from './pages/room/room.component';
 import { RoomFrameSettingsResolver } from './resolvers/frame-settings/room-frame-settings.resolver';
 import { RoomsFrameSettingsResolver } from './resolvers/frame-settings/rooms-frame-settings.resolver';
 import { RoomResolver } from './resolvers/room.resolver';
+import { IFrameSettings } from './models/frame-settings.model';
 
 interface IRouteData {
   title?: string;
@@ -54,7 +55,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'room/:publicId',
+        path: 'room/:id',
         component: RoomComponent,
         resolve: {
           room: RoomResolver,
@@ -63,15 +64,6 @@ const routes: Routes = [
         data: new RouteData({
           title: 'Room'
         }),
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'room/:id',
-        component: RoomComponent,
-        data: <IRouteData>{
-          title: 'Room',
-          frameSettings: <IFrameSettings>{ showHeader: true, showFooter: true }
-        },
         canActivate: [AuthGuard]
       },
       { path: '**', redirectTo: 'dashboard' }

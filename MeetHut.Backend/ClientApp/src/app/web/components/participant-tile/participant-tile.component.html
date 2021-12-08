@@ -5,14 +5,13 @@
 <ng-template #participantTile>
   <div
     class="tile participant-tile"
-    [class.lecturer]="isLecturer"
     (mouseover)="showActionsButton = true"
     (mouseleave)="showActionsButton = false"
   >
     <div *ngIf="showActionsButton" class="action-control">
       <mat-icon (click)="openActionsPopup()">more_vert</mat-icon>
     </div>
-    <span class="monogram"> {{ participant?.monogram }}</span>
+    <span class="monogram"> {{ participant?.identity }}</span>
   </div>
 </ng-template>
 <ng-template #groupTile>

@@ -1,37 +1,10 @@
 <div class="container-fluid">
-  <div class="row">
-    <ng-container
-      *ngFor="
-        let p of participants
-          | slice: 0:groupAt - (isGroupingNeccessary ? 1 : 0)
-      "
-    >
-      <app-participant-tile
-        class="col col-6 col-md-4 col-lg-3 col-xl-2"
-        [participant]="p"
-      >
-      </app-participant-tile>
-    </ng-container>
-    <ng-container
-      *ngIf="isGroupingNeccessary"
-      [ngTemplateOutlet]="groupTile"
-    ></ng-container>
-  </div>
-  <app-livekit></app-livekit>
-	<div *ngIf="!roomId || !connectToken" class="before-connect">
+	<div *ngIf="!connectToken" class="before-connect">
 		<p>Before connect</p>
 		<h2>Room: {{room?.name}}</h2>
 		<p *ngIf="room?.startTime">Ütemezett idő: {{room?.startTime}}-{{room?.endTime}}</p>
 		<p>Létrehozó: {{room?.owner?.userName}}</p>
 		<button (click)="connect()">Kapcsolódás</button>
 	</div>
-	<app-livekit *ngIf="roomId && connectToken" [token]="connectToken" (leave)="leave()"></app-livekit>
+	<app-livekit *ngIf="!!connectToken" [token]="connectToken" (leave)="leave()"></app-livekit>
 </div>
-
-<ng-template #groupTile>
-  <app-participant-tile
-    class="col col-6 col-md-4 col-lg-3 col-xl-2"
-    [groupCount]="groupedParticipantCount"
-  >
-  </app-participant-tile>
-</ng-template>

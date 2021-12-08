@@ -15,14 +15,14 @@ namespace MeetHut.Backend.Controllers
     public class WebSocketController : ControllerBase
     {
         private readonly ILogger<WebSocketController> _logger;
-        private readonly HttpContext _context;
+        private readonly IHttpContextAccessor _context;
 
         /// <summary>
         /// Init Web socket controller
         /// </summary>
         /// <param name="logger">Logger</param>
         /// <param name="context">HTTP Context</param>
-        public WebSocketController(ILogger<WebSocketController> logger, HttpContext context)
+        public WebSocketController(ILogger<WebSocketController> logger, IHttpContextAccessor context)
         {
             _logger = logger;
             _context = context;
@@ -34,14 +34,14 @@ namespace MeetHut.Backend.Controllers
         [HttpGet("ws")]
         public async Task Get()
         {
-            if (_context.WebSockets.IsWebSocketRequest)
+            if (_context.HttpContext.WebSockets.IsWebSocketRequest)
             {
-                WebSocket webSocket = await _context.WebSockets.AcceptWebSocketAsync();
+                WebSocket webSocket = await _context.HttpContext.WebSockets.AcceptWebSocketAsync();
                 await Echo(webSocket);
             }
             else
             {
-                _context.Response.StatusCode = 400;
+                _context.HttpContext.Response.StatusCode = 400;
             }
         }
 
