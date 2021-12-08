@@ -6,7 +6,7 @@ import {
   FrameComponent,
   IFrameSettings
 } from './components';
-import { ChatComponent, DashboardComponent, RoomsComponent, UserComponent } from "./pages";
+import { ChatComponent, DashboardComponent, RoomsComponent, UserComponent } from './pages';
 import { TimeTableComponent } from './pages/time-table/time-table.component';
 
 export interface IRouteData {
@@ -65,7 +65,8 @@ const routes: Routes = [
         data: <IRouteData>{
           title: 'Chat',
           frameSettings: <IFrameSettings>{ showHeader: true, showFooter: true }
-        }
+        },
+        canActivate: [AuthGuard]
       },
       { path: '**', redirectTo: 'dashboard' }
     ]

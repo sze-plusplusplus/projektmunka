@@ -10,17 +10,22 @@ namespace MeetHut.Services.Meet
         /// <summary>
         /// Angular Client unique Id
         /// </summary>
-        public String ClientId { get; set; }
+        public string ClientId { get; set; }
         
         /// <summary>
         /// Sender user
         /// </summary>
-        public String SenderId { get; set; }
+        public int SenderId { get; set; }
+        
+        /// <summary>
+        /// Sender name
+        /// </summary>
+        public string SenderName { get; set; }
         
         /// <summary>
         /// Message content
         /// </summary>
-        public String Text { get; set; }
+        public string Text { get; set; }
         
         /// <summary>
         /// Sending time

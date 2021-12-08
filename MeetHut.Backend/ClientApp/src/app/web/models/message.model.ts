@@ -1,12 +1,12 @@
 export class Message {
-  clientId: string;
-  senderId: string;
+  senderId: number;
+  senderName: string;
   text: string;
   sendingTime: Date;
 
-  constructor(clientId: string, senderId: string, text: string, sendingTime: Date) {
-    this.clientId = clientId;
+  constructor(senderId: number, senderName: string, text: string, sendingTime: Date) {
     this.senderId = senderId;
+    this.senderName = senderName;
     this.text = text;
     this.sendingTime = sendingTime;
   }
