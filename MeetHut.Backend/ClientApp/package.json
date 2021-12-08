@@ -23,6 +23,7 @@
     "@angular/platform-browser": "~12.2.5",
     "@angular/platform-browser-dynamic": "~12.2.5",
     "@angular/router": "~12.2.5",
+    "@microsoft/signalr": "^5.0.9",
     "@popperjs/core": "^2.9.3",
     "angular-calendar": "^0.28.28",
     "angularx-social-login": "^4.0.1",

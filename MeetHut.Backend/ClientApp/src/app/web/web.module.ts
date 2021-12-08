@@ -8,13 +8,15 @@ import { WebRoutingModule } from './web-routing.module';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { TimeTableComponent } from './pages/time-table/time-table.component';
+import { ChatComponent } from './pages';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [FrameComponent, DashboardComponent, RoomsComponent, UserComponent, TimeTableComponent],
+  declarations: [FrameComponent, DashboardComponent, RoomsComponent, UserComponent, TimeTableComponent, ChatComponent],
   imports: [CommonModule, WebRoutingModule, SharedModule, CalendarModule.forRoot({
     provide: DateAdapter,
     useFactory: adapterFactory
-  })],
+  }), FormsModule, ReactiveFormsModule],
   providers: [RoomService],
   exports: []
 })

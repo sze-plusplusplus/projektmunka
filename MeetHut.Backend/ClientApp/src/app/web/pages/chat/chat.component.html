@@ -1,0 +1,11 @@
+<div>
+  <h1>Messages</h1>
+
+  <div *ngFor="let m of messages">
+    {{m.text}}
+  </div>
+  <div>
+    <input type="text" [(ngModel)]="currMessage" />
+    <button (click)="sendMessage()">Send</button>
+  </div>
+</div>
