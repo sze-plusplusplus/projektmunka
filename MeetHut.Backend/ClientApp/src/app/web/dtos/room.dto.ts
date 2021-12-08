@@ -20,6 +20,8 @@ export class RoomDTO extends RoomPublicDTO {
     id: number;
     userName: string;
   };
+  participants: number;
+  onlineParticipants: number;
 
   constructor(
     id: number,
@@ -29,7 +31,9 @@ export class RoomDTO extends RoomPublicDTO {
     publicId: string,
     startTime: string,
     endTime: string,
-    owner: any
+    owner: any,
+    participants: number,
+    onlineParticipants: number
   ) {
     super(name, publicId);
     this.id = id;
@@ -40,5 +44,7 @@ export class RoomDTO extends RoomPublicDTO {
     this.startTime = startTime;
     this.endTime = endTime;
     this.owner = owner;
+    this.participants = participants;
+    this.onlineParticipants = onlineParticipants;
   }
 }

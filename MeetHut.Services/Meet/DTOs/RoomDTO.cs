@@ -57,5 +57,15 @@ namespace MeetHut.Services.Meet.DTOs
         /// Room is locked
         /// </summary>
         public bool Locked { get; set; } = false;
+
+        /// <summary>
+        /// Number of added participants
+        /// </summary>
+        public int? Participants { get; set; }
+
+        /// <summary>
+        /// Number of online (livekit reportedly) users
+        /// </summary>
+        public int? OnlineParticipants { get; set; }
     }
 }

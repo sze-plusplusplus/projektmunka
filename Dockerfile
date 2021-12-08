@@ -11,6 +11,9 @@ ARG ISMAC=0
 VOLUME [ "/src" ]
 WORKDIR /src
 
+ENV TZ Europe/Budapest
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # Group with that id can exists (for example mac default user is in group 20)
 # M: DUID=501 DGID=20 / 20 is dialout
 RUN addgroup -g ${DGID} -S ${USER} || echo Not adding group

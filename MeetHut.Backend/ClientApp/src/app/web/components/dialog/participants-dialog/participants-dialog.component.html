@@ -1,5 +1,25 @@
 <app-dialog-frame title="Participants" (close)="dialogRef.close()">
   <div id="participants-main" class="dialog-main">
-    <div id="participants-list"></div>
+    <div id="participants-list">
+      <mat-nav-list>
+        <mat-list-item *ngFor="let participant of users">
+          <mat-icon *ngIf="participant.isOnline" mat-list-icon color="primary"
+            >radio_button_checked</mat-icon
+          >
+          <mat-icon *ngIf="!participant.isOnline" mat-list-icon color="warn"
+            >radio_button_unchecked</mat-icon
+          >
+          <a class="participant-list-item" matLine>
+            {{ participant.user.fullName }} ({{ participant.user.userName }})
+          </a>
+          <div mat-line>
+            <span *ngIf="participant.isOnline"
+              >Online since:
+              {{ participant.joinedAt | date: "yyyy. MM. dd. HH:mm" }}</span
+            >
+          </div>
+        </mat-list-item>
+      </mat-nav-list>
+    </div>
   </div>
 </app-dialog-frame>

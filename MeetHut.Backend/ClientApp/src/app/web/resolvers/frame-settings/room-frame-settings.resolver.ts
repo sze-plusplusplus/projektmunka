@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ChatDialogComponent } from '../../components/dialog/chat-dialog/chat-dialog.component';
 import { ParticipantsDialogComponent } from '../../components/dialog/participants-dialog/participants-dialog.component';
@@ -18,7 +19,7 @@ import {
   providedIn: 'root'
 })
 export class RoomFrameSettingsResolver extends FrameSettingsResolver {
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog, private route: ActivatedRoute) {
     super();
   }
 
@@ -106,6 +107,7 @@ export class RoomFrameSettingsResolver extends FrameSettingsResolver {
       height: '80vh',
       panelClass: 'dialog'
     });
+    console.log(this.route.snapshot.data);
 
     return dialogRef.afterClosed();
   }

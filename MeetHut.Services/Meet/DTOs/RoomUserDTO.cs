@@ -29,5 +29,13 @@ namespace MeetHut.Services.Meet.DTOs
         /// Added
         /// </summary>
         public DateTime Added { get; set; }
+        /// <summary>
+        /// Is the user online in the room
+        /// </summary>
+        public bool IsOnline { get; set; }
+        /// <summary>
+        /// Datetime of the user joining the room
+        /// </summary>
+        public DateTime? JoinedAt { get; set; }
     }
 }

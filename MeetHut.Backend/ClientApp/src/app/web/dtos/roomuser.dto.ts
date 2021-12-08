@@ -7,6 +7,8 @@ export class RoomUserDTO {
     public user: UserDTO,
     public roomId: number,
     public role: MeetRole,
-    public added: string
+    public added: string,
+    public isOnline: boolean,
+    public joinedAt: string | null
   ) {}
 }

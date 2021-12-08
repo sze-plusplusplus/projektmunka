@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ParticipantsDialogComponent } from '../participants-dialog/participants-dialog.component';
 
 @Component({
   selector: 'app-settings-dialog',
@@ -11,8 +10,6 @@ import { ParticipantsDialogComponent } from '../participants-dialog/participants
   }
 })
 export class SettingsDialogComponent implements OnInit {
-  constructor(
-    public dialogRef: MatDialogRef<ParticipantsDialogComponent, void>
-  ) {}
+  constructor(public dialogRef: MatDialogRef<SettingsDialogComponent, void>) {}
   ngOnInit(): void {}
 }

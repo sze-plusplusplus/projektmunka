@@ -8,6 +8,7 @@ using MeetHut.Services.Meet.DTOs;
 using MeetHut.DataAccess.Entities;
 using Livekit.Client;
 using MeetHut.DataAccess.Enums.Meet;
+using System;
 
 namespace MeetHut.Services.Meet
 {
@@ -81,13 +82,13 @@ namespace MeetHut.Services.Meet
         /// <inheritdoc />
         public RoomDTO[] GetAllOwnMapped(User user)
         {
-            return _mapper.Map<RoomDTO[]>(this.DatabaseContext.Rooms.Where(r => r.RoomUsers.Any(u => u.UserId == user.Id)).ToArray());
+            return withParticipantInfoMap(this.DatabaseContext.Rooms.Where(r => r.RoomUsers.Any(u => u.UserId == user.Id)).ToArray());
         }
 
         /// <inheritdoc />
         public RoomDTO GetByPublicId(string publicId)
         {
-            return _mapper.Map<RoomDTO>(this.DatabaseContext.Rooms.Where(r => r.PublicId == publicId).First());
+            return withParticipantInfoMap(this.DatabaseContext.Rooms.Where(r => r.PublicId == publicId).First());
         }
 
         /// <inheritdoc />
@@ -99,7 +100,7 @@ namespace MeetHut.Services.Meet
         /// <inheritdoc />
         public RoomUserDTO[] GetRoomUsersMapped(int roomId)
         {
-            return _mapper.Map<RoomUserDTO[]>(this.GetRoomUsers(roomId));
+            return withParticipantJoinInfo(this.GetRoomUsers(roomId));
         }
 
         /// <inheritdoc />
@@ -136,6 +137,44 @@ namespace MeetHut.Services.Meet
             var entity = this.DatabaseContext.RoomUsers.Find(roomId, userId);
             this.DatabaseContext.RoomUsers.Remove(entity);
             this.DatabaseContext.SaveChanges();
+        }
+
+        private RoomDTO withParticipantInfoMap(Room room)
+        {
+            var dto = _mapper.Map<RoomDTO>(room);
+
+            dto.Participants = room.RoomUsers.Count();
+            dto.OnlineParticipants = client.ListParticipants(room.PublicId).Count();
+
+            return dto;
+        }
+
+        private RoomDTO[] withParticipantInfoMap(Room[] rooms)
+        {
+            return rooms.Select(r => withParticipantInfoMap(r)).ToArray();
+        }
+
+        private RoomUserDTO withParticipantJoinInfo(RoomUser user)
+        {
+            var dto = _mapper.Map<RoomUserDTO>(user);
+
+            try
+            {
+                var participant = client.GetParticipant(user.Room.PublicId, user.User.UserName);
+                if (participant != null)
+                {
+                    dto.IsOnline = true;
+                    dto.JoinedAt = DateTimeOffset.FromUnixTimeSeconds(participant.JoinedAt).ToLocalTime().DateTime;
+                }
+            }
+            catch { } // Not exists
+
+            return dto;
+        }
+
+        private RoomUserDTO[] withParticipantJoinInfo(RoomUser[] users)
+        {
+            return users.Select(u => withParticipantJoinInfo(u)).ToArray();
         }
     }
 }

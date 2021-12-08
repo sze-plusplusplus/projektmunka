@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ParticipantsDialogComponent } from '../participants-dialog/participants-dialog.component';
 
 @Component({
   selector: 'app-chat-dialog',
@@ -11,9 +10,7 @@ import { ParticipantsDialogComponent } from '../participants-dialog/participants
   }
 })
 export class ChatDialogComponent implements OnInit {
-  constructor(
-    public dialogRef: MatDialogRef<ParticipantsDialogComponent, void>
-  ) {}
+  constructor(public dialogRef: MatDialogRef<ChatDialogComponent, void>) {}
 
   ngOnInit(): void {}
 }
