@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ControlLocation, FooterSettings } from '../../models';
+import { ControlLocation, ControlSettings, FooterSettings } from '../../models';
 
 @Component({
   selector: 'app-footer',
@@ -8,7 +8,7 @@ import { ControlLocation, FooterSettings } from '../../models';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
-  @Input() settings: FooterSettings | undefined;
+  @Input() settings!: FooterSettings;
 
   controlsExpanded: boolean = false;
 
@@ -21,6 +21,11 @@ export class FooterComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  click(control: ControlSettings): void {
+    control.action(this.router);
+    control.click?.next(control.toggled);
+  }
 
   private setExpandedState(): void {
     if (window.innerWidth >= 768) {

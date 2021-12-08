@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
 import {
+  ControlArray,
+  ControlId,
   ControlSettings,
   dashboardControl,
   FooterSettings,
@@ -13,13 +14,13 @@ import {
 })
 export class RoomsFrameSettingsResolver extends FrameSettingsResolver {
   getSettings(): FrameSettings {
-    const controls: ControlSettings[] = [
+    const controls: ControlArray = new ControlArray([
       new ControlSettings({
-        iconKey: 'add',
-        open: () => of(window.alert('add button is pressed'))
+        id: ControlId.Add,
+        iconKey: 'add'
       }),
       dashboardControl
-    ];
+    ]);
 
     return new FrameSettings({
       showHeader: true,

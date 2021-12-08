@@ -1,10 +1,19 @@
 <div class="container-fluid">
-	<div *ngIf="!connectToken" class="before-connect">
-		<p>Before connect</p>
-		<h2>Room: {{room?.name}}</h2>
-		<p *ngIf="room?.startTime">Ütemezett idő: {{room?.startTime}}-{{room?.endTime}}</p>
-		<p>Létrehozó: {{room?.owner?.userName}}</p>
-		<button (click)="connect()">Kapcsolódás</button>
-	</div>
-	<app-livekit *ngIf="!!connectToken" [token]="connectToken" (leave)="leave()"></app-livekit>
+  <div *ngIf="!connectToken" class="before-connect">
+    <p>Before connect</p>
+    <h2>Room: {{ room?.name }}</h2>
+    <p *ngIf="room?.startTime">
+      Ütemezett idő: {{ room?.startTime }}-{{ room?.endTime }}
+    </p>
+    <p>Létrehozó: {{ room?.owner?.userName }}</p>
+    <button (click)="connect()">Kapcsolódás</button>
+  </div>
+  <app-livekit
+    *ngIf="!!connectToken"
+    [token]="connectToken"
+    [onMicClick]="micClickEvent"
+    [onVideoCamClick]="videoCamClickEvent"
+    [onScreenShareClick]="screenShareClickEvent"
+    (leave)="leave()"
+  ></app-livekit>
 </div>

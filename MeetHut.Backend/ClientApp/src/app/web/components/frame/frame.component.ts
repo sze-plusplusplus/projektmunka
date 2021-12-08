@@ -11,7 +11,7 @@ import { RouteData } from '../../web-routing.module';
 export class FrameComponent {
   public title = '';
   public showHeader = false;
-  public footerSettings: FooterSettings | undefined;
+  public footerSettings!: FooterSettings;
 
   constructor(private router: Router, private activeRoute: ActivatedRoute) {
     this.router.events.subscribe((e) => {
@@ -19,8 +19,8 @@ export class FrameComponent {
         const routeData = this.activeRoute.firstChild?.snapshot.data;
 
         this.title = routeData?.title ?? '';
-        this.showHeader = routeData?.frameSettings?.showHeader;
-        this.footerSettings = routeData?.frameSettings?.footerSettings;
+        this.showHeader = routeData?.frameSettings?.showHeader ?? false;
+        this.footerSettings = routeData?.frameSettings?.footerSettings ??  new FooterSettings();
       }
     });
   }

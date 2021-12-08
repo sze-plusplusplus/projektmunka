@@ -1,6 +1,0 @@
-<div class="controls">
-    <button (click)="mute()">{{localParticipant.isMicrophoneEnabled ? 'Mute' : 'Unmute'}}</button>
-    <button (click)="toggleVideo()">{{localParticipant.isCameraEnabled ? 'Hide video' : 'Show video'}}</button>
-    <button (click)="toggleScreenShare()">{{localParticipant.isScreenShareEnabled ? 'Stop sharing' : 'Share screen'}}</button>
-    <button (click)="leave.emit()">Leave</button>
-</div>

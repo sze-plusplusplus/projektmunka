@@ -19,6 +19,7 @@ import {
   Track,
   VideoTrack
 } from 'livekit-client';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-livekit',
@@ -28,6 +29,9 @@ import {
 })
 export class LivekitComponent implements OnInit, OnDestroy {
   @Input() token!: string;
+  @Input() onMicClick!: Observable<boolean>;
+  @Input() onVideoCamClick!: Observable<boolean>;
+  @Input() onScreenShareClick!: Observable<boolean>;
 
   @Output()
   leave = new EventEmitter();
@@ -101,17 +105,17 @@ export class LivekitComponent implements OnInit, OnDestroy {
     this.audioElement.remove();
   }
 
-  leaveRoom() {
-    this.ngOnDestroy();
-    this.leave.emit();
-  }
-
   onConnected = () => {
     this.isConnecting = false;
 
     if (!this.room) {
       return;
     }
+
+    this.onMicClick.subscribe((v) => this.toggleMic(v));
+    this.onVideoCamClick.subscribe((v) => this.toggleVideo(v));
+    this.onScreenShareClick.subscribe((v) => this.toggleScreenShare(v));
+
     console.log('connected to room', this.room.name);
     console.log('participants in room:', this.room.participants.size);
 
@@ -218,6 +222,18 @@ export class LivekitComponent implements OnInit, OnDestroy {
     }
 
     this._groupAt = value;
+  }
+
+  private toggleMic(value: boolean) {
+    this.room!.localParticipant.setMicrophoneEnabled(value);
+  }
+
+  private toggleVideo(value: boolean) {
+    this.room!.localParticipant.setCameraEnabled(value);
+  }
+
+  private toggleScreenShare(value: boolean) {
+    this.room!.localParticipant.setScreenShareEnabled(value);
   }
 
   private setGrouping(): void {

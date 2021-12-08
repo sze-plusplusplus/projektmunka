@@ -19,7 +19,6 @@ import { ChatDialogComponent } from './components/dialog/chat-dialog/chat-dialog
 import { SettingsDialogComponent } from './components/dialog/settings-dialog/settings-dialog.component';
 import { LivekitComponent } from './components/livekit/livekit.component';
 import { VideoComponent } from './components/livekit/video/video.component';
-import { ControlsComponent } from './components/livekit/controls/controls.component';
 import { ScreenshareComponent } from './components/livekit/screenshare/screenshare.component';
 import { ParticipantComponent } from './components/livekit/participant/participant.component';
 import { MatListModule } from '@angular/material/list';
@@ -47,7 +46,6 @@ import { NgxMatDatetimePickerModule } from '@angular-material-components/datetim
     SettingsDialogComponent,
     LivekitComponent,
     VideoComponent,
-    ControlsComponent,
     ScreenshareComponent,
     ParticipantComponent
   ],

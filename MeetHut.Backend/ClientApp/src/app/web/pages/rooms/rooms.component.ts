@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { TokenService } from 'src/app/auth/services';
 import {
   ParticipantEditDialogComponent,
   RoomEditDialogComponent
 } from '../../components';
 import { RoomDTO } from '../../dtos';
+import { ControlArray, ControlId, ControlSettings } from '../../models';
 import { RoomService } from '../../services';
 
 @Component({
@@ -17,11 +19,20 @@ export class RoomsComponent implements OnInit {
   rooms: RoomDTO[] = [];
   userId!: number;
 
+  readonly addControl: ControlSettings;
+
   constructor(
     private roomService: RoomService,
     private tokenService: TokenService,
-    public dialog: MatDialog
-  ) {}
+    public dialog: MatDialog,
+    private route: ActivatedRoute
+  ) {
+    const controls: ControlArray =
+      this.route.snapshot.data.frameSettings.footerSettings.controls;
+
+    this.addControl = controls.get(ControlId.Add)!;
+    this.addControl.click.subscribe(() => this.createRoom());
+  }
 
   /**
    * On Init hook

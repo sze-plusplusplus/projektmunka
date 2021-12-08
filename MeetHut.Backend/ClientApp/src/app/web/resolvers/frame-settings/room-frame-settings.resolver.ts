@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ChatDialogComponent } from '../../components/dialog/chat-dialog/chat-dialog.component';
 import { ParticipantsDialogComponent } from '../../components/dialog/participants-dialog/participants-dialog.component';
 import { SettingsDialogComponent } from '../../components/dialog/settings-dialog/settings-dialog.component';
 import {
+  ControlArray,
+  ControlId,
   ControlLocation,
-  ControlSettings,
-  dashboardControl,
   FooterSettings,
   FrameSettings,
   FrameSettingsResolver,
@@ -23,56 +23,63 @@ export class RoomFrameSettingsResolver extends FrameSettingsResolver {
   }
 
   getSettings(): FrameSettings {
-    const controls: ControlSettings[] = [
+    const controls: ControlArray = new ControlArray()
       // LEFT
-      new ControlSettings({
+      .withControl({
+        id: ControlId.Settings,
         iconKey: 'settings',
         open: () => this.openSettingsDialog(),
         toggleSettings: new ToggleControlSettings({}),
         location: ControlLocation.LEFT
-      }),
+      })
       // CENTER
-      new ControlSettings({
+      .withControl({
+        id: ControlId.Mic,
         iconKey: 'mic',
         toggleSettings: new ToggleControlSettings({
           iconKey: 'mic_off',
           color: 'warn'
-        })
-      }),
-      new ControlSettings({
+        }),
+        toggled: true
+      })
+      .withControl({
+        id: ControlId.VideoCam,
         iconKey: 'videocam',
         toggleSettings: new ToggleControlSettings({
           iconKey: 'videocam_off',
           color: 'warn'
-        })
-      }),
-      new ControlSettings({
+        }),
+        toggled: true
+      })
+      .withControl({
+        id: ControlId.ScreenShare,
         iconKey: 'screen_share',
         toggleSettings: new ToggleControlSettings({
           iconKey: 'stop_screen_share',
           color: 'warn'
-        })
-      }),
-      new ControlSettings({
+        }),
+        toggled: true
+      })
+      .withControl({
+        id: ControlId.CallEnd,
         iconKey: 'call_end',
-        color: 'warn',
-        open: () => of(window.alert('call end button is pressed'))
-      }),
+        color: 'warn'
+      })
       // RIGHT
-      new ControlSettings({
+      .withControl({
+        id: ControlId.Participants,
         iconKey: 'group',
         open: () => this.openParticipantsDialog(),
         toggleSettings: new ToggleControlSettings({}),
         location: ControlLocation.RIGHT
-      }),
-      new ControlSettings({
+      })
+      .withControl({
+        id: ControlId.Chat,
         iconKey: 'message',
         open: () => this.openChatDialog(),
         toggleSettings: new ToggleControlSettings({}),
         location: ControlLocation.RIGHT
-      }),
-      dashboardControl
-    ];
+      });
 
     return new FrameSettings({
       showHeader: true,

@@ -1,16 +1,16 @@
-import { ControlSettings } from '.';
+import { ControlArray } from '.';
 
 interface IFooterSettings {
   show?: boolean;
-  controls?: ControlSettings[];
+  controls?: ControlArray;
 }
 
 export class FooterSettings implements IFooterSettings {
   show: boolean;
-  controls: ControlSettings[];
+  controls: ControlArray;
 
   constructor(from?: IFooterSettings) {
     this.show = from?.show ?? false;
-    this.controls = from?.controls ?? [];
+    this.controls = new ControlArray(from?.controls?.items ?? []);
   }
 }

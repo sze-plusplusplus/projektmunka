@@ -1,27 +1,44 @@
 <div id="livekit">
-	<div class="main" [ngClass]="{'is-loading' : isConnecting}">
-		<p>in the room isConnecting: {{isConnecting}} Number of users: {{participants.length}} Has screen sharing: {{!!screenTrack}}</p>
+  <div class="main" [ngClass]="{ 'is-loading': isConnecting }">
+    <p>
+      in the room isConnecting: {{ isConnecting }} Number of users:
+      {{ participants.length }} Has screen sharing: {{ !!screenTrack }}
+    </p>
 
-		<livekit-screenshare [track]="screenTrack"></livekit-screenshare>
-		<div class="participant-renderer">
-			<livekit-participant *ngFor="let participant of participants | slice:0:userNumberLimit" [participant]="participant" (localTrackChanged)="updateScreenShare()"></livekit-participant>
-		</div>
+    <livekit-screenshare [track]="screenTrack"></livekit-screenshare>
+    <div class="participant-renderer">
+      <livekit-participant
+        *ngFor="let participant of participants | slice: 0:userNumberLimit"
+        [participant]="participant"
+        (localTrackChanged)="updateScreenShare()"
+      ></livekit-participant>
+    </div>
 
-		<div class="row">
-			<ng-container *ngFor="
-				let p of participants
-				| slice: 0:groupAt - (isGroupingNeccessary ? 1 : 0)
-			">
-				<app-participant-tile class="col col-6 col-md-4 col-lg-3 col-xl-2" [participant]="$any(p)">
-				</app-participant-tile>
-			</ng-container>
-			<ng-container *ngIf="isGroupingNeccessary" [ngTemplateOutlet]="groupTile"></ng-container>
-		</div>
-	</div>
-	<livekit-controls *ngIf="room" [localParticipant]="room.localParticipant" (leave)="leaveRoom()"></livekit-controls>
+    <div class="row">
+      <ng-container
+        *ngFor="
+          let p of participants
+            | slice: 0:groupAt - (isGroupingNeccessary ? 1 : 0)
+        "
+      >
+        <app-participant-tile
+          class="col col-6 col-md-4 col-lg-3 col-xl-2"
+          [participant]="$any(p)"
+        >
+        </app-participant-tile>
+      </ng-container>
+      <ng-container
+        *ngIf="isGroupingNeccessary"
+        [ngTemplateOutlet]="groupTile"
+      ></ng-container>
+    </div>
+  </div>
 </div>
 
 <ng-template #groupTile>
-	<app-participant-tile class="col col-6 col-md-4 col-lg-3 col-xl-2" [groupCount]="groupedParticipantCount">
-	</app-participant-tile>
+  <app-participant-tile
+    class="col col-6 col-md-4 col-lg-3 col-xl-2"
+    [groupCount]="groupedParticipantCount"
+  >
+  </app-participant-tile>
 </ng-template>

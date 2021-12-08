@@ -1,7 +1,4 @@
-<div>
-    <button mat-mini-fab color="primary" (click)="createRoom()" matTooltip="Create a new room">
-        <mat-icon>add</mat-icon>
-    </button>
+<div class="container-fluid">
     <mat-nav-list>
         <mat-list-item *ngFor="let room of rooms">
             <a class="room-list-item" matLine [routerLink]="['/room/' + room.publicId]">
