@@ -20,6 +20,7 @@ import {
   VideoTrack
 } from 'livekit-client';
 import { Observable } from 'rxjs';
+import { ParameterService } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-livekit',
@@ -54,7 +55,7 @@ export class LivekitComponent implements OnInit, OnDestroy {
 
   private _groupAt!: number;
 
-  constructor() {
+  constructor(private parameterService: ParameterService) {
     this.isConnecting = true;
     this.participants = [];
 
@@ -70,7 +71,8 @@ export class LivekitComponent implements OnInit, OnDestroy {
     this.error = undefined;
 
     try {
-      this.room = await connect('http://localhost:7880', this.token, {
+      const host = await this.parameterService.get('LivekitHost');
+      this.room = await connect(host.value, this.token, {
         autoManageVideo: true,
         logLevel: LogLevel.info,
         publishDefaults: { simulcast: true }

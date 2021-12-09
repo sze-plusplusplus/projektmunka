@@ -1,6 +1,10 @@
-.room-list-item {
-  span {
-    margin-left: 10px;
-    font-size: 80%;
+:host {
+  width: 100%;
+
+  .room-list-item {
+    span {
+      margin-left: 10px;
+      font-size: 80%;
+    }
   }
 }

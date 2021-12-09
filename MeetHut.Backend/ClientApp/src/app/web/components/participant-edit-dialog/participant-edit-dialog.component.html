@@ -1,21 +1,31 @@
-<div class="edit-dialog">
-  <h3>{{data.name}} participants</h3>
-  <mat-nav-list>
-    <mat-list-item *ngFor="let participant of participants">
-      <a class="participant-list-item" matLine>
-        {{participant.user.fullName}} ({{ participant.user.userName }}) <span *ngIf="participant.userId === userId">(Myself)</span>
-      </a>
-      <button mat-icon-button *ngIf="userId === data.owner.id && participant.userId !== userId" (click)="remove(participant.userId)" matTooltip="Remove participant">
-        <mat-icon color="warn">delete</mat-icon>
-      </button>
-    </mat-list-item>
-  </mat-nav-list>
+<app-dialog-frame
+  [title]="data.name + ' participants'"
+  (close)="dialogRef.close()"
+>
+  <div class="dialog-main">
+    <div>
+      <mat-nav-list>
+        <mat-list-item *ngFor="let participant of participants">
+          <a class="participant-list-item" matLine>
+            {{ participant.user.fullName }} ({{ participant.user.userName }})
+            <span *ngIf="participant.userId === userId">(Myself)</span>
+          </a>
+          <button
+            mat-icon-button
+            *ngIf="userId === data.owner.id && participant.userId !== userId"
+            (click)="remove(participant.userId)"
+            matTooltip="Remove participant"
+          >
+            <mat-icon color="warn">delete</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-nav-list>
 
-  <mat-form-field appearance="fill" *ngIf="userId === data.owner.id">
-    <mat-label>Username or E-mail</mat-label>
-    <input matInput [(ngModel)]="userToAdd" />
-    <button mat-button matSuffix (click)="add()">Add</button>
-  </mat-form-field>
-  
-  <button mat-raised-button (click)="close()">Return</button>
-</div>
+      <mat-form-field appearance="fill" *ngIf="userId === data.owner.id">
+        <mat-label>Username or E-mail</mat-label>
+        <input matInput [(ngModel)]="userToAdd" />
+        <button mat-button matSuffix (click)="add()">Add</button>
+      </mat-form-field>
+    </div>
+  </div>
+</app-dialog-frame>

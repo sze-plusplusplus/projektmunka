@@ -27,8 +27,8 @@ export class RoomsComponent implements OnInit {
     public dialog: MatDialog,
     private route: ActivatedRoute
   ) {
-    const controls: ControlArray =
-      this.route.snapshot.data.frameSettings.footerSettings.controls;
+    const controls: ControlArray = this.route.snapshot.data.frameSettings
+      .footerSettings.controls;
 
     this.addControl = controls.get(ControlId.Add)!;
     this.addControl.click.subscribe(() => this.createRoom());
@@ -48,7 +48,8 @@ export class RoomsComponent implements OnInit {
 
   editRoom(room: RoomDTO) {
     const ref = this.dialog.open(RoomEditDialogComponent, {
-      data: room
+      data: room,
+      panelClass: 'dialog'
     });
 
     ref.afterClosed().subscribe((res) => {
@@ -62,7 +63,8 @@ export class RoomsComponent implements OnInit {
     const ref = this.dialog.open(RoomEditDialogComponent, {
       data: {
         name: 'New room'
-      } as RoomDTO
+      } as RoomDTO,
+      panelClass: 'dialog'
     });
 
     ref.afterClosed().subscribe((res) => {
@@ -75,7 +77,8 @@ export class RoomsComponent implements OnInit {
   participantsDialog(room: RoomDTO) {
     this.dialog.open(ParticipantEditDialogComponent, {
       minWidth: '50vw',
-      data: room
+      data: room,
+      panelClass: 'dialog'
     });
   }
 

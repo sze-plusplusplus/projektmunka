@@ -1,9 +1,13 @@
-.edit-dialog {
-  > mat-form-field {
-    display: block;
-  }
+:host {
+  .dialog-main {
+    > div {
+      background: #fff;
 
-  .save-button {
-    float: right;
+      > mat-form-field {
+        display: block;
+        margin: 0.5rem;
+        color: #000;
+      }
+    }
   }
 }

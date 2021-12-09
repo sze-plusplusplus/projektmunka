@@ -8,7 +8,10 @@ import { RoomService } from '../../services';
 @Component({
   selector: 'app-participant-edit-dialog',
   templateUrl: './participant-edit-dialog.component.html',
-  styleUrls: ['./participant-edit-dialog.component.scss']
+  styleUrls: ['./participant-edit-dialog.component.scss'],
+  host: {
+    class: 'app-dialog'
+  }
 })
 export class ParticipantEditDialogComponent {
   participants?: RoomUserDTO[];

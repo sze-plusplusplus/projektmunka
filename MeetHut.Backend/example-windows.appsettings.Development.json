@@ -16,6 +16,7 @@
     "ExpirationInMinutes": 60
   },
   "Livekit": {
+    "publicHost": "http://localhost:7880",
     "host": "http://localhost:7886",
     "key": "test",
     "secret": "EXAMPLElgnfIrYsA8C8vZ0n53rqKCWsm",

@@ -5,7 +5,10 @@ import { RoomDTO } from '../../dtos';
 @Component({
   selector: 'app-room-edit-dialog',
   templateUrl: './room-edit-dialog.component.html',
-  styleUrls: ['./room-edit-dialog.component.scss']
+  styleUrls: ['./room-edit-dialog.component.scss'],
+  host: {
+    class: 'app-dialog'
+  }
 })
 export class RoomEditDialogComponent {
   room!: any;
