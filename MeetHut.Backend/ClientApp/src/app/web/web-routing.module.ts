@@ -7,7 +7,6 @@ import {
   DashboardComponent,
   RoomsComponent,
   UserComponent,
-  ChatComponent,
   RoomComponent,
   TimeTableComponent
 } from './pages';
@@ -87,14 +86,6 @@ const routes: Routes = [
         },
         data: new RouteData({
           title: 'Time Table'
-        }),
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'demo-chat',
-        component: ChatComponent,
-        data: new RouteData({
-          title: 'Chat'
         }),
         canActivate: [AuthGuard]
       },

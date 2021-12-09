@@ -1,6 +1,13 @@
 <app-dialog-frame title="Chat" (close)="dialogRef.close()">
   <div id="chat-main" class="dialog-main">
-    <div id="message-list"></div>
+    <div id="message-list">
+      <div *ngFor="let m of messages" class="message-box">
+        <div  class="message" [ngClass]="{'me': user?.id === m.senderId}">
+          {{m.text}}
+        </div>
+        <div class="details">by {{m.senderName}} at {{m.sendingTime}}</div>
+      </div>
+    </div>
     <div id="input-area" class="container-fluid">
       <div class="row">
         <div id="input" class="col col-12 col-md-10">
@@ -11,12 +18,13 @@
               cdkTextareaAutosize
               cdkAutosizeMinRows="1"
               cdkAutosizeMaxRows="4"
+              [(ngModel)]="currMessage"
             ></textarea>
           </mat-form-field>
         </div>
 
         <div class="col col-12 col-md-2">
-          <button mat-mini-fab color="primary">
+          <button mat-mini-fab color="primary" (click)="sendMessage()">
             <mat-icon>send</mat-icon>
           </button>
         </div>

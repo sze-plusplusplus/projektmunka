@@ -192,10 +192,14 @@ namespace MeetHut.Services.Meet
             {
                 throw new ArgumentException("User name cannot be empty");
             }
-            return GetMappedList<RoomCalendarDTO>(room => room.StartTime != null
+            var list = GetMappedList<RoomCalendarDTO>(room => room.StartTime != null
                                                           && (room.OwnerId == user.Id
                                                               || room.RoomUsers.Any(ru => ru.UserId == user.Id)))
                 .ToList();
+
+            list.ForEach(x => x.IsOwner = x.OwnerId == user.Id);
+
+            return list;
         }
     }
 }

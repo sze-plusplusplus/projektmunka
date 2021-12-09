@@ -12,7 +12,6 @@ import {
   RoomsComponent,
   RoomComponent,
   UserComponent,
-  ChatComponent,
   TimeTableComponent
 } from './pages/';
 import { RoomService } from './services';
@@ -59,8 +58,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     VideoComponent,
     ScreenshareComponent,
     ParticipantComponent,
-    TimeTableComponent,
-    ChatComponent
+    TimeTableComponent
   ],
   imports: [
     CommonModule,

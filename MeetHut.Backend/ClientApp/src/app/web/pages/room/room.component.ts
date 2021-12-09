@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { ChatDialogComponent } from '../../components/dialog/chat-dialog/chat-dialog.component';
 import { ParticipantsDialogComponent } from '../../components/dialog/participants-dialog/participants-dialog.component';
 import { SettingsDialogComponent } from '../../components/dialog/settings-dialog/settings-dialog.component';
 import { RoomDTO } from '../../dtos';
 import { ControlId, ControlSettings } from '../../models';
-import { RoomService } from '../../services';
+import { ChatService, RoomService } from '../../services';
 
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss']
 })
-export class RoomComponent implements OnInit {
+export class RoomComponent implements OnInit, OnDestroy {
   connectToken?: string;
 
   room?: RoomDTO;
@@ -30,9 +30,12 @@ export class RoomComponent implements OnInit {
   readonly videoCamClickEvent: Subject<boolean> = new Subject();
   readonly screenShareClickEvent: Subject<boolean> = new Subject();
 
+  private chatSub: Subscription = new Subscription();
+
   constructor(
     private route: ActivatedRoute,
     private roomService: RoomService,
+    private chatService: ChatService,
     private dialog: MatDialog
   ) {
     const controls =
@@ -57,16 +60,43 @@ export class RoomComponent implements OnInit {
     this.chatControl.click.subscribe(() => this.openChatDialog());
   }
 
-  private micClicked(v: boolean): void {
-    this.micClickEvent.next(v);
+  ngOnInit(): void {
+    this.route.data.subscribe((r) => {
+      this.room = (r as { room: RoomDTO }).room;
+      console.log(r);
+    });
   }
 
-  private videoCamClicked(v: boolean): void {
-    this.videoCamClickEvent.next(v);
+  ngOnDestroy(): void {
+    this.chatSub.unsubscribe();
   }
 
-  private screenShareClicked(v: boolean): void {
-    this.screenShareClickEvent.next(v);
+  connect(): void {
+    if (!this.room) {
+      return;
+    }
+    this.roomService.connect(this.room.id).then((o) => {
+      this.connectToken = o.token;
+      console.log(o.token);
+    });
+    this.chatSub.add(
+      this.chatService.state.subscribe((state) => {
+        if (state === true) {
+          this.chatSub.unsubscribe();
+          if (this.room) {
+            this.chatService.connectToGroup(this.room.publicId);
+          }
+        }
+      })
+    );
+  }
+
+  leave(): void {
+    this.connectToken = undefined;
+
+    if (this.room) {
+      this.chatService.disconnectFromGroup(this.room.publicId);
+    }
   }
 
   // FIXME: NOT YET USED
@@ -108,24 +138,15 @@ export class RoomComponent implements OnInit {
       .then(() => this.chatControl.toggle());
   }
 
-  ngOnInit(): void {
-    this.route.data.subscribe((r) => {
-      this.room = (r as { room: RoomDTO }).room;
-      console.log(r);
-    });
+  private micClicked(v: boolean): void {
+    this.micClickEvent.next(v);
   }
 
-  connect(): void {
-    if (!this.room) {
-      return;
-    }
-    this.roomService.connect(this.room.id).then((o) => {
-      this.connectToken = o.token;
-      console.log(o.token);
-    });
+  private videoCamClicked(v: boolean): void {
+    this.videoCamClickEvent.next(v);
   }
 
-  leave(): void {
-    this.connectToken = undefined;
+  private screenShareClicked(v: boolean): void {
+    this.screenShareClickEvent.next(v);
   }
 }

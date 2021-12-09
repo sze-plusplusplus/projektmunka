@@ -15,7 +15,7 @@ namespace MeetHut.Services.Meet.Hubs
         /// <param name="message">Message</param>
         public async Task NewMessage(string publicId, Message message)
         {
-            await Clients.Groups(publicId).SendCoreAsync("MessageReceived", new object[]{message});
+            await Clients.Groups(publicId).SendCoreAsync("MessageReceived", new object[] { message });
         }
 
         /// <summary>

@@ -11,7 +11,7 @@ namespace MeetHut.Services.Meet.DTOs
         /// Id
         /// </summary>
         public int Id { get; set; }
-        
+
         /// <summary>
         /// Room name
         /// </summary>
@@ -21,7 +21,7 @@ namespace MeetHut.Services.Meet.DTOs
         /// Public Id
         /// </summary>
         public string PublicId { get; set; }
-        
+
         /// <summary>
         /// Start time
         /// </summary>
@@ -36,7 +36,12 @@ namespace MeetHut.Services.Meet.DTOs
         /// Room is locked
         /// </summary>
         public bool IsLocked { get; set; } = false;
-        
+
+        /// <summary>
+        /// Owner
+        /// </summary>
+        public int OwnerId { get; set; }
+
         /// <summary>
         /// Current user is the owner
         /// </summary>
