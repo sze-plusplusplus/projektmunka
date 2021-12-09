@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using MeetHut.DataAccess.Entities;
 using MeetHut.DataAccess.Entities.Meet;
 using MeetHut.DataAccess.Enums.Meet;
@@ -68,5 +69,12 @@ namespace MeetHut.Services.Meet.Interfaces
         /// <param name="roomId">ID of the room</param>
         /// <param name="userId">ID of the user</param>
         public void RemoveFromRoom(int roomId, int userId);
+        
+        /// <summary>
+        /// Get Calendar event entity list for a user
+        /// </summary>
+        /// <param name="userName">User name</param>
+        /// <returns>List of room events</returns>
+        List<RoomCalendarDTO> GetCalendar(string userName);
     }
 }

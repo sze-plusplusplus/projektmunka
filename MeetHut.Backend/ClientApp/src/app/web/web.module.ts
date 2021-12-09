@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   FrameComponent,
   ParticipantEditDialogComponent,
@@ -11,7 +11,9 @@ import {
   DashboardComponent,
   RoomsComponent,
   RoomComponent,
-  UserComponent
+  UserComponent,
+  ChatComponent,
+  TimeTableComponent
 } from './pages/';
 import { RoomService } from './services';
 import { WebRoutingModule } from './web-routing.module';
@@ -34,6 +36,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @NgModule({
   declarations: [
@@ -54,13 +58,16 @@ import { MatGridListModule } from '@angular/material/grid-list';
     LivekitComponent,
     VideoComponent,
     ScreenshareComponent,
-    ParticipantComponent
+    ParticipantComponent,
+    TimeTableComponent,
+    ChatComponent
   ],
   imports: [
     CommonModule,
     WebRoutingModule,
     SharedModule,
     FormsModule,
+    ReactiveFormsModule,
     MatListModule,
     MatTooltipModule,
     MatDialogModule,
@@ -68,7 +75,11 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatIconModule,
     NgxMatDatetimePickerModule,
     MatBadgeModule,
-    MatGridListModule
+    MatGridListModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    })
   ],
   providers: [RoomService],
   exports: []

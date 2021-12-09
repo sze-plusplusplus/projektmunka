@@ -11,6 +11,7 @@ using MeetHut.Services.Application.Interfaces;
 using MeetHut.Services.Application.Mappers;
 using MeetHut.Services.Configurations;
 using MeetHut.Services.Meet;
+using MeetHut.Services.Meet.Hubs;
 using MeetHut.Services.Meet.Interfaces;
 using MeetHut.Services.Meet.Mappers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -134,6 +135,8 @@ namespace MeetHut.Backend
                     };
                 });
 
+            services.AddSignalR();
+
             // Register swagger display
             services.AddSwaggerGen(c =>
             {
@@ -211,7 +214,11 @@ namespace MeetHut.Backend
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<MessageHub>("/Chat"); 
+                endpoints.MapControllers();
+            });
 
             app.UseSpa(spa =>
             {

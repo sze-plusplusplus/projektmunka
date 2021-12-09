@@ -21,7 +21,11 @@
         <mat-icon>list</mat-icon>
       </button>
     </mat-grid-tile>
-    <mat-grid-tile>calendar</mat-grid-tile>
+    <mat-grid-tile>
+      <button mat-fab color="primary" [routerLink]="['/time-table']">
+        <mat-icon>calendar_today</mat-icon>
+      </button>
+    </mat-grid-tile>
     <mat-grid-tile>
       <button mat-fab color="link" (click)="logout()" matTooltip="Logout">
         <mat-icon>logout</mat-icon>

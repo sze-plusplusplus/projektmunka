@@ -1,14 +1,17 @@
 using System.Linq;
+using System;
+using System.Collections.Generic;
 using AutoMapper;
 using MeetHut.DataAccess;
 using MeetHut.DataAccess.Entities.Meet;
+using MeetHut.Services.Application.DTOs;
+using MeetHut.Services.Application.Interfaces;
+using MeetHut.Services.Meet.DTOs;
 using Microsoft.Extensions.Configuration;
 using MeetHut.Services.Meet.Interfaces;
-using MeetHut.Services.Meet.DTOs;
 using MeetHut.DataAccess.Entities;
 using Livekit.Client;
 using MeetHut.DataAccess.Enums.Meet;
-using System;
 
 namespace MeetHut.Services.Meet
 {
@@ -16,6 +19,7 @@ namespace MeetHut.Services.Meet
     public class RoomService : MapperRepository<Room>, IRoomService
     {
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
 
         private RoomClient client;
         private readonly string _lk_key;
@@ -29,9 +33,11 @@ namespace MeetHut.Services.Meet
         /// <param name="databaseContext">Database Context</param>
         /// <param name="mapper">Mapper</param>
         /// <param name="configuration">Configuration</param>
-        public RoomService(DatabaseContext databaseContext, IMapper mapper, IConfiguration configuration) : base(databaseContext, mapper)
+        /// <param name="userService">User Service</param>
+        public RoomService(DatabaseContext databaseContext, IMapper mapper, IConfiguration configuration, IUserService userService) : base(databaseContext, mapper)
         {
             _mapper = mapper;
+            _userService = userService;
             _lk_key = configuration["Livekit:key"];
             _lk_secret = configuration["Livekit:secret"];
             _lk_empty = uint.Parse(configuration["Livekit:emptyTimeout"]);
@@ -175,6 +181,21 @@ namespace MeetHut.Services.Meet
         private RoomUserDTO[] withParticipantJoinInfo(RoomUser[] users)
         {
             return users.Select(u => withParticipantJoinInfo(u)).ToArray();
+        }
+
+        /// <inheritdoc />
+        public List<RoomCalendarDTO> GetCalendar(string userName)
+        {
+            var user = _userService.GetMappedByName<UserDTO>(userName);
+
+            if (user is null)
+            {
+                throw new ArgumentException("User name cannot be empty");
+            }
+            return GetMappedList<RoomCalendarDTO>(room => room.StartTime != null
+                                                          && (room.OwnerId == user.Id
+                                                              || room.RoomUsers.Any(ru => ru.UserId == user.Id)))
+                .ToList();
         }
     }
 }

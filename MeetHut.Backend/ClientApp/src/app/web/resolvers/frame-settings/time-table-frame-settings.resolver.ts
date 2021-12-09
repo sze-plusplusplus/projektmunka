@@ -10,7 +10,7 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class UserFrameSettingsResolver extends FrameSettingsResolver {
+export class TimeTableFrameSettingsResolver extends FrameSettingsResolver {
   constructor() {
     super();
   }

@@ -1,14 +1,23 @@
+/* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/guards';
 import { FrameComponent } from './components';
-import { DashboardComponent, RoomsComponent, UserComponent } from './pages';
-import { RoomComponent } from './pages/room/room.component';
-import { RoomFrameSettingsResolver } from './resolvers/frame-settings/room-frame-settings.resolver';
-import { RoomsFrameSettingsResolver } from './resolvers/frame-settings/rooms-frame-settings.resolver';
-import { RoomResolver } from './resolvers/room.resolver';
-import { IFrameSettings } from './models/frame-settings.model';
-import { UserFrameSettingsResolver } from './resolvers/frame-settings/user-frame-settings.resolver';
+import {
+  DashboardComponent,
+  RoomsComponent,
+  UserComponent,
+  ChatComponent,
+  RoomComponent,
+  TimeTableComponent
+} from './pages';
+import { RoomResolver } from './resolvers';
+import {
+  RoomFrameSettingsResolver,
+  RoomsFrameSettingsResolver,
+  TimeTableFrameSettingsResolver,
+  UserFrameSettingsResolver
+} from './resolvers/frame-settings';
 
 interface IRouteData {
   title?: string;
@@ -55,7 +64,8 @@ const routes: Routes = [
         },
         resolve: {
           frameSettings: UserFrameSettingsResolver
-        }
+        },
+        canActivate: [AuthGuard]
       },
       {
         path: 'room/:id',
@@ -66,6 +76,25 @@ const routes: Routes = [
         },
         data: new RouteData({
           title: 'Room'
+        }),
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'time-table',
+        component: TimeTableComponent,
+        resolve: {
+          frameSettings: TimeTableFrameSettingsResolver
+        },
+        data: new RouteData({
+          title: 'Time Table'
+        }),
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'demo-chat',
+        component: ChatComponent,
+        data: new RouteData({
+          title: 'Chat'
         }),
         canActivate: [AuthGuard]
       },
