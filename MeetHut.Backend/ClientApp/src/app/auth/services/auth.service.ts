@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Params, Router, RouterState } from '@angular/router';
+import { Params, Router} from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { TokenDTO } from '../dtos';
 import {
@@ -80,7 +80,7 @@ export class AuthService {
   login(model: LoginModel): Promise<TokenDTO> {
     return new Promise((resolve) =>
       this.http
-        .post<TokenDTO>(this.getAuthUrl('login'), model)
+        .post<TokenDTO>(AuthService.getAuthUrl('login'), model)
         .toPromise()
         .then((res) => res && this.handleTokens(res, resolve))
         .catch((err) => console.error(err))
@@ -97,7 +97,7 @@ export class AuthService {
   loginWithGoogle(model: GoogleLoginModel): Promise<TokenDTO> {
     return new Promise((resolve) =>
       this.http
-        .post<TokenDTO>(this.getAuthUrl('google-login'), model)
+        .post<TokenDTO>(AuthService.getAuthUrl('google-login'), model)
         .toPromise()
         .then((res) => res && this.handleTokens(res, resolve))
         .catch((err) => console.error(err))
@@ -114,7 +114,7 @@ export class AuthService {
   loginWithMicrosoft(model: MicrosoftLoginModel): Promise<TokenDTO> {
     return new Promise((resolve) =>
       this.http
-        .post<TokenDTO>(this.getAuthUrl('ms-login'), model)
+        .post<TokenDTO>(AuthService.getAuthUrl('ms-login'), model)
         .toPromise()
         .then((res) => res && this.handleTokens(res, resolve))
         .catch((err) => console.error(err))
@@ -129,7 +129,7 @@ export class AuthService {
    */
   register(model: RegistrationModel): Promise<void> {
     return this.http
-      .post<void>(this.getAuthUrl('registration'), model)
+      .post<void>(AuthService.getAuthUrl('registration'), model)
       .toPromise();
   }
 
@@ -141,7 +141,7 @@ export class AuthService {
    */
   forgotPassword(model: ForgotPasswordModel): Promise<void> {
     return this.http
-      .post<void>(this.getAuthUrl('forgot-password'), model)
+      .post<void>(AuthService.getAuthUrl('forgot-password'), model)
       .toPromise();
   }
 
@@ -156,7 +156,7 @@ export class AuthService {
   logout(action?: () => void): Promise<void> {
     return new Promise<void>((resolve) =>
       this.http
-        .post<void>(this.getAuthUrl('logout'), {})
+        .post<void>(AuthService.getAuthUrl('logout'), {})
         .toPromise()
         .then(() => {
           this.clearTokens();
@@ -213,12 +213,15 @@ export class AuthService {
    * Navigate to the login page with the current route
    */
   navigateToTheLoginPageWithRoute(): void {
-    this.navigateToTheLoginPage({
-      redirect: this.router.routerState.snapshot.url
-    });
+    let url = this.router.routerState.snapshot.url;
+    if (url !== "/auth/login") {
+      this.navigateToTheLoginPage({
+        redirect: url
+      });
+    }
   }
 
-  private getAuthUrl(endpoint: string): string {
+  private static getAuthUrl(endpoint: string): string {
     return `${environment.apiUrl}/Auth/${endpoint}`;
   }
 
