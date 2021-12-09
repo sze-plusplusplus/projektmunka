@@ -8,6 +8,7 @@ import { RoomFrameSettingsResolver } from './resolvers/frame-settings/room-frame
 import { RoomsFrameSettingsResolver } from './resolvers/frame-settings/rooms-frame-settings.resolver';
 import { RoomResolver } from './resolvers/room.resolver';
 import { IFrameSettings } from './models/frame-settings.model';
+import { UserFrameSettingsResolver } from './resolvers/frame-settings/user-frame-settings.resolver';
 
 interface IRouteData {
   title?: string;
@@ -49,9 +50,11 @@ const routes: Routes = [
       {
         path: 'user',
         component: UserComponent,
-        data: <IRouteData>{
-          title: 'User',
-          frameSettings: <IFrameSettings>{ showHeader: true, showFooter: true }
+        data: {
+          title: 'User'
+        },
+        resolve: {
+          frameSettings: UserFrameSettingsResolver
         }
       },
       {

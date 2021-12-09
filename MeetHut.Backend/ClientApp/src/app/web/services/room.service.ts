@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { OpenDTO, RoomDTO } from '../dtos';
 import { RoomUserDTO } from '../dtos/roomuser.dto';
@@ -18,7 +17,7 @@ export class RoomService {
    * @returns Promised rooms
    */
   getAll(): Promise<RoomDTO[]> {
-    return firstValueFrom(this.http.get<RoomDTO[]>(this.getRoomUrl('own')));
+    return this.http.get<RoomDTO[]>(this.getRoomUrl('own')).toPromise();
   }
 
   getPublicId(publicId: string) {
@@ -26,9 +25,7 @@ export class RoomService {
   }
 
   connect(id: number): Promise<OpenDTO> {
-    return firstValueFrom(
-      this.http.get<OpenDTO>(this.getRoomUrl(`${id}/open`))
-    );
+    return this.http.get<OpenDTO>(this.getRoomUrl(`${id}/open`)).toPromise();
   }
 
   deleteRoom(id: number) {

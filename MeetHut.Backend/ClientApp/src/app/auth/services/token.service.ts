@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import jwtDecode from 'jwt-decode';
-import { firstValueFrom, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '.';
 import { TokenDTO } from '../dtos';
@@ -19,7 +19,7 @@ export class TokenService {
    * @returns Promised tokens
    */
   refresh(): Promise<TokenDTO> {
-    return firstValueFrom(this.refreshObservable());
+    return this.refreshObservable().toPromise();
   }
 
   /**

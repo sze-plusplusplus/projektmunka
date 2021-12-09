@@ -7,7 +7,12 @@ import {
   ParticipantEditDialogComponent,
   RoomEditDialogComponent
 } from './components';
-import { DashboardComponent, RoomsComponent, RoomComponent } from './pages/';
+import {
+  DashboardComponent,
+  RoomsComponent,
+  RoomComponent,
+  UserComponent
+} from './pages/';
 import { RoomService } from './services';
 import { WebRoutingModule } from './web-routing.module';
 import { HeaderComponent } from './components/header/header.component';
