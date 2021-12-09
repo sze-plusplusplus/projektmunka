@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RoomDTO } from 'src/app/web/dtos';
 import { RoomUserDTO } from 'src/app/web/dtos/roomuser.dto';
 import { RoomService } from 'src/app/web/services';
@@ -18,10 +17,13 @@ export class ParticipantsDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ParticipantsDialogComponent, void>,
-    public roomService: RoomService
+    private roomService: RoomService,
+    @Inject(MAT_DIALOG_DATA) public data: RoomDTO
   ) {}
 
   ngOnInit(): void {
-    this.roomService.getParticipants(2).then((ru) => ru && (this.users = ru));
+    this.roomService
+      .getParticipants(this.data.id)
+      .then((ru) => ru && (this.users = ru));
   }
 }

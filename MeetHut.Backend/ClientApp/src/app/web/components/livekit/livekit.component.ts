@@ -226,15 +226,15 @@ export class LivekitComponent implements OnInit, OnDestroy {
     this._groupAt = value;
   }
 
-  private toggleMic(value: boolean) {
+  private toggleMic(value: boolean): void {
     this.room!.localParticipant.setMicrophoneEnabled(value);
   }
 
-  private toggleVideo(value: boolean) {
+  private toggleVideo(value: boolean): void {
     this.room!.localParticipant.setCameraEnabled(value);
   }
 
-  private toggleScreenShare(value: boolean) {
+  private toggleScreenShare(value: boolean): void {
     this.room!.localParticipant.setScreenShareEnabled(value);
   }
 
