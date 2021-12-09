@@ -3,12 +3,21 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/guards';
 import { FrameComponent } from './components';
-import { DashboardComponent, RoomsComponent, UserComponent, ChatComponent, RoomComponent } from './pages';
-import { RoomFrameSettingsResolver } from './resolvers/frame-settings/room-frame-settings.resolver';
-import { RoomsFrameSettingsResolver } from './resolvers/frame-settings/rooms-frame-settings.resolver';
-import { RoomResolver } from './resolvers/room.resolver';
-import { UserFrameSettingsResolver } from './resolvers/frame-settings/user-frame-settings.resolver';
-import { TimeTableComponent } from './pages/time-table/time-table.component';
+import {
+  DashboardComponent,
+  RoomsComponent,
+  UserComponent,
+  ChatComponent,
+  RoomComponent,
+  TimeTableComponent
+} from './pages';
+import { RoomResolver } from './resolvers';
+import {
+  RoomFrameSettingsResolver,
+  RoomsFrameSettingsResolver,
+  TimeTableFrameSettingsResolver,
+  UserFrameSettingsResolver
+} from './resolvers/frame-settings';
 
 interface IRouteData {
   title?: string;
@@ -73,6 +82,9 @@ const routes: Routes = [
       {
         path: 'time-table',
         component: TimeTableComponent,
+        resolve: {
+          frameSettings: TimeTableFrameSettingsResolver
+        },
         data: new RouteData({
           title: 'Time Table'
         }),

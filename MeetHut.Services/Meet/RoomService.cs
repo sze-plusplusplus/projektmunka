@@ -9,11 +9,9 @@ using MeetHut.Services.Application.Interfaces;
 using MeetHut.Services.Meet.DTOs;
 using Microsoft.Extensions.Configuration;
 using MeetHut.Services.Meet.Interfaces;
-using MeetHut.Services.Meet.DTOs;
 using MeetHut.DataAccess.Entities;
 using Livekit.Client;
 using MeetHut.DataAccess.Enums.Meet;
-using System;
 
 namespace MeetHut.Services.Meet
 {
@@ -184,7 +182,7 @@ namespace MeetHut.Services.Meet
         {
             return users.Select(u => withParticipantJoinInfo(u)).ToArray();
         }
-        
+
         /// <inheritdoc />
         public List<RoomCalendarDTO> GetCalendar(string userName)
         {
@@ -194,8 +192,8 @@ namespace MeetHut.Services.Meet
             {
                 throw new ArgumentException("User name cannot be empty");
             }
-            return GetMappedList<RoomCalendarDTO>(room => room.StartTime != null 
-                                                          && (room.OwnerId == user.Id 
+            return GetMappedList<RoomCalendarDTO>(room => room.StartTime != null
+                                                          && (room.OwnerId == user.Id
                                                               || room.RoomUsers.Any(ru => ru.UserId == user.Id)))
                 .ToList();
         }

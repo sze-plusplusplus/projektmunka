@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   FrameComponent,
   ParticipantEditDialogComponent,
@@ -11,7 +11,9 @@ import {
   DashboardComponent,
   RoomsComponent,
   RoomComponent,
-  UserComponent
+  UserComponent,
+  ChatComponent,
+  TimeTableComponent
 } from './pages/';
 import { RoomService } from './services';
 import { WebRoutingModule } from './web-routing.module';
@@ -35,9 +37,6 @@ import { NgxMatDatetimePickerModule } from '@angular-material-components/datetim
 import { MatBadgeModule } from '@angular/material/badge';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { TimeTableComponent } from './pages/time-table/time-table.component';
-import { ChatComponent } from './pages';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -83,5 +82,4 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   providers: [RoomService],
   exports: []
 })
-export class WebModule {
-}
+export class WebModule {}
