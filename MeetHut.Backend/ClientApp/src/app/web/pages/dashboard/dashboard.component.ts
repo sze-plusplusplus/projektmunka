@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
    */
   logout(): void {
     this.authService
-      .logout(() => this.authService.navigateToTheLandingPage())
+      .logout(() => this.authService.navigateToTheLoginPageWithRoute())
       .then();
   }
 }

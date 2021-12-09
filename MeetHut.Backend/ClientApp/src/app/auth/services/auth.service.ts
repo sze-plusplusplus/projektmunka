@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Params, Router} from '@angular/router';
+import { Params, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { TokenDTO } from '../dtos';
 import {
@@ -194,13 +194,6 @@ export class AuthService {
   }
 
   /**
-   * Navigate to the landing page
-   */
-  navigateToTheLandingPage(): void {
-    this.router.navigate(['']);
-  }
-
-  /**
    * Navigate to the login page with query params possibility
    *
    * @param queryParams Quert params for redirection
@@ -214,7 +207,7 @@ export class AuthService {
    */
   navigateToTheLoginPageWithRoute(): void {
     let url = this.router.routerState.snapshot.url;
-    if (url !== "/auth/login") {
+    if (url !== '/auth/login') {
       this.navigateToTheLoginPage({
         redirect: url
       });

@@ -33,6 +33,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatDatepickerModule,
     MatIconModule,
     NgxMatDatetimePickerModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatGridListModule
   ],
   providers: [RoomService],
   exports: []
