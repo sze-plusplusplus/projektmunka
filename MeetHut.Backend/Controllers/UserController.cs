@@ -54,7 +54,7 @@ namespace MeetHut.Backend.Controllers
         [HttpGet("me")]
         public UserDTO GetCurrent()
         {
-            return _userService.GetMappedByName<UserDTO>(User.Identity.Name);
+            return _userService.GetMappedByName<UserDTO>(User.Identity?.Name);
         }
 
         /// <summary>

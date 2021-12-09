@@ -1,0 +1,11 @@
+<div>
+  <h1>Messages</h1>
+
+  <div *ngFor="let m of messages" [ngClass]="{'me': m.senderId === user?.id}">
+    {{m.senderName}}: {{m.text}}
+  </div>
+  <div>
+    <input type="text" [(ngModel)]="currMessage" />
+    <button (click)="sendMessage()" *ngIf="user">Send</button>
+  </div>
+</div>

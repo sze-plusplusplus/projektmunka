@@ -33,6 +33,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
 import { MatBadgeModule } from '@angular/material/badge';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { TimeTableComponent } from './pages/time-table/time-table.component';
+import { ChatComponent } from './pages';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -53,22 +58,30 @@ import { MatBadgeModule } from '@angular/material/badge';
     LivekitComponent,
     VideoComponent,
     ScreenshareComponent,
-    ParticipantComponent
+    ParticipantComponent,
+    TimeTableComponent,
+    ChatComponent
   ],
   imports: [
     CommonModule,
     WebRoutingModule,
     SharedModule,
     FormsModule,
+    ReactiveFormsModule,
     MatListModule,
     MatTooltipModule,
     MatDialogModule,
     MatDatepickerModule,
     MatIconModule,
     NgxMatDatetimePickerModule,
-    MatBadgeModule
+    MatBadgeModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    })
   ],
   providers: [RoomService],
   exports: []
 })
-export class WebModule {}
+export class WebModule {
+}

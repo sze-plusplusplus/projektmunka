@@ -4,12 +4,18 @@ import { environment } from 'src/environments/environment';
 import { OpenDTO, RoomDTO } from '../dtos';
 import { RoomUserDTO } from '../dtos/roomuser.dto';
 import { RoomUserAddModel } from '../models/roomuseraddmodel';
+import { RoomCalendarDTO } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoomService {
+
   constructor(private http: HttpClient) {}
+
+  private static getRoomUrl(endpoint: string): string {
+    return `${environment.apiUrl}/Room/${endpoint}`;
+  }
 
   /**
    * Get all room entry
@@ -17,37 +23,37 @@ export class RoomService {
    * @returns Promised rooms
    */
   getAll(): Promise<RoomDTO[]> {
-    return this.http.get<RoomDTO[]>(this.getRoomUrl('own')).toPromise();
+    return this.http.get<RoomDTO[]>(RoomService.getRoomUrl('own')).toPromise();
   }
 
   getPublicId(publicId: string) {
-    return this.http.get<RoomDTO>(this.getRoomUrl(`publicId/${publicId}`));
+    return this.http.get<RoomDTO>(RoomService.getRoomUrl(`publicId/${publicId}`));
   }
 
   connect(id: number): Promise<OpenDTO> {
-    return this.http.get<OpenDTO>(this.getRoomUrl(`${id}/open`)).toPromise();
+    return this.http.get<OpenDTO>(RoomService.getRoomUrl(`${id}/open`)).toPromise();
   }
 
   deleteRoom(id: number) {
-    return this.http.delete(this.getRoomUrl(id.toString())).toPromise();
+    return this.http.delete(RoomService.getRoomUrl(id.toString())).toPromise();
   }
 
   save(room: RoomDTO) {
     return this.http[room.id ? 'put' : 'post'](
-      this.getRoomUrl(room.id?.toString() || ''),
+      RoomService.getRoomUrl(room.id?.toString() || ''),
       this.onlySave(room)
     ).toPromise();
   }
 
   getParticipants(roomId: number) {
     return this.http
-      .get<RoomUserDTO[]>(this.getRoomUrl(`${roomId}/users`))
+      .get<RoomUserDTO[]>(RoomService.getRoomUrl(`${roomId}/users`))
       .toPromise();
   }
 
   addParticipant(roomId: number, userNameOrEmail: string) {
     return this.http
-      .put<RoomUserDTO[]>(this.getRoomUrl(`${roomId}/users`), {
+      .put<RoomUserDTO[]>(RoomService.getRoomUrl(`${roomId}/users`), {
         userNameOrEmail
       } as RoomUserAddModel)
       .toPromise();
@@ -55,12 +61,17 @@ export class RoomService {
 
   removeParticipant(roomId: number, userId: number) {
     return this.http
-      .delete<RoomUserDTO[]>(this.getRoomUrl(`${roomId}/users/${userId}`))
+      .delete<RoomUserDTO[]>(RoomService.getRoomUrl(`${roomId}/users/${userId}`))
       .toPromise();
   }
 
-  private getRoomUrl(endpoint: string): string {
-    return `${environment.apiUrl}/Room/${endpoint}`;
+  /**
+   * Get calendar events
+   *
+   * @returns Promised room events
+   */
+  getCalendar(): Promise<RoomCalendarDTO[]> {
+    return this.http.get<RoomCalendarDTO[]>(RoomService.getRoomUrl('calendar')).toPromise();
   }
 
   private onlySave(room: RoomDTO): RoomDTO {

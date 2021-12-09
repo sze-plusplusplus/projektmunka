@@ -17,6 +17,7 @@ import { ErrorInterceptor } from './shared/interceptors/error-interceptor';
     AppRoutingModule,
     BrowserAnimationsModule,
     NgxMatNativeDateModule,
+    HttpClientModule,
 
     /* Application modules */
     AuthModule,
