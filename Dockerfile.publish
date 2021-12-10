@@ -36,6 +36,7 @@ FROM --platform=${TARGETPLATFORM:-linux/amd64} mcr.microsoft.com/dotnet/aspnet:5
 
 WORKDIR /app
 EXPOSE 80
+ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 
 COPY --from=build /app/publish .
 

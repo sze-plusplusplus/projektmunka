@@ -12,6 +12,7 @@
       <mat-icon (click)="openActionsPopup()">more_vert</mat-icon>
     </div>
     <span class="monogram"> {{ participant?.identity }}</span>
+    <button *ngIf="isMe" (click)="settingsOpen.emit()">Settings</button>
   </div>
 </ng-template>
 <ng-template #groupTile>

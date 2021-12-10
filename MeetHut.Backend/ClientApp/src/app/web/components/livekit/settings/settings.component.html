@@ -1,0 +1,30 @@
+<app-dialog-frame title="Settings" (close)="dialogRef.close()">
+  <div class="dialog-main">
+    <div class="p-3">
+      <mat-form-field *ngIf="audioOutput" appearance="fill">
+        <mat-label>Audio output device</mat-label>
+        <mat-select (selectionChange)="(switchOutput)">
+          <mat-option *ngFor="let v of audioOutput" [value]="v.deviceId">
+            {{ v.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="audioDevices" appearance="fill">
+        <mat-label>Audio device</mat-label>
+        <mat-select (selectionChange)="(switchAudio)">
+          <mat-option *ngFor="let a of audioDevices" [value]="a.deviceId">
+            {{ a.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="videoDevices" appearance="fill">
+        <mat-label>Video device</mat-label>
+        <mat-select (selectionChange)="(switchVideo)">
+          <mat-option *ngFor="let v of videoDevices" [value]="v.deviceId">
+            {{ v.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</app-dialog-frame>

@@ -7,6 +7,7 @@ import {
   OnInit,
   Output
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import {
   AudioTrack,
   connect,
@@ -21,6 +22,7 @@ import {
 } from 'livekit-client';
 import { Observable } from 'rxjs';
 import { ParameterService } from 'src/app/shared/services';
+import { SettingsComponent } from './settings/settings.component';
 
 @Component({
   selector: 'app-livekit',
@@ -55,7 +57,10 @@ export class LivekitComponent implements OnInit, OnDestroy {
 
   private _groupAt!: number;
 
-  constructor(private parameterService: ParameterService) {
+  constructor(
+    private parameterService: ParameterService,
+    public dialog: MatDialog
+  ) {
     this.isConnecting = true;
     this.participants = [];
 
@@ -241,6 +246,14 @@ export class LivekitComponent implements OnInit, OnDestroy {
   private setGrouping(): void {
     this.groupAt =
       window.innerWidth < 768 ? this.groupAtSmallScreen : this.groupAtBigScreen;
+  }
+
+  settingsOpen() {
+    this.dialog.open(SettingsComponent, {
+      data: this.room!,
+      panelClass: 'dialog',
+      minWidth: '30vw'
+    });
   }
 
   @HostListener('window:resize', ['$event'])

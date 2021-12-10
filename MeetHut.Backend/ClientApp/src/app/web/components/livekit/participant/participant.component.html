@@ -1,4 +1,11 @@
 <div class="participant">
-    <div class="video-wrap" [id]="'video-' + participant.sid" [ngClass]="{'has-video': participant.isCameraEnabled && participant.videoTracks.size > 0}"></div>
-    <p>participant works! {{participant.identity}} Speak {{participant.isSpeaking}} Mic {{participant.isMicrophoneEnabled}} Cam {{participant.isCameraEnabled}} Screen {{participant.isScreenShareEnabled}} Quality {{participant.connectionQuality}} {{isLocal ? 'Myself' : ''}}</p>
+  <div
+    class="video-wrap"
+    [id]="'video-' + participant.sid"
+    [ngClass]="{
+      'has-video':
+        participant.isCameraEnabled && participant.videoTracks.size > 0
+    }"
+  ></div>
+  <!--p>participant works! {{participant.identity}} Speak {{participant.isSpeaking}} Mic {{participant.isMicrophoneEnabled}} Cam {{participant.isCameraEnabled}} Screen {{participant.isScreenShareEnabled}} Quality {{participant.connectionQuality}} {{isLocal ? 'Myself' : ''}}</p-->
 </div>

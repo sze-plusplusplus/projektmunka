@@ -1,6 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Participant } from 'livekit-client';
-import { MeetRole } from '../../models/room-role.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { LocalParticipant, Participant } from 'livekit-client';
 
 @Component({
   selector: 'app-participant-tile',
@@ -10,6 +9,8 @@ import { MeetRole } from '../../models/room-role.model';
 export class ParticipantTileComponent implements OnInit {
   @Input() participant: Participant | undefined;
   @Input() groupCount = 0;
+
+  @Output() settingsOpen = new EventEmitter<void>();
 
   private _showActionsButton = false;
   private readonly actionsButtonDisabled: boolean = true;
@@ -34,6 +35,10 @@ export class ParticipantTileComponent implements OnInit {
     }
 
     this._showActionsButton = value;
+  }
+
+  get isMe() {
+    return this.participant instanceof LocalParticipant;
   }
 
   ngOnInit(): void {}

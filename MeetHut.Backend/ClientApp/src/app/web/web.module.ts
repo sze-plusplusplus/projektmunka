@@ -37,6 +37,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { MatSelectModule } from '@angular/material/select';
+import { SettingsComponent } from './components/livekit/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     VideoComponent,
     ScreenshareComponent,
     ParticipantComponent,
-    TimeTableComponent
+    TimeTableComponent,
+    SettingsComponent
   ],
   imports: [
     CommonModule,
@@ -77,7 +80,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
-    })
+    }),
+    MatSelectModule
   ],
   providers: [RoomService],
   exports: []
