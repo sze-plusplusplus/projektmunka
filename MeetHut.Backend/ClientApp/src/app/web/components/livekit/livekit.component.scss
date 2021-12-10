@@ -1,0 +1,15 @@
+@import "../../../shared/shared-variables.scss";
+@import "../../../shared/shared-mixins.scss";
+
+#livekit {
+    @include flex-stretched-container(column);
+
+    .main {
+        @include flex-stretched-container(column);
+
+        .row {
+            @include flex-stretched-container(row);
+            gap: $primary-gap;
+        }
+    }
+}
