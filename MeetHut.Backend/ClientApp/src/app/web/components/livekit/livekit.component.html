@@ -1,9 +1,9 @@
 <div id="livekit">
   <div class="main" [ngClass]="{ 'is-loading': isConnecting }">
-    <p>
+    <!--p>
       in the room isConnecting: {{ isConnecting }} Number of users:
       {{ participants.length }} Has screen sharing: {{ !!screenTrack }}
-    </p>
+    </p-->
 
     <livekit-screenshare [track]="screenTrack"></livekit-screenshare>
 

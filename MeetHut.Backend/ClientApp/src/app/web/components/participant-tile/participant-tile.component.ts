@@ -22,7 +22,7 @@ export class ParticipantTileComponent implements OnInit {
   }
 
   get showActionsButton(): boolean {
-    if (this.actionsButtonDisabled) {
+    if (this.actionsButtonDisabled && !this.isMe) {
       return false;
     }
 
@@ -30,7 +30,7 @@ export class ParticipantTileComponent implements OnInit {
   }
 
   set showActionsButton(value: boolean) {
-    if (this.actionsButtonDisabled) {
+    if (this.actionsButtonDisabled && !this.isMe) {
       return;
     }
 
