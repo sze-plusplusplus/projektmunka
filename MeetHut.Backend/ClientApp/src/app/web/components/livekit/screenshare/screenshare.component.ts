@@ -28,6 +28,8 @@ export class ScreenshareComponent implements OnInit, OnChanges {
     if (this.track) {
       this.oldTrack = this.track;
       const el = this.track.attach();
+      el.style.width = '100%';
+      el.style.height = '100%';
 
       document.getElementById('screenshare')?.appendChild(el);
     }

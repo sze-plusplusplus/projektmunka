@@ -5,9 +5,9 @@
       {{ participants.length }} Has screen sharing: {{ !!screenTrack }}
     </p-->
 
-    <livekit-screenshare [track]="screenTrack"></livekit-screenshare>
+    <livekit-screenshare [track]="screenTrack" *ngIf="screenTrack"></livekit-screenshare>
 
-    <div class="row">
+    <div class="row" *ngIf="!screenTrack">
       <ng-container
         *ngFor="
           let p of participants

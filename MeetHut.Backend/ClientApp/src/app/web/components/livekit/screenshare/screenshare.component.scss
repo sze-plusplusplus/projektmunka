@@ -2,7 +2,17 @@
 
 :host {
   @include flex-stretched-container(column);
-  @include flex-aligned(center, center);
+  align-items: center;
+  justify-content: center;
+}
 
-  margin-bottom: 1rem;
+#screenshare {
+  @include flex-stretched-container(column);
+  @include flex-aligned(center, center);
+  max-width: 98vw;
+  max-height: 74vh;
+
+  video {
+    flex: 1;
+  }
 }

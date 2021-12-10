@@ -1,12 +1,11 @@
 <div class="container-fluid">
   <div *ngIf="!connectToken" class="before-connect">
-    <p>Before connect</p>
-    <h2>Room: {{ room?.name }}</h2>
+    <h1>Room: {{ room?.name }}</h1>
     <p *ngIf="room?.startTime">
-      Ütemezett idő: {{ room?.startTime }}-{{ room?.endTime }}
+      <b>Planned time:</b> {{ room?.startTime | date: 'yyyy-MM-dd HH:mm:ss' }} - {{ room?.endTime | date: 'yyyy-MM-dd HH:mm:ss' }}
     </p>
-    <p>Létrehozó: {{ room?.owner?.userName }}</p>
-    <button (click)="connect()">Kapcsolódás</button>
+    <p><b>Owner:</b> {{ room?.owner?.userName }}</p>
+    <button mat-raised-button color="primary" (click)="connect()">Connect to the room</button>
   </div>
   <app-livekit
     *ngIf="!!connectToken"
