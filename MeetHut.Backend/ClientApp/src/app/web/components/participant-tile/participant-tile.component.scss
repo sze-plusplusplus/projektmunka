@@ -5,6 +5,10 @@
 @import "~bootstrap/scss/_variables";
 @import "~bootstrap/scss/mixins/_breakpoints";
 
+:host {
+    @include flex-stretched-container(column);
+}
+
 .tile {
     @include prevent-select;
     @include flex-stretched-container(column);
