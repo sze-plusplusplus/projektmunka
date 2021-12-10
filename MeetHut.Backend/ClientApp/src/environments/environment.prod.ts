@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://localhost:5001/api'
+  appUrl: 'https://app.meethut.one/',
+  apiUrl: 'https://app.meethut.one/api'
 };

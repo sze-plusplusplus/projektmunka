@@ -1,0 +1,57 @@
+<ng-container
+  *ngTemplateOutlet="participant ? participantTile : groupTile"
+></ng-container>
+
+<ng-template #participantTile>
+  <div
+    class="tile participant-tile"
+    (mouseover)="showActionsButton = true"
+    (mouseleave)="showActionsButton = false"
+  >
+    <div *ngIf="showActionsButton || true" class="action-control">
+      <!--mat-icon (click)="openActionsPopup()">more_vert</mat-icon-->
+      <mat-icon *ngIf="isMe" (click)="settingsOpen.emit()" matTooltip="Settings"
+        >settings</mat-icon
+      >
+    </div>
+    <ng-content></ng-content>
+    <span *ngIf="!participant?.isCameraEnabled" class="monogram"
+      >{{ participant?.identity }}
+
+      <span class="icons">
+        <mat-icon color="primary" *ngIf="participant?.isMicrophoneEnabled"
+          >volume_up</mat-icon
+        >
+        <mat-icon color="warn" *ngIf="!participant?.isMicrophoneEnabled"
+          >volume_off</mat-icon
+        >
+        <mat-icon color="primary" *ngIf="participant?.isScreenShareEnabled"
+          >desktop_windows</mat-icon
+        >
+      </span>
+    </span>
+    <span *ngIf="participant?.isCameraEnabled && showActionsButton" class="name"
+      >{{ participant?.identity }}
+
+      <span class="icons">
+        <mat-icon color="primary" *ngIf="participant?.isMicrophoneEnabled"
+          >volume_up</mat-icon
+        >
+        <mat-icon color="warn" *ngIf="!participant?.isMicrophoneEnabled"
+          >volume_off</mat-icon
+        >
+        <mat-icon color="primary" *ngIf="participant?.isScreenShareEnabled"
+          >desktop_windows</mat-icon
+        >
+      </span>
+    </span>
+  </div>
+</ng-template>
+<ng-template #groupTile>
+  <div class="tile group-tile">
+    <div id="group-count-label">+ {{ groupCount }}</div>
+    <div>
+      {{ participantsText }}
+    </div>
+  </div>
+</ng-template>

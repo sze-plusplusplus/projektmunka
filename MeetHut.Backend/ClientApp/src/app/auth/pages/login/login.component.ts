@@ -5,6 +5,7 @@ import {
   MicrosoftLoginProvider,
   SocialAuthService
 } from 'angularx-social-login';
+import { ParameterService } from 'src/app/shared/services';
 import {
   GoogleLoginModel,
   LoginModel,
@@ -18,28 +19,43 @@ import { AuthService } from '../../services';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  social = {
+    google: false,
+    microsoft: false
+  };
   public loginModel: LoginModel = new LoginModel('', '');
-  private redirectPath = '/home';
+  private redirectPath = '/dashboard';
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private socialAuthService: SocialAuthService
+    private socialAuthService: SocialAuthService,
+    private parameterService: ParameterService
   ) {}
 
   /**
    * On Init hook
    */
   ngOnInit(): void {
-    this.route.queryParams.subscribe(
-      (params) => (this.redirectPath = params.redirect || '/home')
-    );
+    this.route.queryParams.subscribe((params) => {
+      const redirectUrl = params.redirect;
+      if (redirectUrl === '/auth/login') {
+        this.redirectPath = '/dashboard';
+      } else {
+        this.redirectPath = redirectUrl || '/dashboard';
+      }
+    });
+    this.parameterService.getAll().then((p) => {
+      this.social.google = !!p.find((e) => e.key === 'Google.Login')?.value;
+      this.social.microsoft = !!p.find((e) => e.key === 'Microsoft.Login')
+        ?.value;
+    });
   }
 
   /**
    * Do login
-   * On success clears the state and navigates to home or the redirect param
+   * On success clears the state and navigates to dashboard or the redirect param
    */
   login() {
     this.authService
@@ -50,7 +66,7 @@ export class LoginComponent implements OnInit {
 
   /**
    * Do login with Google
-   * On success clears the state and navigates to home or the redirect param
+   * On success clears the state and navigates to dashboard or the redirect param
    */
   loginWithGoogle(): void {
     this.socialAuthService

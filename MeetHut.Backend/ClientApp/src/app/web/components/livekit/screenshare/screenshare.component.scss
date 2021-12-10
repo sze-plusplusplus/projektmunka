@@ -1,0 +1,5 @@
+@import '../../../../shared/shared-mixins.scss';
+
+:host {
+  @include flex-stretched-container(column);
+}

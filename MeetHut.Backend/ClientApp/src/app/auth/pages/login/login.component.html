@@ -1,13 +1,73 @@
-<div>
-    <label>
-        UserName: 
-        <input [(ngModel)]="loginModel.userName" />
-    </label> <br />
-    <label>
-        Password
-        <input [(ngModel)]="loginModel.password" type="password" />
-    </label> <br />
-    <button (click)="login()">Login</button>
-    <button (click)="loginWithGoogle()">Google Login</button>
-    <button (click)="loginWithMicrosoft()">Microsoft Login</button>
+<div class="wrap p-5 py-2">
+  <img src="/assets/logo.png" />
+  <h2>Login</h2>
+  <div class="inputs">
+    <mat-form-field appearance="fill">
+      <mat-label>Username</mat-label>
+      <input
+        matInput
+        [(ngModel)]="loginModel.userName"
+        required
+        #userName="ngModel"
+      />
+    </mat-form-field>
+    <div
+      *ngIf="userName.invalid && (userName.dirty || userName.touched)"
+      class="alert"
+    >
+      <small *ngIf="userName.errors?.['required']">Username is required.</small>
+    </div>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        [(ngModel)]="loginModel.password"
+        type="password"
+        required
+        minlength="8"
+        #password="ngModel"
+      />
+    </mat-form-field>
+    <div
+      *ngIf="password.invalid && (password.dirty || password.touched)"
+      class="alert"
+    >
+      <small *ngIf="password.errors?.['required']">Password is required.</small>
+      <small *ngIf="password.errors?.['minlength']">
+        Password too short, 8 characters required.
+      </small>
+    </div>
+  </div>
+  <div class="submit">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="login()"
+      [disabled]="userName.invalid || password.invalid"
+    >
+      Login
+    </button>
+  </div>
+  <div class="social" *ngIf="social.google || social.microsoft">
+    <small>or continue using: </small>
+    <img
+      *ngIf="social.google"
+      class="login-social"
+      (click)="loginWithGoogle()"
+      src="/assets/google.svg"
+    />
+    <img
+      *ngIf="social.microsoft"
+      class="login-social"
+      (click)="loginWithMicrosoft()"
+      src="/assets/microsoft.svg"
+    />
+  </div>
+  <div class="register mt-5">
+    <small
+      >Don't have an account?
+      <a [routerLink]="['/auth/registration']">Sign Up</a></small
+    >
+  </div>
 </div>

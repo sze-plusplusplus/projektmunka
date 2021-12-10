@@ -1,0 +1,18 @@
+<div class="container-fluid">
+  <div *ngIf="!connectToken" class="before-connect">
+    <h1>Room: {{ room?.name }}</h1>
+    <p *ngIf="room?.startTime">
+      <b>Planned time:</b> {{ room?.startTime | date: 'yyyy-MM-dd HH:mm:ss' }} - {{ room?.endTime | date: 'yyyy-MM-dd HH:mm:ss' }}
+    </p>
+    <p><b>Owner:</b> {{ room?.owner?.userName }}</p>
+    <button mat-raised-button color="primary" (click)="connect()">Connect to the room</button>
+  </div>
+  <app-livekit
+    *ngIf="!!connectToken"
+    [token]="connectToken"
+    [onMicClick]="micClickEvent"
+    [onVideoCamClick]="videoCamClickEvent"
+    [onScreenShareClick]="screenShareClickEvent"
+    (leave)="leave()"
+  ></app-livekit>
+</div>

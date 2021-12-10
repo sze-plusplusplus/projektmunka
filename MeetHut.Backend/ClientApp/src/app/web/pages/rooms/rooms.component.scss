@@ -1,0 +1,17 @@
+:host {
+  width: 100%;
+
+  .room-list-item {
+    span {
+      margin-left: 10px;
+      font-size: 80%;
+    }
+  }
+}
+
+::ng-deep {
+  .mat-list-text {
+    height: 100%;
+    justify-content: center;
+  }
+}

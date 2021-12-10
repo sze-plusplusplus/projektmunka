@@ -1,5 +1,44 @@
 /* Style sheet for overriding material related components */
 
+@import "../shared/shared-variables.scss";
+@import "../shared/shared-mixins.scss";
+
 button {
     border-radius: 15px !important;
+}
+
+.container,
+.container-fluid {
+    padding: 0 !important;
+
+    .row {
+        margin: 0 !important;
+        width: 100%;
+
+        .col {
+        }
+    }
+}
+
+.mat-form-field-underline {
+    display: none;
+}
+
+.mat-form-field-wrapper {
+    padding: 0 !important;
+}
+
+.mat-dialog-container {
+    background-color: $primary-dark;
+    border-radius: $primary-rounding !important;
+
+    display: flex !important;
+    @include flex-stretched-container(column);
+
+    .mat-dialog-content {
+        @include flex-stretched-container(column);
+        margin: 0 !important;
+        padding: 0 !important;
+        max-height: unset !important;
+    }
 }

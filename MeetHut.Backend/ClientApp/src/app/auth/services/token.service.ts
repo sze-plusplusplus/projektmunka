@@ -28,7 +28,7 @@ export class TokenService {
    * @returns Observable refresh
    */
   refreshObservable(): Observable<TokenDTO> {
-    return this.http.post<TokenDTO>(this.getTokenUrl('refresh'), {
+    return this.http.post<TokenDTO>(TokenService.getTokenUrl('refresh'), {
       accessToken: this.authService.accessToken,
       refreshToken: this.authService.refreshToken
     });
@@ -49,6 +49,20 @@ export class TokenService {
     return new Date(obj.exp * 1000);
   }
 
+  getUserId() {
+    const token = this.authService.accessToken;
+    if (!token) {
+      return -1;
+    }
+
+    const obj = jwtDecode<Token>(token);
+    return Number(
+      obj[
+        'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'
+      ]
+    );
+  }
+
   /**
    * Check access token is expired
    *
@@ -58,7 +72,7 @@ export class TokenService {
     return this.getExpirationDate() <= new Date();
   }
 
-  private getTokenUrl(endpoint: string): string {
+  private static getTokenUrl(endpoint: string): string {
     return `${environment.apiUrl}/Token/${endpoint}`;
   }
 }

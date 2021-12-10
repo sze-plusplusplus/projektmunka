@@ -11,6 +11,7 @@ using MeetHut.Services.Application.Interfaces;
 using MeetHut.Services.Application.Mappers;
 using MeetHut.Services.Configurations;
 using MeetHut.Services.Meet;
+using MeetHut.Services.Meet.Hubs;
 using MeetHut.Services.Meet.Interfaces;
 using MeetHut.Services.Meet.Mappers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -80,6 +81,9 @@ namespace MeetHut.Backend
             services.AddScoped<IRoomService, RoomService>();
             services.AddScoped<IParameterService, ParameterService>();
 
+            // Hosted services
+            services.AddHostedService<RoomWorker>();
+
             // Add mappers
             var mapperConfig = new MapperConfiguration(conf => { conf.AddProfile<UserMapper>(); conf.AddProfile<RoomMapper>(); });
 
@@ -101,6 +105,7 @@ namespace MeetHut.Backend
                     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1d);
                     options.Lockout.MaxFailedAccessAttempts = 5;
                 })
+                .AddRoles<Role>()
                 .AddEntityFrameworkStores<DatabaseContext>()
                 .AddDefaultTokenProviders();
 
@@ -129,6 +134,8 @@ namespace MeetHut.Backend
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                     };
                 });
+
+            services.AddSignalR();
 
             // Register swagger display
             services.AddSwaggerGen(c =>
@@ -207,7 +214,11 @@ namespace MeetHut.Backend
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<MessageHub>("/Chat"); 
+                endpoints.MapControllers();
+            });
 
             app.UseSpa(spa =>
             {

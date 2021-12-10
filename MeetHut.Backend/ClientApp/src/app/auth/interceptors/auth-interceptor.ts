@@ -18,6 +18,8 @@ export class AuthInterceptor implements HttpInterceptor {
   private ignoredPaths: string[] = [
     'Token/refresh',
     'Auth/login',
+    'Auth/ms-login',
+    'Auth/google-login',
     'Auth/registration'
   ];
 
@@ -47,35 +49,39 @@ export class AuthInterceptor implements HttpInterceptor {
     // If the token exists, then we add it to the HTTP request
     if (this.authService.accessTokenExists) {
       req = this.cloneRequest(request);
-    }
 
-    // Check token expiration
-    if (this.tokenService.tokenIsExpired()) {
-      if (this.authService.refreshTokenExists) {
-        // Pre refresh if the token is expired and the refresh token is exist
-        return this.tokenService.refreshObservable().pipe(
-          catchError((err: HttpErrorResponse) => {
-            this.notAuthorizedEvent();
-            return throwError(err);
-          }),
-          mergeMap((res: TokenDTO) => {
-            this.authService.saveTokens(res);
-            req = this.cloneRequest(request);
+      // Check token expiration
+      if (this.tokenService.tokenIsExpired()) {
+        if (this.authService.refreshTokenExists) {
+          // Pre refresh if the token is expired and the refresh token is existing
+          return this.tokenService.refreshObservable().pipe(
+            catchError((err: HttpErrorResponse) => {
+              this.notAuthorizedEvent();
+              return throwError(err);
+            }),
+            mergeMap((res: TokenDTO) => {
+              this.authService.saveTokens(res);
+              req = this.cloneRequest(request);
 
-            // Send the request with the refreshed token
-            return this.createRequestStack(next, request, req, false);
-          })
-        );
+              // Send the request with the refreshed token
+              return this.createRequestStack(next, request, req, false);
+            })
+          );
+        } else {
+          // Refresh token is not exist
+          this.notAuthorizedEvent();
+          return next.handle(request);
+        }
       } else {
-        // Refresh token is not exist
-        this.notAuthorizedEvent();
-        return next.handle(request);
+        // Does not need pre-refresh
+        // Send request
+        return this.createRequestStack(next, request, req, true);
       }
-    } else {
-      // Does not need pre-refresh
-      // Send request
-      return this.createRequestStack(next, request, req, true);
     }
+
+    // Does not need pre-refresh
+    // Send request
+    return this.createRequestStack(next, request, req, true);
   }
 
   private cloneRequest(request: HttpRequest<any>): HttpRequest<any> {

@@ -1,18 +1,42 @@
-<p>dashboard works!</p>
-
-<button mat-fab color="primary" [routerLink]="['/user']">
-  <mat-icon>person</mat-icon>
-</button>
-
-<br />
-
-<button mat-fab color="primary" [routerLink]="['/rooms']">
-  <mat-icon>list</mat-icon>
-</button>
-
-
-<br />
-
-<button mat-fab color="primary" (click)="logout()">
-  <mat-icon>logout</mat-icon>
-</button>
+<div class="image-container">
+  <img src="/assets/logo.png" />
+</div>
+<div class="wrap">
+  <mat-grid-list cols="2">
+    <mat-grid-tile>
+      <button
+        mat-fab
+        color="primary"
+        [routerLink]="['/user']"
+        matTooltip="User profile"
+      >
+        <mat-icon>person</mat-icon>
+      </button>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <button
+        mat-fab
+        color="primary"
+        [routerLink]="['/rooms']"
+        matTooltip="Room list"
+      >
+        <mat-icon>list</mat-icon>
+      </button>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <button
+        mat-fab
+        color="primary"
+        [routerLink]="['/time-table']"
+        matTooltip="Calendar"
+      >
+        <mat-icon>calendar_today</mat-icon>
+      </button>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <button mat-fab color="link" (click)="logout()" matTooltip="Logout">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

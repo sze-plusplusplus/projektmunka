@@ -1,0 +1,61 @@
+@import '../../../../shared/shared-variables.scss';
+@import '../../../../shared/shared-mixins.scss';
+
+#chat-main {
+  #message-list {
+    flex: 6;
+    background-color: $white;
+    color: black;
+    padding: 1rem;
+    font-size: 1.1rem;
+    overflow: auto;
+    max-height: 500px;
+
+    .message-box {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 0.4rem 0;
+
+      .message {
+        width: max-content;
+        padding: 0.6rem;
+        border-radius: 8px;
+        background-color: $primary-light;
+        color: $white;
+
+        &.me {
+          background-color: $primary-dark;
+        }
+      }
+
+      .details {
+        color: rgb(184, 184, 184);
+        font-style: italic;
+        padding-left: 1rem;
+      }
+    }
+  }
+
+  #input-area {
+    @include flex-stretched-container(row);
+
+    #input {
+      display: flex;
+      background-color: $white;
+      padding: $primary-gap;
+      border-radius: $primary-rounding;
+
+      mat-form-field {
+        color: initial;
+        flex: 1;
+        font-size: 15px;
+      }
+    }
+
+    button {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}

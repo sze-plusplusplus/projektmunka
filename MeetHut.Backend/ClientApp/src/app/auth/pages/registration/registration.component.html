@@ -1,19 +1,93 @@
-<div>
-    <label>
-        User Name: 
-        <input [(ngModel)]="registrationModel.userName" />
-    </label> <br />
-    <label>
-        Password:
-        <input [(ngModel)]="registrationModel.password" type="password" />
-    </label> <br />
-    <label>
-        E-mail address:
-        <input [(ngModel)]="registrationModel.email" type="email" />
-    </label> <br />
-    <label>
-        Full Name:
-        <input [(ngModel)]="registrationModel.fullName" />
-    </label> <br />
-    <button (click)="registration()">Registration</button>
+<div class="wrap p-5 py-2">
+  <img src="/assets/logo.png" />
+  <h2>Register</h2>
+  <div class="inputs">
+    <mat-form-field appearance="fill">
+      <mat-label>Username</mat-label>
+      <input
+        matInput
+        [(ngModel)]="registrationModel.userName"
+        required
+        #userName="ngModel"
+      />
+    </mat-form-field>
+    <div
+      *ngIf="userName.invalid && (userName.dirty || userName.touched)"
+      class="alert"
+    >
+      <small *ngIf="userName.errors?.['required']">Username is required.</small>
+    </div>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        [(ngModel)]="registrationModel.password"
+        type="password"
+        required
+        minlength="8"
+        #password="ngModel"
+      />
+    </mat-form-field>
+    <div
+      *ngIf="password.invalid && (password.dirty || password.touched)"
+      class="alert"
+    >
+      <small *ngIf="password.errors?.['required']">Password is required.</small>
+      <small *ngIf="password.errors?.['minlength']">
+        Password too short, 8 characters required.
+      </small>
+    </div>
+
+    <mat-form-field appearance="fill">
+      <mat-label>E-mail address</mat-label>
+      <input
+        matInput
+        [(ngModel)]="registrationModel.email"
+        required
+        email=""
+        #email="ngModel"
+      />
+    </mat-form-field>
+    <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert">
+      <small *ngIf="email.errors?.['required']">E-mail is required.</small>
+      <small *ngIf="email.errors?.['email']">E-mail is not valid.</small>
+    </div>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Full Name</mat-label>
+      <input
+        matInput
+        [(ngModel)]="registrationModel.fullName"
+        required
+        #fullname="ngModel"
+      />
+    </mat-form-field>
+    <div
+      *ngIf="fullname.invalid && (fullname.dirty || fullname.touched)"
+      class="alert"
+    >
+      <small *ngIf="fullname.errors?.['required']">Fullname is required.</small>
+    </div>
+  </div>
+  <div class="submit">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="registration()"
+      [disabled]="
+        userName.invalid ||
+        password.invalid ||
+        email.invalid ||
+        fullname.invalid
+      "
+    >
+      Registration
+    </button>
+  </div>
+  <div class="register mt-5">
+    <small
+      >Have an account? <a [routerLink]="['/auth/login']">Log back In</a></small
+    >
+  </div>
 </div>

@@ -1,0 +1,13 @@
+:host {
+  .dialog-main {
+    > div {
+      background: #fff;
+
+      > mat-form-field {
+        display: block;
+        margin: 0.5rem;
+        color: #000;
+      }
+    }
+  }
+}

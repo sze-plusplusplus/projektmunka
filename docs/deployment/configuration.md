@@ -8,10 +8,15 @@
   - `Issuer` - Issuer of the JWT tokens
   - `ExpirationInMinutes` - Token expiration setting in minutes
 - `Livekit` - connecting to a livekit instance
-  - `host` - http://host:port/
+  - `publicHost` - host which will be used for browser websocket connection (http://host:port)
+  - `host` - host for livekit grpc service (http://host:port/)
   - `key` - Access key to use
   - `secret` - Secret key for the `key`
   - `webhook` - The `key` and `secret` to be used for webhook validation (as it can be different)
+  - `emptyTimeout` - Empty room timeout (s) before room is destroyed
+  - `maxParticipants` - Limitation of participant number
+  - `workerInterval` - Interval of running worker thread of Backend
+  - `workerLogging` - Log info of livekit from Backend
 - `Migration.OnStart` - when enabled migration will be executed on application startup
 - `ClientUrl` - url of the Angular dev mode app (required only in dev, http://frontend:4200 or http://localhost:4200)
 - `DisableRegistration` - Disable registration feature

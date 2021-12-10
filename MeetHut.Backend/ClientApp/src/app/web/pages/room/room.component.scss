@@ -1,0 +1,29 @@
+@import '../../../shared/shared-mixins.scss';
+@import '../../../shared/shared-variables.scss';
+
+:host {
+  @include flex-stretched-container(row);
+}
+
+.container-fluid {
+  @include flex-container(column);
+
+  .before-connect {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    align-items: center;
+    justify-content: center;
+
+    h1 {
+      color: $primary-dark;
+      font-weight: bold;
+      font-size: 28px;
+    }
+
+    button {
+      margin: 1rem;
+    }
+  }
+}

@@ -1,0 +1,58 @@
+:host {
+  width: 100%;
+  height: 100%;
+  padding-top: 4rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  .image-container {
+    flex: 1;
+    img {
+      width: 18vw;
+    }
+  }
+
+  .wrap {
+    flex-grow: 2;
+    flex-shrink: 0;
+
+    width: 25vw;
+    height: 25vh;
+
+    .mat-fab {
+      width: 60%;
+      height: 60%;
+
+      mat-icon {
+        font-size: 7vh;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1200px) {
+    img {
+      width: 25vw;
+    }
+
+    .wrap {
+      width: 30vw;
+      height: 30vh;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    img {
+      width: 60vw;
+    }
+
+    .wrap {
+      width: 75vw;
+      height: 30vh;
+    }
+  }
+}

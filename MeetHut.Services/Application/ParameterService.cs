@@ -17,7 +17,8 @@ namespace MeetHut.Services.Application
             { "Google.Login", "ExternalAuthentication:Google:LoginDisabled" },
             { "Microsoft.RedirectUri", "ExternalAuthentication:Microsoft:RedirectUri" },
             { "Google.RedirectUri", "ExternalAuthentication:Google:RedirectUri" },
-            { "Registration", "DisableRegistration" }
+            { "Registration", "DisableRegistration" },
+            { "LivekitHost", "Livekit:publicHost" }
         };
         private readonly IConfiguration _configuration;
 

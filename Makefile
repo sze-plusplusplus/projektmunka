@@ -6,7 +6,7 @@ ifeq ($(UNAME_S),Darwin)
 	ISMAC = 1
 endif
 DOCKER_PARAMS = DUID=$(shell id -u) DGID=$(shell id -g) PLATFORM="linux/amd64" ISMAC=$(ISMAC)
-IMAGE_VERSION = v0.1
+IMAGE_VERSION = v0.2
 
 help:           	## Show this help.
 	@echo Help:

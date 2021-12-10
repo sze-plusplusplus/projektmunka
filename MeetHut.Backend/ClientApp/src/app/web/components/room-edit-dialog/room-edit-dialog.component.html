@@ -1,0 +1,57 @@
+<app-dialog-frame
+  [title]="
+    (data.id ? 'Edit' : 'Create') + ' room' + (data.id ? ': ' + data.name : '')
+  "
+  (close)="dialogRef.close()"
+>
+  <div class="dialog-main">
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Room name</mat-label>
+        <input matInput [(ngModel)]="room.name" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Start time</mat-label>
+        <input
+          matInput
+          [ngxMatDatetimePicker]="startTime"
+          [(ngModel)]="room.startTime"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="$any(startTime)"
+        ></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker
+          #startTime
+          [showSeconds]="false"
+          [defaultTime]="[8, 0, 0]"
+        ></ngx-mat-datetime-picker>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>End time</mat-label>
+        <input
+          matInput
+          [ngxMatDatetimePicker]="endTime"
+          [(ngModel)]="room.endTime"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="$any(endTime)"
+        ></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker
+          #endTime
+          [showSeconds]="false"
+          [defaultTime]="[16, 0, 0]"
+        ></ngx-mat-datetime-picker>
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        class="save-button me-2 mb-2"
+        [mat-dialog-close]="room"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</app-dialog-frame>

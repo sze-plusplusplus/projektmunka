@@ -1,0 +1,105 @@
+@import '../../../shared/shared-variables.scss';
+@import '../../../shared/shared-mixins.scss';
+
+@import '~bootstrap/scss/_functions';
+@import '~bootstrap/scss/_variables';
+@import '~bootstrap/scss/mixins/_breakpoints';
+
+:host {
+  @include flex-stretched-container(column);
+}
+
+.tile {
+  @include prevent-select;
+  @include flex-stretched-container(column);
+  @include flex-aligned(center, center);
+  @include primary-gap;
+  @include primary-rounding;
+  background-color: black;
+  color: white;
+
+  &.participant-tile {
+    position: relative;
+    font-size: 25px;
+    text-transform: uppercase;
+
+    &.lecturer {
+      background-color: $primary-light;
+    }
+
+    .action-control {
+      @include flex-aligned(center, center);
+      @include primary-rounding;
+      position: absolute;
+      top: $primary-gap;
+      right: $primary-gap;
+      z-index: 1;
+
+      background-color: $black-light;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $primary-dark;
+      }
+    }
+
+    .monogram {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+
+      .icons {
+        display: block;
+        margin-top: 0.5rem;
+        text-align: center;
+      }
+    }
+
+    .name {
+      position: absolute;
+      bottom: 0;
+      left: 15px;
+      right: 15px;
+      z-index: 100;
+      background: #000;
+      height: 30px;
+      line-height: 30px;
+      vertical-align: middle;
+
+      .icons {
+        margin-left: 0.5rem;
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      .monogram {
+        font-size: 50px;
+      }
+
+      .name {
+        font-size: 36px;
+        height: 40px;
+        line-height: 40px;
+      }
+    }
+  }
+
+  &.group-tile {
+    @include flex-container(column);
+    font-size: 23px;
+    gap: $primary-gap * 1.5;
+
+    @include media-breakpoint-up(md) {
+      font-size: 25px;
+    }
+
+    #group-count-label {
+      font-size: 30px;
+
+      @include media-breakpoint-up(md) {
+        font-size: 45px;
+      }
+    }
+  }
+}

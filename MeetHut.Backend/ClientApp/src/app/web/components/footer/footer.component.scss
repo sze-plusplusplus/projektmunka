@@ -1,0 +1,68 @@
+@import "../../../shared/shared-variables.scss";
+@import "../../../shared/shared-mixins.scss";
+
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+@import "~bootstrap/scss/mixins/_breakpoints";
+
+::ng-deep {
+    .mat-expansion-panel {
+        box-shadow: none !important;
+        @include prevent-select;
+
+        .mat-expansion-panel-header {
+            &:hover {
+                background: initial !important;
+            }
+
+            .mat-expansion-panel-header-title {
+                justify-content: center;
+                margin: 0;
+            }
+        }
+    }
+
+    .mat-expansion-indicator {
+        display: none !important;
+    }
+}
+
+#footer {
+    height: max-content;
+
+    #control-expansion-panel {
+        flex: 1;
+        background: none;
+
+        #control-expand-icon {
+            color: white;
+        }
+    }
+
+    .control-block {
+        @include flex-container(row);
+        @include flex-aligned(center, center);
+        flex: 1;
+
+        gap: $primary-gap;
+        padding: 5px;
+
+        #logo {
+            width: 100px;
+        }
+
+        @include media-breakpoint-up(md) {
+            &#left-controls {
+                justify-content: flex-start;
+            }
+
+            &#center-controls {
+                justify-content: center;
+            }
+
+            &#right-controls {
+                justify-content: flex-end;
+            }
+        }
+    }
+}

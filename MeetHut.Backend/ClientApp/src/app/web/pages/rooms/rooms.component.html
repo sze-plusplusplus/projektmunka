@@ -1,6 +1,20 @@
-<div>
-    Rooms: 
-    <div *ngFor="let room of rooms">
-        {{room.name}}
-    </div>
+<div class="container-fluid">
+    <mat-nav-list>
+        <mat-list-item *ngFor="let room of rooms">
+            <a class="room-list-item" matLine [routerLink]="['/room/' + room.publicId]">
+                {{ room.name }}
+                <span *ngIf="room.startTime">{{room.startTime | date:"yyyy. MM. dd. HH:mm"}} - {{room.endTime | date:"yyyy. MM. dd. HH:mm"}}</span>
+                <span *ngIf="room.owner.id !== userId">Owner: {{room.owner.userName}}</span>
+            </a>
+            <button class="me-1" mat-icon-button (click)="participantsDialog(room)" matTooltip="Participants">
+                <mat-icon color="accent" [matBadge]="room.participants+'/'+room.onlineParticipants"  matBadgeColor="accent">people</mat-icon>
+            </button>
+            <button mat-icon-button *ngIf="room.owner.id === userId" (click)="editRoom(room)" matTooltip="Edit room">
+                <mat-icon color="primary">edit</mat-icon>
+            </button>
+            <button mat-icon-button *ngIf="room.owner.id === userId" (click)="deleteRoom(room.id)" matTooltip="Delete room">
+                <mat-icon color="warn">delete</mat-icon>
+            </button>
+        </mat-list-item>
+    </mat-nav-list>
 </div>

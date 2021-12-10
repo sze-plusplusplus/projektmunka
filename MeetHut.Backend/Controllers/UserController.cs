@@ -25,11 +25,12 @@ namespace MeetHut.Backend.Controllers
         {
             _userService = userService;
         }
-        
+
         /// <summary>
-        /// Get all element 
+        /// Get all element
         /// </summary>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IEnumerable<UserDTO> GetAll()
         {
             return _userService.GetAllMapped<UserDTO>();
@@ -40,6 +41,7 @@ namespace MeetHut.Backend.Controllers
         /// </summary>
         /// <param name="id">Id</param>
         [HttpGet("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public UserDTO Get(int id)
         {
             return _userService.GetMapped<UserDTO>(id);
@@ -50,9 +52,9 @@ namespace MeetHut.Backend.Controllers
         /// </summary>
         /// <returns>User</returns>
         [HttpGet("me")]
-        public UserDTO GetCurrent() 
+        public UserDTO GetCurrent()
         {
-            return _userService.GetMappedByName<UserDTO>(User.Identity.Name);
+            return _userService.GetMappedByName<UserDTO>(User.Identity?.Name);
         }
 
         /// <summary>
@@ -60,27 +62,30 @@ namespace MeetHut.Backend.Controllers
         /// </summary>
         /// <param name="model">Model</param>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public int Create([FromBody] UserModel model)
         {
             return _userService.CreateAndSaveByModel(model);
         }
-        
+
         /// <summary>
         /// Update user by model
         /// </summary>
         /// <param name="id">Id</param>
         /// <param name="model">Model</param>
         [HttpPut("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public void Update(int id, [FromBody] UserModel model)
         {
             _userService.UpdateAndSaveByModel(id, model);
         }
-        
+
         /// <summary>
         /// Delete user by Id
         /// </summary>
         /// <param name="id">Id</param>
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public void Delete(int id)
         {
             _userService.DeleteByIdAndSave(id);

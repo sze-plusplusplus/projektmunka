@@ -17,13 +17,18 @@
     "ExpirationInMinutes": 60
   },
   "Livekit": {
+    "publicHost": "http://localhost:7880",
     "host": "http://livekit:7886",
     "key": "test",
     "secret": "EXAMPLElgnfIrYsA8C8vZ0n53rqKCWsm",
     "webhook": {
       "key": "test",
       "secret": "EXAMPLElgnfIrYsA8C8vZ0n53rqKCWsm"
-    }
+    },
+    "emptyTimeout": 30,
+    "maxParticipants": 10,
+    "workerInterval": 30,
+    "workerLogging": true
   },
   "Migration": {
     "OnStart": true
@@ -40,7 +45,7 @@
     "Microsoft": {
       "ClientId": "",
       "GraphUrl": "https://graph.microsoft.com",
-      "LoginDisabled":  false,
+      "LoginDisabled": false,
       "RedirectUri": "https://localhost:5001/signin-ms"
     }
   }
