@@ -12,7 +12,7 @@ export class ParticipantTileComponent implements OnInit {
 
   @Output() settingsOpen = new EventEmitter<void>();
 
-  private _showActionsButton = false;
+  private _showActionsButton = true;
   private readonly actionsButtonDisabled: boolean = true;
 
   constructor() {}
