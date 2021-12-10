@@ -3,9 +3,9 @@ version: "3.4"
 services:
   backend:
     platform: ${PLATFORM}
-    image: meethut
-    ports:
-      - "127.0.0.1:5000:5000"
-      - "127.0.0.1:5001:5001"
-    environment:
-      - DBHOST=database
+    image: ghcr.io/sze-plusplusplus/meethut:v0.2
+    # ports:
+    #   - "127.0.0.1:5000:5000"
+    #   - "127.0.0.1:5001:5001"
+    volumes:
+      - ./appsettings.json:/app/appsettings.Release.json
