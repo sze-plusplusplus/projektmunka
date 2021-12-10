@@ -50,7 +50,7 @@
 <ng-template #controlBlock let-locationToPlace="locationToPlace">
   <ng-container *ngFor="let control of settings.controls.items">
     <ng-container *ngIf="control.location === locationToPlace">
-      <button mat-fab [color]="control.color" (click)="click(control)">
+      <button mat-fab [color]="control.color" (click)="click(control)" [disabled]="control.disabled">
         <mat-icon>{{ control.iconKey }}</mat-icon>
       </button>
     </ng-container>

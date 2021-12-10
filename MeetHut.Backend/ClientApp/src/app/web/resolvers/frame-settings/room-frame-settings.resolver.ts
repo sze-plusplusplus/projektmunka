@@ -22,12 +22,12 @@ export class RoomFrameSettingsResolver extends FrameSettingsResolver {
   getSettings(): FrameSettings {
     const controls: ControlArray = new ControlArray()
       // LEFT
-      .withControl({
+      /*.withControl({
         id: ControlId.Settings,
         iconKey: 'settings',
         toggleSettings: new ToggleControlSettings({}),
         location: ControlLocation.LEFT
-      })
+      })*/
       // CENTER
       .withControl({
         id: ControlId.Mic,
@@ -79,7 +79,7 @@ export class RoomFrameSettingsResolver extends FrameSettingsResolver {
       showHeader: true,
       footerSettings: new FooterSettings({
         show: true,
-        controls: controls
+        controls
       })
     });
   }

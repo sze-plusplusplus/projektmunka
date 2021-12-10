@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Router } from '@angular/router';
 import { Observable, of, Subject } from 'rxjs';
 
@@ -74,13 +75,29 @@ export class ControlSettings implements IControlSettings {
   color: 'primary' | 'warn' | 'accent';
   location: ControlLocation;
   toggled: boolean;
+  disabled = false;
 
   routeTo?: string;
   click: Subject<any>;
   toggleSettings?: ToggleControlSettings;
 
+  constructor(from: IControlSettings) {
+    this.id = from.id;
+    this.iconKey = from.iconKey;
+    this.color = from.color ?? 'primary';
+    this.location = from.location ?? ControlLocation.CENTER;
+    this.routeTo = from.routeTo;
+    this.click = new Subject();
+    this.toggleSettings = from.toggleSettings;
+    this.toggled = from.toggled ?? false;
+
+    if (this.toggled) {
+      this.toggle();
+    }
+  }
+
   get action(): (router?: Router) => Promise<any> {
-    let a: Observable<any>[] = [];
+    const a: Observable<any>[] = [];
 
     if (this.routeTo) {
       // FIXME
@@ -104,19 +121,8 @@ export class ControlSettings implements IControlSettings {
     this.toggled = !this.toggled;
   }
 
-  constructor(from: IControlSettings) {
-    this.id = from.id;
-    this.iconKey = from.iconKey;
-    this.color = from.color ?? 'primary';
-    this.location = from.location ?? ControlLocation.CENTER;
-    this.routeTo = from.routeTo;
-    this.click = new Subject();
-    this.toggleSettings = from.toggleSettings;
-    this.toggled = from.toggled ?? false;
-
-    if (this.toggled) {
-      this.toggle();
-    }
+  updateStatus({ disabled = false }): void {
+    this.disabled = disabled;
   }
 }
 

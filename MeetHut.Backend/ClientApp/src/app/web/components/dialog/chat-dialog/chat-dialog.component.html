@@ -5,7 +5,7 @@
         <div  class="message" [ngClass]="{'me': user?.id === m.senderId}">
           {{m.text}}
         </div>
-        <div class="details">by {{m.senderName}} at {{m.sendingTime}}</div>
+        <div class="details">by {{m.senderName}} at {{m.sendingTime | date: 'yyyy-MM-dd HH:mm:ss'}}</div>
       </div>
     </div>
     <div id="input-area" class="container-fluid">

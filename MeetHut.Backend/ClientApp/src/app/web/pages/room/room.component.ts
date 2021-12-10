@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -49,6 +50,8 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.participantsControl = controls.get(ControlId.Participants)!;
     this.chatControl = controls.get(ControlId.Chat)!;
 
+    this.setDisableFooterControls(true);
+
     // configure event handlers
     this.micControl.click.subscribe((v) => this.micClicked(v));
     this.videoCamControl.click.subscribe((v) => this.videoCamClicked(v));
@@ -69,6 +72,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.chatSub.unsubscribe();
+    this.leave();
   }
 
   connect(): void {
@@ -78,17 +82,20 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.roomService.connect(this.room.id).then((o) => {
       this.connectToken = o.token;
       console.log(o.token);
-    });
-    this.chatSub.add(
-      this.chatService.state.subscribe((state) => {
-        if (state === true) {
-          this.chatSub.unsubscribe();
-          if (this.room) {
-            this.chatService.connectToGroup(this.room.publicId);
+
+      this.chatSub.add(
+        this.chatService.state.subscribe((state) => {
+          if (state === true) {
+            this.chatSub.unsubscribe();
+            if (this.room) {
+              this.chatService.connectToGroup(this.room.publicId);
+            }
           }
-        }
-      })
-    );
+        })
+      );
+
+      this.setDisableFooterControls(false);
+    });
   }
 
   leave(): void {
@@ -97,6 +104,8 @@ export class RoomComponent implements OnInit, OnDestroy {
     if (this.room) {
       this.chatService.disconnectFromGroup(this.room.publicId);
     }
+
+    this.setDisableFooterControls(true);
   }
 
   // FIXME: NOT YET USED
@@ -148,5 +157,20 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   private screenShareClicked(v: boolean): void {
     this.screenShareClickEvent.next(v);
+  }
+
+  private setDisableFooterControls(value: boolean): void {
+    [
+      this.micControl,
+      this.videoCamControl,
+      this.screenShareControl,
+      this.endCallControl,
+      this.participantsControl,
+      this.chatControl
+    ].forEach((c) => {
+      if (c) {
+        c.updateStatus({ disabled: value });
+      }
+    });
   }
 }

@@ -8,3 +8,10 @@
     }
   }
 }
+
+::ng-deep {
+  .mat-list-text {
+    height: 100%;
+    justify-content: center;
+  }
+}
