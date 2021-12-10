@@ -15,7 +15,31 @@
       >
     </div>
     <ng-content></ng-content>
-    <span *ngIf="!participant?.isCameraEnabled" class="monogram">{{ participant?.identity }}</span>
+    <span *ngIf="!participant?.isCameraEnabled" class="monogram"
+      >{{ participant?.identity }}
+
+      <mat-icon color="primary" *ngIf="participant?.isMicrophoneEnabled"
+        >volume_up</mat-icon
+      >
+      <mat-icon color="warn" *ngIf="!participant?.isMicrophoneEnabled"
+        >volume_off</mat-icon
+      >
+      <mat-icon color="primary" *ngIf="participant?.isScreenShareEnabled"
+        >desktop_windows</mat-icon
+      >
+    </span>
+    <span *ngIf="participant?.isCameraEnabled && showActionsButton" class="name"
+      >{{ participant?.identity }}
+      <mat-icon color="primary" *ngIf="participant?.isMicrophoneEnabled"
+        >volume_up</mat-icon
+      >
+      <mat-icon color="warn" *ngIf="!participant?.isMicrophoneEnabled"
+        >volume_off</mat-icon
+      >
+      <mat-icon color="primary" *ngIf="participant?.isScreenShareEnabled"
+        >desktop_windows</mat-icon
+      >
+    </span>
   </div>
 </ng-template>
 <ng-template #groupTile>

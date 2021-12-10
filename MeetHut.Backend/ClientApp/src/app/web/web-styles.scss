@@ -1,38 +1,72 @@
-@import "../shared/shared-variables.scss";
-@import "../shared/shared-mixins.scss";
+@import '../shared/shared-variables.scss';
+@import '../shared/shared-mixins.scss';
 
-@import "~bootstrap/scss/_functions";
-@import "~bootstrap/scss/_variables";
-@import "~bootstrap/scss/mixins/_breakpoints";
+@import '~bootstrap/scss/_functions';
+@import '~bootstrap/scss/_variables';
+@import '~bootstrap/scss/mixins/_breakpoints';
 
 .frame-inner-component {
-    @include flex-stretched-container(row);
+  @include flex-stretched-container(row);
 }
 
 .dialog {
-    .app-dialog {
-        @include flex-stretched-container(column);
-        color: $white;
+  .app-dialog {
+    @include flex-stretched-container(column);
+    color: $white;
 
-        .dialog-main {
-            @include flex-stretched-container(column);
-            @include primary-gap;
+    .dialog-main {
+      @include flex-stretched-container(column);
+      @include primary-gap;
 
-            > div {
-                @include primary-rounding;
-                @include primary-gap;
-            }
-        }
+      > div {
+        @include primary-rounding;
+        @include primary-gap;
+      }
     }
+  }
 
-    @include media-breakpoint-down(sm) {
-        max-width: 95vw !important;
-        width: 95vw !important;
-        height: 90vh !important;
-        max-height: 90vh !important;
-    }
+  @include media-breakpoint-down(sm) {
+    max-width: 95vw !important;
+    width: 95vw !important;
+    height: 90vh !important;
+    max-height: 90vh !important;
+  }
+}
+
+#screenshare {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  video {
+    position: absolute;
+    width: auto;
+    height: auto;
+    left: 50%;
+    top: 50%;
+    max-width: 98%;
+    max-height: 98%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+}
+
+livekit-participant {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  video {
+    position: absolute;
+    width: auto;
+    height: auto;
+    left: 50%;
+    top: 50%;
+    max-width: 98%;
+    max-height: 98%;
+    transform: translateX(-50%) translateY(-50%);
+  }
 }
 
 .overflow-ellipsis {
-    text-overflow: ellipsis;
+  text-overflow: ellipsis;
 }

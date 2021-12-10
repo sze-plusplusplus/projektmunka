@@ -1,15 +1,8 @@
-@import "../../../../shared/shared-mixins.scss";
+@import '../../../../shared/shared-mixins.scss';
 
 :host {
-    @include flex-stretched-container(column);
-}
+  @include flex-stretched-container(column);
+  @include flex-aligned(center, center);
 
-.screenshare-wrap {
-    @include flex-stretched-container(column);
-    @include flex-aligned(center, center);
-
-    .screenshare {
-        flex: 1;
-        max-width: 100vw;
-    }
+  margin-bottom: 1rem;
 }
