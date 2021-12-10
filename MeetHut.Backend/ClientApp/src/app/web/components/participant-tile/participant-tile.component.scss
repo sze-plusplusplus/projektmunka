@@ -33,6 +33,7 @@
       position: absolute;
       top: $primary-gap;
       right: $primary-gap;
+      z-index: 1;
 
       background-color: $black-light;
       cursor: pointer;

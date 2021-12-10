@@ -8,7 +8,7 @@
     (mouseover)="showActionsButton = true"
     (mouseleave)="showActionsButton = false"
   >
-    <div *ngIf="showActionsButton" class="action-control">
+    <div *ngIf="showActionsButton || true" class="action-control">
       <!--mat-icon (click)="openActionsPopup()">more_vert</mat-icon-->
       <mat-icon *ngIf="isMe" (click)="settingsOpen.emit()" matTooltip="Settings"
         >settings</mat-icon
