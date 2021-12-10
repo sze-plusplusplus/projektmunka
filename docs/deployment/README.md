@@ -16,4 +16,4 @@
 
 See official docs: https://docs.livekit.io/deploy
 
-(Currently a fork is used to support GRPC and to build on ARM64 architecture: https://github.com/sze-plusplusplus/livekit-server)
+(Currently a fork is used to support GRPC: https://github.com/sze-plusplusplus/livekit-server)

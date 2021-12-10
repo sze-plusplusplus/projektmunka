@@ -13,6 +13,7 @@ import {
 } from 'angularx-social-login';
 import { SharedModule } from '../shared/shared.module';
 import { ParameterService } from '../shared/services';
+import { RouterModule } from '@angular/router';
 
 const socialConfigFactory = (parameterService: ParameterService) =>
   new Promise((resolve) => {
@@ -33,8 +34,15 @@ const socialConfigFactory = (parameterService: ParameterService) =>
 
         // Microsoft
         const msClientIdParam = res.find((x) => x.key === 'Microsoft.ClientId');
-        const msRedirectUri = res.find((x) => x.key === 'Microsoft.RedirectUri');
-        if (msClientIdParam && msClientIdParam.value && msRedirectUri && msRedirectUri.value) {
+        const msRedirectUri = res.find(
+          (x) => x.key === 'Microsoft.RedirectUri'
+        );
+        if (
+          msClientIdParam &&
+          msClientIdParam.value &&
+          msRedirectUri &&
+          msRedirectUri.value
+        ) {
           providers.push({
             id: MicrosoftLoginProvider.PROVIDER_ID,
             provider: new MicrosoftLoginProvider(msClientIdParam.value, {
@@ -53,7 +61,13 @@ const socialConfigFactory = (parameterService: ParameterService) =>
 
 @NgModule({
   declarations: [LoginComponent, RegistrationComponent],
-  imports: [CommonModule, FormsModule, SocialLoginModule, SharedModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    SocialLoginModule,
+    SharedModule,
+    RouterModule
+  ],
   providers: [
     AuthGuard,
     AuthService,

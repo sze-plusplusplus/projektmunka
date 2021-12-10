@@ -5,6 +5,7 @@ import {
   MicrosoftLoginProvider,
   SocialAuthService
 } from 'angularx-social-login';
+import { ParameterService } from 'src/app/shared/services';
 import {
   GoogleLoginModel,
   LoginModel,
@@ -18,6 +19,10 @@ import { AuthService } from '../../services';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  social = {
+    google: false,
+    microsoft: false
+  };
   public loginModel: LoginModel = new LoginModel('', '');
   private redirectPath = '/home';
 
@@ -25,24 +30,27 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private socialAuthService: SocialAuthService
-  ) {
-  }
+    private socialAuthService: SocialAuthService,
+    private parameterService: ParameterService
+  ) {}
 
   /**
    * On Init hook
    */
   ngOnInit(): void {
-    this.route.queryParams.subscribe(
-      (params) => {
-        let redirectUrl = params.redirect;
-        if (redirectUrl === "/auth/login") {
-          this.redirectPath = "/home";
-        } else {
-          this.redirectPath = redirectUrl || "/home";
-        }
+    this.route.queryParams.subscribe((params) => {
+      let redirectUrl = params.redirect;
+      if (redirectUrl === '/auth/login') {
+        this.redirectPath = '/home';
+      } else {
+        this.redirectPath = redirectUrl || '/home';
       }
-    );
+    });
+    this.parameterService.getAll().then((p) => {
+      this.social.google = !!p.find((e) => e.key === 'Google.Login')?.value;
+      this.social.microsoft = !!p.find((e) => e.key === 'Microsoft.Login')
+        ?.value;
+    });
   }
 
   /**
@@ -92,7 +100,7 @@ export class LoginComponent implements OnInit {
   }
 
   private loginEvent(): void {
-    this.loginModel = new LoginModel("", "");
+    this.loginModel = new LoginModel('', '');
     this.router.navigateByUrl(this.redirectPath);
   }
 }
