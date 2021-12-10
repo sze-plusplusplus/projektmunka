@@ -32,6 +32,15 @@ export class AuthService {
   }
 
   /**
+   * Check refresh token is in the local storage
+   */
+  get refreshTokenExists(): boolean {
+    return ![null, ''].includes(
+      localStorage.getItem(AuthService.REFRESH_TOKEN_KEY)
+    );
+  }
+
+  /**
    * Get access token from the local storage
    */
   get accessToken(): string {
@@ -47,15 +56,6 @@ export class AuthService {
   }
 
   /**
-   * Check refresh token is in the local storage
-   */
-  get refreshTokenExists(): boolean {
-    return ![null, ''].includes(
-      localStorage.getItem(AuthService.REFRESH_TOKEN_KEY)
-    );
-  }
-
-  /**
    * Get access token from the local storage
    */
   get refreshToken(): string {
@@ -68,6 +68,10 @@ export class AuthService {
     }
 
     localStorage.setItem(AuthService.REFRESH_TOKEN_KEY, value);
+  }
+
+  private static getAuthUrl(endpoint: string): string {
+    return `${environment.apiUrl}/Auth/${endpoint}`;
   }
 
   /**
@@ -187,10 +191,10 @@ export class AuthService {
   }
 
   /**
-   * Navigate to home page
+   * Navigate to dashboard page
    */
-  navigateToHome(): void {
-    this.router.navigate(['home']);
+  navigateToDashboard(): void {
+    this.router.navigate(['dashboard']);
   }
 
   /**
@@ -206,16 +210,12 @@ export class AuthService {
    * Navigate to the login page with the current route
    */
   navigateToTheLoginPageWithRoute(): void {
-    let url = this.router.routerState.snapshot.url;
+    const url = this.router.routerState.snapshot.url;
     if (url !== '/auth/login') {
       this.navigateToTheLoginPage({
         redirect: url
       });
     }
-  }
-
-  private static getAuthUrl(endpoint: string): string {
-    return `${environment.apiUrl}/Auth/${endpoint}`;
   }
 
   private handleTokens(

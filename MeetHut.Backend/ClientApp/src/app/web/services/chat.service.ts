@@ -43,9 +43,10 @@ export class ChatService {
   }
 
   disconnectFromGroup(publicId: string): Promise<void> {
-    return this._hubConnection
-      .invoke('RemoveFromGroup', publicId)
-      .then(() => console.log('Disconnected from the group'));
+    return this._hubConnection.invoke('RemoveFromGroup', publicId).then(() => {
+      console.log('Disconnected from the group');
+      this._messages.next([]);
+    });
   }
 
   startConnection(): void {
@@ -54,6 +55,7 @@ export class ChatService {
       .then(() => {
         console.log('Connection created');
         this._connectionState.next(true);
+        this._messages.next([]);
       })
       .catch(() => {
         console.log('Error during the connection...');

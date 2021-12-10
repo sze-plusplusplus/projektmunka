@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     microsoft: false
   };
   public loginModel: LoginModel = new LoginModel('', '');
-  private redirectPath = '/home';
+  private redirectPath = '/dashboard';
 
   constructor(
     private authService: AuthService,
@@ -39,11 +39,11 @@ export class LoginComponent implements OnInit {
    */
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      let redirectUrl = params.redirect;
+      const redirectUrl = params.redirect;
       if (redirectUrl === '/auth/login') {
-        this.redirectPath = '/home';
+        this.redirectPath = '/dashboard';
       } else {
-        this.redirectPath = redirectUrl || '/home';
+        this.redirectPath = redirectUrl || '/dashboard';
       }
     });
     this.parameterService.getAll().then((p) => {
@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
 
   /**
    * Do login
-   * On success clears the state and navigates to home or the redirect param
+   * On success clears the state and navigates to dashboard or the redirect param
    */
   login() {
     this.authService
@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
 
   /**
    * Do login with Google
-   * On success clears the state and navigates to home or the redirect param
+   * On success clears the state and navigates to dashboard or the redirect param
    */
   loginWithGoogle(): void {
     this.socialAuthService
